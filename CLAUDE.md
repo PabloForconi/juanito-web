@@ -83,7 +83,12 @@ python -m venv tools/.venv && tools/.venv/Scripts/python.exe -m pip install "psd
 
 ## Repo
 
-- GitHub (privado): `git@github.com:PabloForconi/juanito-web.git`, rama `main`. El repo local usa `core.sshCommand` con la clave `~/.ssh/DesktopPablo`.
+- GitHub (**público**): `git@github.com:PabloForconi/juanito-web.git`, rama `main`. El repo local usa `core.sshCommand` con la clave `~/.ssh/DesktopPablo`.
+- Publicado en GitHub Pages: https://pabloforconi.github.io/juanito-web/
+  - Cada push a `main` dispara `.github/workflows/deploy.yml`, que compila con `SITE_URL` y `BASE_PATH=/juanito-web`.
+  - Los links internos siempre van con `u('/ruta/')` de `src/lib/url.ts`, para que respeten el base path. En local el base es `/`.
+  - Para probar el build con el base path en Git Bash: `MSYS_NO_PATHCONV=1 SITE_URL=https://pabloforconi.github.io BASE_PATH=/juanito-web npm run build`.
+- `docs/` **no se versiona**: está en `.gitignore` y queda solo en la PC, porque es documentación interna y el repo es público.
 
 ## Pendiente
 
