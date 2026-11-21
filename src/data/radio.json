@@ -1,0 +1,69 @@
+[
+  {
+    "id": "crack-60",
+    "programa": "Crack #60",
+    "emisora": "Radiolexia",
+    "fecha": "2016-11-10",
+    "duracion": "18:33",
+    "descripcion": "Entrevista a Game Ever sobre Juanito Arcade Mayhem en Crack, programa de cultura alternativa conducido por Alejandro Caminos y Natalia Valchi, con la columna gamer de Carlos Andrés Maidana.",
+    "audio": "/media/radio/crack-60.opus",
+    "img": "archivo/radio/crack-60.jpg"
+  },
+  {
+    "id": "fakin-vicio-005",
+    "programa": "Fakin Vicio · Misión 005",
+    "emisora": "Radio Monk",
+    "fecha": "2017-03-11",
+    "duracion": "2:02:55",
+    "descripcion": "Programa completo de Fakin Vicio, con Mauro Del Castillo, Iván «Taka» Salazar y Martín Charruff Fadiga, que incluye el segmento en el que el equipo de Game Ever cuenta sobre Juanito Arcade Mayhem.",
+    "audio": "/media/radio/fakin-vicio-005.opus",
+    "img": "archivo/radio/fakin-vicio-005.jpg"
+  },
+  {
+    "id": "crack-84",
+    "programa": "Crack #84",
+    "emisora": "Radiolexia",
+    "fecha": "2017-07-11",
+    "duracion": "17:41",
+    "descripcion": "Segunda visita de Game Ever a Crack, el programa de cultura alternativa de Radiolexia, a pocas semanas del lanzamiento de Juanito Arcade Mayhem en Steam.",
+    "audio": "/media/radio/crack-84.opus",
+    "img": "archivo/radio/crack-84.jpg"
+  },
+  {
+    "id": "overcast-24",
+    "programa": "OverCast · Episodio 24",
+    "emisora": "Radio LED",
+    "fecha": "2017-07-15",
+    "duracion": "1:04:59",
+    "descripcion": "El podcast de OverCluster, con Damián Silberstein, Julián Chereque y Eduardo Campastro, entrevista a Pablo Forconi de Game Ever sobre el inminente lanzamiento de Juanito Arcade Mayhem (además, reseña de Black The Fall).",
+    "audio": "/media/radio/overcast-24.opus"
+  },
+  {
+    "id": "me-paso-en-sistemas-1",
+    "programa": "Me Pasó En Sistemas (parte 1)",
+    "emisora": "Facebook Live",
+    "fecha": "2017-07-20",
+    "duracion": "48:38",
+    "descripcion": "Primera parte del vivo de Me Pasó En Sistemas en Facebook, con Juanito Arcade Mayhem como tema, dos semanas antes de su salida en Steam.",
+    "audio": "/media/radio/me-paso-en-sistemas-1.opus"
+  },
+  {
+    "id": "me-paso-en-sistemas-2",
+    "programa": "Me Pasó En Sistemas (parte 2)",
+    "emisora": "Facebook Live",
+    "fecha": "2017-07-20",
+    "duracion": "25:14",
+    "descripcion": "Segunda parte del vivo de Me Pasó En Sistemas en Facebook dedicado a Juanito Arcade Mayhem.",
+    "audio": "/media/radio/me-paso-en-sistemas-2.opus"
+  },
+  {
+    "id": "radioactivo-delta",
+    "programa": "Radioactivo",
+    "emisora": "Delta 90.3 FM",
+    "fecha": "2017-08-11",
+    "duracion": "32:17",
+    "descripcion": "En «un programa casi real», Angel Brozman, consultor de e-sports y startups del programa, presenta Juanito Arcade Mayhem y a sus desarrolladores, días después del lanzamiento en Steam.",
+    "audio": "/media/radio/radioactivo-delta.opus",
+    "img": "archivo/radio/radioactivo-delta.jpg"
+  }
+]

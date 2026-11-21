@@ -1,0 +1,170 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { maybeAsset } from '../lib/assets';
+import jdm from '../data/juego-de-mesa.json';
+
+const chip = maybeAsset('juego/mundos/chip-tetris.png');
+const ficha: [string, string | undefined][] = [
+  ['Diseño', jdm.diseno],
+  ['Ilustración', jdm.ilustracion],
+  ['Diseño gráfico', jdm.disenoGrafico],
+  ['Editorial', jdm.editorial],
+  ['Año', String(jdm.anio)],
+  ['Jugadores', jdm.jugadores],
+  ['Duración', jdm.duracion],
+  ['Edad', jdm.edad],
+];
+---
+
+<Base title="Juego de mesa" description={`${jdm.nombre}: el juego de mesa basado en Juanito Arcade Mayhem.`}>
+  <PageHeader eyebrow="Juego de mesa" title={`${jdm.nombre.replace('Blockits', '<span class="hl">Blockits</span>')}`} lead={jdm.descripcion} />
+
+  <section class="section">
+    <div class="container jdm">
+      <div class="jdm__art" data-reveal aria-hidden="true">
+        {chip && <Image src={chip} alt="" widths={[300, 500]} sizes="300px" />}
+        <div class="jdm__tetro">
+          {Array.from({ length: 12 }, (_, i) => <span style={`--i:${i}`} />)}
+        </div>
+      </div>
+      <div data-reveal>
+        <dl class="ficha">
+          {
+            ficha
+              .filter(([, v]) => v)
+              .map(([k, v]) => (
+                <div>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))
+          }
+        </dl>
+        <h2 class="h3 mt">Cómo se juega</h2>
+        <p>{jdm.mecanica}</p>
+        {
+          jdm.licencias?.length > 0 && (
+            <>
+              <h2 class="h3 mt">Licencias</h2>
+              <ul class="lic">
+                {jdm.licencias.map((l: string) => (
+                  <li class="chip">{l}</li>
+                ))}
+              </ul>
+            </>
+          )
+        }
+        {jdm.premios && <p class="premio">🏆 {jdm.premios}</p>}
+        <div class="links">
+          {
+            jdm.links.map((l: { titulo: string; url: string }) => (
+              <a class="btn btn--sm" href={l.url} target="_blank" rel="noopener">
+                {l.titulo} ↗
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jdm {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .jdm__art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: radial-gradient(circle, rgb(255 255 255 / 0.07), transparent 70%);
+    min-height: 360px;
+  }
+  .jdm__art img {
+    position: relative;
+    z-index: 1;
+    width: min(300px, 80%);
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
+  }
+  .jdm__tetro {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 1rem;
+    opacity: 0.3;
+  }
+  .jdm__tetro span {
+    background: hsl(calc(90 + var(--i) * 25) 80% 50%);
+    animation: blink 3s calc(var(--i) * 0.25s) ease-in-out infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0.2; }
+  }
+  .ficha {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.6rem;
+  }
+  .ficha div {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .ficha dt {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .ficha dd {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-heading);
+  }
+  .mt {
+    margin-top: 1.8rem;
+  }
+  .lic {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .premio {
+    margin-top: 1.4rem;
+    font-family: var(--font-heading);
+    color: var(--lime);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+  }
+  @media (max-width: 800px) {
+    .jdm {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .jdm__tetro span {
+      animation: none;
+    }
+  }
+</style>

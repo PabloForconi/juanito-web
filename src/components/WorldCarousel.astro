@@ -1,0 +1,415 @@
+---
+/**
+ * Selector de mundos estilo "pantalla de selección" del juego.
+ * Carrusel propio (sin scroll nativo): la pista se mueve con transform y una
+ * animación suavizada (lerp en requestAnimationFrame). Se puede arrastrar con
+ * mouse o dedo (con inercia), usar la rueda/trackpad horizontal, las flechas,
+ * los puntitos o el teclado. El mundo activo queda al centro y su texto abajo.
+ */
+import { Image } from 'astro:assets';
+import { maybeAsset } from '../lib/assets';
+import type { Mundo } from '../data/types';
+
+interface Props {
+  mundos: Mundo[];
+}
+const { mundos } = Astro.props;
+// Numeración solo para los mundos "normales"; el entrenamiento y el jefe final
+// muestran su etiqueta (campo `especial`) en lugar de "Mundo N".
+const total = mundos.filter((m) => !m.especial).length;
+let n = 0;
+const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
+---
+
+<div class="wc" data-wc>
+  <div class="wc__stage">
+    <button class="wc__nav wc__nav--prev" type="button" aria-label="Mundo anterior" data-prev>‹</button>
+    <div class="wc__viewport" data-viewport tabindex="0" aria-label="Mundos (usá las flechas del teclado para recorrerlos)">
+      <ul class="wc__track" data-track>
+        {
+          mundos.map((m, i) => {
+            const chip = maybeAsset(m.chip);
+            return (
+              <li class="wc__item" data-i={i}>
+                <button type="button" class:list={['wc__card', m.flip && 'is-flip']} aria-label={m.nombre} data-go={i} tabindex="-1">
+                  {chip && (
+                    <Image src={chip} alt="" widths={[440, 546, 1092]} sizes="(max-width: 700px) 80vw, 546px" draggable="false" loading={i < 3 ? 'eager' : 'lazy'} />
+                  )}
+                </button>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+    <button class="wc__nav wc__nav--next" type="button" aria-label="Mundo siguiente" data-next>›</button>
+  </div>
+
+  <!-- texto del mundo activo: todos apilados en la misma celda, solo cambia la opacidad -->
+  <div class="wc__info" aria-live="polite">
+    {
+      mundos.map((m, i) => (
+        <article class:list={['wc__panel', i === 0 && 'is-on']} data-panel={i} aria-hidden={i !== 0 ? 'true' : undefined}>
+          <p class="wc__num">
+            {etiqueta[i] ? (
+              <>
+                Mundo {String(etiqueta[i]).padStart(2, '0')} <span>/ {String(total).padStart(2, '0')}</span>
+              </>
+            ) : (
+              m.especial
+            )}
+          </p>
+          <h3 class="wc__title">{m.nombre}</h3>
+          <p class="wc__desc">{m.descripcion}</p>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="wc__dots" aria-label="Elegir mundo">
+    {mundos.map((m, i) => <button type="button" class:list={['wc__dot', i === 0 && 'is-on']} aria-label={m.nombre} data-dot={i} />)}
+  </div>
+</div>
+
+<style>
+  .wc {
+    position: relative;
+    isolation: isolate;
+    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .wc__stage {
+    position: relative;
+  }
+  .wc__viewport {
+    /* tamaño real de los cartuchos (546 px, todos con el mismo lienzo); en pantallas
+       chicas se achican todos por igual */
+    --card: min(546px, 80vw);
+    overflow: hidden;
+    padding: 1.5rem 0;
+    cursor: grab;
+    touch-action: pan-y; /* el scroll vertical de la página sigue funcionando */
+    outline: none;
+    user-select: none;
+  }
+  .wc__viewport.is-dragging {
+    cursor: grabbing;
+  }
+  .wc__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0;
+    will-change: transform;
+  }
+  .wc__item {
+    flex: 0 0 var(--card);
+  }
+  .wc__card {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: inherit;
+    /* el oscurecimiento lo calcula el script según la distancia al centro (--dim) */
+    filter: brightness(calc(1 - var(--dim, 0.65))) saturate(calc(1 - var(--dim, 0.65) * 0.45));
+  }
+  .wc__card img {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
+  }
+  .wc__card.is-flip img {
+    transform: scaleX(-1);
+  }
+
+  .wc__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    translate: 0 -50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: rgb(8 14 18 / 0.78);
+    color: var(--ink);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .wc__nav:hover {
+    background: var(--lime);
+    color: #06140c;
+  }
+  .wc__nav--prev {
+    left: clamp(0.5rem, 2vw, 1.5rem);
+  }
+  .wc__nav--next {
+    right: clamp(0.5rem, 2vw, 1.5rem);
+  }
+
+  .wc__info {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    padding: 0 clamp(1rem, 4vw, 2rem);
+  }
+  .wc__panel {
+    grid-area: 1 / 1;
+    align-self: start;
+    max-width: 38rem;
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+  }
+  .wc__panel.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+  .wc__num {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .wc__num span {
+    color: var(--ink-faint);
+  }
+  .wc__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .wc__desc {
+    margin: 0.3rem 0 0;
+    color: var(--ink-dim);
+  }
+
+  .wc__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+  }
+  .wc__dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border-radius: 999px;
+    border: 0;
+    background: var(--line-strong);
+    cursor: pointer;
+    transition: width 0.3s var(--ease-out), background 0.3s;
+  }
+  .wc__dot.is-on {
+    width: 26px;
+    background: var(--lime);
+  }
+
+  @media (max-width: 700px) {
+    .wc__viewport {
+      --card: 80vw;
+    }
+    .wc__nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-wc]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const items = [...root.querySelectorAll<HTMLElement>('.wc__item')];
+    const cards = items.map((el) => el.querySelector<HTMLElement>('.wc__card')!);
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-dot]')];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const last = items.length - 1;
+
+    // Geometría: posición x (en px) de la pista para centrar el item i.
+    let step = 0; // distancia entre centros de items
+    let base = 0; // x para centrar el item 0
+    const measure = () => {
+      const w = items[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      step = w + gap;
+      base = viewport.clientWidth / 2 - w / 2;
+    };
+    const xFor = (i: number) => base - i * step;
+
+    let x = 0; // posición actual
+    let target = 0; // posición a la que se acerca suavemente
+    let active = -1;
+    let running = false;
+
+    const setActive = (i: number) => {
+      if (i === active) return;
+      active = i;
+      dots.forEach((el, k) => el.classList.toggle('is-on', k === i));
+      panels.forEach((el, k) => {
+        el.classList.toggle('is-on', k === i);
+        el.setAttribute('aria-hidden', String(k !== i));
+      });
+    };
+
+    const render = () => {
+      track.style.transform = `translate3d(${x}px, 0, 0)`;
+      // oscurecer según la distancia al centro (0 = activo, 1 = a un item o más)
+      const pos = (base - x) / step;
+      cards.forEach((c, k) => c.style.setProperty('--dim', String(Math.min(1, Math.abs(k - pos)) * 0.65)));
+    };
+
+    const loop = () => {
+      if (!running) return;
+      const dx = target - x;
+      x += dx * 0.12; // suavizado (más chico = más suave)
+      if (Math.abs(dx) < 0.3) {
+        x = target;
+        running = false;
+      }
+      render();
+      if (running) requestAnimationFrame(loop);
+    };
+    const animate = () => {
+      if (reduce) {
+        x = target;
+        render();
+        return;
+      }
+      if (!running) {
+        running = true;
+        requestAnimationFrame(loop);
+      }
+    };
+
+    const go = (i: number) => {
+      const k = Math.max(0, Math.min(last, i));
+      target = xFor(k);
+      setActive(k);
+      animate();
+    };
+    const nearest = (pos: number) => Math.max(0, Math.min(last, Math.round((base - pos) / step)));
+
+    // ---------------------------------------------------- arrastre (mouse/dedo)
+    let dragging = false;
+    let moved = false;
+    let startX = 0;
+    let startPos = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let vel = 0;
+    viewport.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      dragging = true;
+      moved = false;
+      startX = lastX = e.clientX;
+      lastT = performance.now();
+      startPos = x;
+      vel = 0;
+    });
+    viewport.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 6) {
+        moved = true;
+        running = false; // el dedo/mouse toma el control
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(e.pointerId);
+      }
+      if (!moved) return;
+      const now = performance.now();
+      vel = (e.clientX - lastX) / Math.max(1, now - lastT); // px/ms
+      lastX = e.clientX;
+      lastT = now;
+      // resistencia en los extremos
+      let next = startPos + dx;
+      const min = xFor(last);
+      const max = xFor(0);
+      if (next > max) next = max + (next - max) * 0.35;
+      if (next < min) next = min + (next - min) * 0.35;
+      x = target = next;
+      render();
+      setActive(nearest(x));
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      if (!moved) return;
+      // inercia: proyecta el movimiento según la velocidad al soltar
+      go(nearest(x + vel * 220));
+      setTimeout(() => (moved = false), 0);
+    };
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+    viewport.addEventListener('lostpointercapture', endDrag);
+
+    // clic en un cartucho de costado = ir a ese mundo
+    cards.forEach((c, k) =>
+      c.addEventListener('click', (e) => {
+        if (moved) {
+          e.preventDefault();
+          return;
+        }
+        go(k);
+      }),
+    );
+
+    // rueda / trackpad horizontal
+    let wheelAcc = 0;
+    let wheelTimer = 0;
+    viewport.addEventListener(
+      'wheel',
+      (e) => {
+        if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical: deja scrollear la página
+        e.preventDefault();
+        wheelAcc += e.deltaX;
+        clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(() => (wheelAcc = 0), 180);
+        if (Math.abs(wheelAcc) > 60) {
+          go(active + Math.sign(wheelAcc));
+          wheelAcc = 0;
+        }
+      },
+      { passive: false },
+    );
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(active - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(active + 1));
+    dots.forEach((d, k) => d.addEventListener('click', () => go(k)));
+    viewport.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        go(active + 1);
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        go(active - 1);
+      }
+    });
+
+    const init = () => {
+      measure();
+      x = target = xFor(Math.max(0, active));
+      render();
+    };
+    window.addEventListener('resize', init);
+    setActive(0);
+    init();
+  });
+</script>

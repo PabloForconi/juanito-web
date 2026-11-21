@@ -1,0 +1,465 @@
+---
+import { u } from '../lib/url';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Lightbox from '../components/Lightbox.astro';
+import WorldCarousel from '../components/WorldCarousel.astro';
+import { maybeAsset } from '../lib/assets';
+import mundosData from '../data/mundos.json';
+import personajesData from '../data/personajes.json';
+import enemigosData from '../data/enemigos.json';
+import type { Mundo, Personaje, Enemigo } from '../data/types';
+import keyart from '../assets/hero/full.png';
+
+const mundos = mundosData as Mundo[];
+const personajes = (personajesData as Personaje[]).filter((p) => !p.oculto);
+// Las fichas de Juanito y Gluk se muestran a la MISMA escala: cada imagen ocupa
+// un % del ancho proporcional a su ancho real respecto de la más ancha.
+const fichaRef = Math.max(...personajes.map((p) => (p.img.startsWith('fichas/') ? (maybeAsset(p.img)?.width ?? 0) : 0)));
+const enemigos = enemigosData as Enemigo[];
+
+const itemFiles = import.meta.glob<{ default: ImageMetadata }>('../assets/juego/{items,powerups}/*.png', { eager: true });
+const items = Object.entries(itemFiles).map(([k, v]) => ({ name: k.split('/').pop()!.replace('.png', ''), img: v.default }));
+
+const datos = [
+  ['+80', 'niveles'],
+  ['8', 'mundos'],
+  ['+10', 'armas y power-ups'],
+  ['81', 'logros en Steam'],
+  ['2', 'jugadores<br /><small>co‑op local</small>'],
+  ['3', 'dificultades'],
+];
+---
+
+<Base title="El juego" description="Juanito, Gluk, las clonocélulas y los ocho mundos infectados de Juanito Arcade Mayhem.">
+  <PageHeader
+    eyebrow="El juego"
+    title='Ocho videojuegos infectados. <span class="hl">Un chico en pijama.</span>'
+    lead="Juanito Arcade Mayhem es un videojuego arcade de acción que mezcla la mecánica de Pang con bullet hell: Juanito se mueve de lado a lado, dispara para arriba y derrapa con un dash. No salta. Nunca saltó. Es parte de su encanto."
+  />
+
+  <section class="section--tight">
+    <div class="container">
+      <figure class="keyart" data-reveal>
+        <Image src={keyart} alt="Key art: Juanito y Gluk enfrentan a las clonocélulas" widths={[800, 1280, 1920, 2560]} sizes="(max-width: 1200px) 100vw, 1200px" />
+      </figure>
+      <ul class="datos" data-reveal>
+        {
+          datos.map(([n, t]) => (
+            <li>
+              <b>{n}</b>
+              <span set:html={t} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Premisa -->
+  <section class="section">
+    <div class="container premisa">
+      <div data-reveal>
+        <p class="eyebrow">La premisa</p>
+        <h2 class="h2">Un alien manipulador, <span class="hl">una máquina infectada</span></h2>
+      </div>
+      <div class="premisa__txt" data-reveal>
+        <p>
+          Las <b>clonocélulas</b> son seres vivos de una galaxia lejana que se expanden fusionándose con todo lo que tocan. Para su mala
+          suerte, se estrellaron contra el gabinete arcade del jugador más hábil de la galaxia.
+        </p>
+        <p>
+          <b>Gluk</b>, un alien tan simpático como manipulador, recluta a <b>Juanito</b> —un chico vago, en pijama y con mucho vicio
+          encima— para meterse adentro de la máquina y limpiar, mundo por mundo, ocho clásicos de los fichines.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personajes -->
+  <section class="section" id="personajes">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Personajes</p>
+      <div class="pjs">
+        {
+          personajes.map((p, i) => {
+            const img = maybeAsset(p.img);
+            return (
+              <article class:list={['pj card', i % 2 === 1 && 'pj--rev']} data-reveal>
+                {img && (
+                  <Image
+                    src={img}
+                    alt={p.nombre}
+                    widths={[320, 520, 760]}
+                    sizes="(max-width: 800px) 60vw, 300px"
+                    class="pj__img"
+                    style={p.img.startsWith('fichas/') && fichaRef ? `--s:${(img.width / fichaRef).toFixed(4)}` : undefined}
+                  />
+                )}
+                <div class="pj__txt">
+                  <p class="chip chip--lime">{p.rol}</p>
+                  <h3 class="h2">{p.nombre}</h3>
+                  <p>{p.descripcion}</p>
+                  {p.extra && p.extra.length > 0 && (
+                    <ul class="pj__poses">
+                      {p.extra.map((e) => {
+                        const ei = maybeAsset(e);
+                        return ei ? (
+                          <li>
+                            <Image src={ei} alt={`${p.nombre}, otra pose`} widths={[160, 240]} sizes="90px" />
+                          </li>
+                        ) : null;
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Mundos -->
+  <section class="section" id="mundos">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Los mundos</p>
+        <h2 class="h2">Ocho clásicos, <span class="hl">ocho jefes infectados</span></h2>
+        <p class="lead">
+          Cada mundo parodia un videojuego clásico y cambia la mecánica. Y los jefes no son malos: son personajes de esos juegos, infectados
+          por las clonocélulas. Al vencerlos, los curás. <small class="muted">(Los nombres de los mundos son provisorios.)</small>
+        </p>
+      </div>
+      <div class="mundos" data-reveal>
+        <WorldCarousel mundos={mundos} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestiario -->
+  <section class="section" id="clonocelulas">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Bestiario</p>
+        <h2 class="h2">Las <span class="hl">clonocélulas</span></h2>
+        <p class="lead">Pasá el mouse (o tocá) para verlas en acción. Ninguna fue herida durante la producción de este sitio.</p>
+      </div>
+      <ul class="bestiario">
+        {
+          enemigos.map((e) => {
+            const img = maybeAsset(e.img);
+            return (
+              <li class={`clono clono--${e.slug}`} data-reveal tabindex="0">
+                <div class="clono__img">{img && <Image src={img} alt={e.nombre} widths={[200, 360]} sizes="140px" />}</div>
+                <h3 class="h3">{e.nombre}</h3>
+                {e.original && <p class="clono__orig">{e.original}</p>}
+                <p class="clono__desc">{e.descripcion}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Modos e items -->
+  <section class="section" id="modos">
+    <div class="container modos">
+      <div data-reveal>
+        <p class="eyebrow">Modos y detalles</p>
+        <h2 class="h2">Para jugar <span class="hl">de a uno o de a dos</span></h2>
+        <ul class="modos__list">
+          <li><b>Historia:</b> 8 mundos, de 1 a 3 estrellas por nivel, un "Nivel X" final en cada mundo y un nivel secreto.</li>
+          <li><b>Supervivencia:</b> oleadas infinitas y rankings globales.</li>
+          <li><b>Co-op local:</b> el jugador 2 maneja a Gluk (desde la versión 2.0, también en Historia).</li>
+          <li><b>Anti-logros:</b> sí, hay logros por perder.</li>
+          <li><b>Pijamas:</b> de Halloween, de Navidad, "Dragon Fighter" y uno sospechosamente parecido a cierto fontanero italiano.</li>
+          <li><b>Ítems argentinos:</b> alfajores, choripanes y empanadas dan puntos. Milanesas no hay, y hubo reclamos.</li>
+        </ul>
+      </div>
+      {
+        items.length > 0 && (
+          <ul class="items" data-reveal>
+            {items.map((it) => (
+              <li>
+                <Image src={it.img} alt={it.name.replace(/[-_]/g, ' ')} widths={[96, 160]} sizes="64px" />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container cta-row" data-reveal>
+      <a class="btn btn--primary" href={u('/conseguilo/')}>Jugalo</a>
+      <a class="btn" href={u('/historia/')}>Cómo se hizo</a>
+    </div>
+  </section>
+  <Lightbox />
+</Base>
+
+<style>
+  .keyart {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 30px 80px -30px rgb(44 224 108 / 0.35);
+    overflow: hidden;
+  }
+  .keyart img {
+    width: 100%;
+    height: auto;
+  }
+  .datos {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+  .datos li {
+    display: grid;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    text-align: center;
+  }
+  .datos b {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: var(--lime);
+    text-shadow: var(--glow-green);
+  }
+  .datos span {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .datos span :global(small) {
+    display: block;
+    font-size: 0.78em;
+    opacity: 0.75;
+  }
+
+  .premisa {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .premisa__txt p {
+    margin: 0 0 1rem;
+    font-size: 1.12rem;
+  }
+
+  .pjs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 1.4rem;
+  }
+  .pj {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.8fr) 1.2fr;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.4rem;
+  }
+  .pj__img {
+    --s: 1;
+    width: calc(100% * var(--s));
+    height: auto;
+    justify-self: center;
+    filter: drop-shadow(0 0 20px rgb(0 151 147 / 0.4));
+  }
+  /* fichas espejadas: en la segunda (Gluk) va primero el texto y después la imagen */
+  .pj--rev {
+    grid-template-columns: 1.2fr minmax(120px, 0.8fr);
+  }
+  .pj--rev .pj__img {
+    order: 2;
+  }
+  .pj__txt .chip {
+    margin: 0 0 0.6rem;
+  }
+  .pj__txt p {
+    margin: 0.6rem 0 0;
+  }
+  .pj__poses {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .pj__poses img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    transition: scale 0.2s;
+  }
+  .pj__poses img:hover {
+    scale: 1.25;
+  }
+
+  /* el carrusel de mundos ocupa todo el ancho de la pantalla (sale del container) */
+  .mundos {
+    margin-top: 2rem;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .bestiario {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 1rem;
+  }
+  .clono {
+    padding: 1.1rem;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: radial-gradient(circle at 50% 30%, rgb(44 224 108 / 0.1), transparent 60%), rgb(0 20 30 / 0.6);
+    outline: none;
+  }
+  .clono__img {
+    height: 130px;
+    display: grid;
+    place-items: center;
+  }
+  .clono__img img {
+    max-height: 120px;
+    width: auto;
+    transition: scale 0.3s, rotate 0.3s, filter 0.3s;
+  }
+  .clono:hover .clono__img img,
+  .clono:focus .clono__img img {
+    animation: wobble 0.9s ease-in-out infinite;
+    filter: drop-shadow(0 0 16px rgb(44 224 108 / 0.7));
+  }
+  .clono--explosiva:hover .clono__img img,
+  .clono--explosiva:focus .clono__img img {
+    animation: boom 0.7s ease-out infinite;
+  }
+  .clono--babosa:hover .clono__img img,
+  .clono--babosa:focus .clono__img img {
+    animation: drip 1.2s ease-in-out infinite;
+  }
+  .clono--madre:hover .clono__img img,
+  .clono--madre:focus .clono__img img {
+    animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%, 100% { rotate: 0deg; scale: 1; }
+    25% { rotate: -8deg; scale: 1.08 0.94; }
+    75% { rotate: 8deg; scale: 0.94 1.08; }
+  }
+  @keyframes boom {
+    0% { scale: 1; filter: drop-shadow(0 0 0 #d0ec12); }
+    60% { scale: 1.3; filter: drop-shadow(0 0 30px #d0ec12) brightness(1.5); }
+    100% { scale: 1; }
+  }
+  @keyframes drip {
+    0%, 100% { scale: 1 1; translate: 0 0; }
+    50% { scale: 0.92 1.12; translate: 0 6px; }
+  }
+  @keyframes pulse {
+    50% { scale: 1.15; }
+  }
+  .clono h3 {
+    margin-top: 0.6rem;
+    font-size: 1.05rem;
+  }
+  .clono__orig {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .clono__desc {
+    margin: 0.5rem 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-dim);
+  }
+
+  .modos {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .modos__list {
+    margin: 1.5rem 0 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .modos__list li::marker {
+    content: '▸ ';
+    color: var(--green-neon);
+  }
+  .items {
+    list-style: none;
+    margin: 0;
+    padding: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 0.8rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius);
+  }
+  .items img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    transition: scale 0.2s, rotate 0.2s;
+  }
+  .items img:hover {
+    scale: 1.3;
+    rotate: 10deg;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  @media (max-width: 800px) {
+    .premisa,
+    .modos,
+    .pj {
+      grid-template-columns: 1fr;
+    }
+    .pj__img {
+      max-width: calc(220px * var(--s));
+      margin-inline: auto;
+    }
+    .pj--rev .pj__img {
+      order: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .clono .clono__img img {
+      animation: none !important;
+    }
+  }
+</style>

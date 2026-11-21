@@ -1,0 +1,38 @@
+---
+/** Encabezado común de las páginas internas. */
+interface Props {
+  eyebrow: string;
+  title: string; // admite <span class="hl">…</span>
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<header class="ph">
+  <div class="container">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="h-display" set:html={title} />
+    {lead && <p class="lead" set:html={lead} />}
+    <slot />
+  </div>
+  <div class="ph__line" aria-hidden="true"></div>
+</header>
+
+<style>
+  .ph {
+    position: relative;
+    padding: calc(84px + clamp(3.5rem, 11vh, 7rem)) 0 clamp(2.5rem, 7vh, 4.5rem);
+  }
+  .ph .lead {
+    margin: 1.5rem 0 0;
+  }
+  .ph__line {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: min(1240px, 100% - 2rem);
+    translate: -50% 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-strong), transparent 70%);
+  }
+</style>

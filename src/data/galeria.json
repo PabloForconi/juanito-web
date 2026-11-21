@@ -1,0 +1,400 @@
+[
+  {
+    "img": "archivo/galeria/afiche/retro-dubi-juanito-gluk.jpg",
+    "titulo": "Dubi · Juanito · Gluk",
+    "categoria": "afiche",
+    "fecha": "2012",
+    "descripcion": "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior»."
+  },
+  {
+    "img": "archivo/galeria/afiche/retro-poster-v2.jpg",
+    "titulo": "Póster retro",
+    "categoria": "afiche",
+    "descripcion": "Variante vintage del afiche, con Juanito, Gluk y el gorila."
+  },
+  {
+    "img": "archivo/galeria/afiche/logo-en-el-cielo.jpg",
+    "titulo": "Logo en el cielo",
+    "categoria": "afiche",
+    "fecha": "2012-05-28",
+    "descripcion": "El logo original: «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior»."
+  },
+  {
+    "img": "archivo/galeria/afiche/poster-clasico.jpg",
+    "titulo": "Póster clásico",
+    "categoria": "afiche",
+    "fecha": "2012-12-04",
+    "descripcion": "Juanito, Gluk y Dubi en la versión clásica del afiche."
+  },
+  {
+    "img": "archivo/galeria/afiche/ascii-codename-juanito.jpg",
+    "titulo": "Subject Localized · Codename: Juanito",
+    "categoria": "afiche",
+    "fecha": "2012-12-10",
+    "descripcion": "Póster ASCII: el informe alienígena que localiza al «sujeto» Juanito."
+  },
+  {
+    "img": "archivo/galeria/afiche/incaa-clonocelulas.jpg",
+    "titulo": "Juanito vs. las Clonocélulas Mutantes del Espacio Exterior",
+    "categoria": "afiche",
+    "fecha": "2014",
+    "descripcion": "Póster preparado para la presentación del proyecto al INCAA."
+  },
+  {
+    "img": "archivo/galeria/afiche/screens-01.jpg",
+    "titulo": "Screens 1",
+    "categoria": "afiche",
+    "descripcion": "Serie «Screens»: capturas del juego con textos de cartel de cine."
+  },
+  {
+    "img": "archivo/galeria/afiche/screens-02.jpg",
+    "titulo": "Screens 2",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/afiche/screens-04.jpg",
+    "titulo": "Screens 3",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/afiche/screens-05.jpg",
+    "titulo": "Screens 4",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/afiche/poster-v3.jpg",
+    "titulo": "Póster con cita de prensa",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/afiche/poster-limpio.jpg",
+    "titulo": "Juanito vs. las Clonocélulas (arte limpio)",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/afiche/poster-landscape.jpg",
+    "titulo": "Póster apaisado",
+    "categoria": "afiche"
+  },
+  {
+    "img": "archivo/galeria/merch/poster-super-a3-generico.jpg",
+    "titulo": "Póster Super A3: Clásico",
+    "categoria": "merch"
+  },
+  {
+    "img": "archivo/galeria/merch/poster-super-a3-el-mono.jpg",
+    "titulo": "Póster Super A3: El Mono",
+    "categoria": "merch"
+  },
+  {
+    "img": "archivo/galeria/merch/poster-super-a3-et-dedo.jpg",
+    "titulo": "Póster Super A3: E.T. Dedo",
+    "categoria": "merch"
+  },
+  {
+    "img": "archivo/galeria/merch/panfleto-posters.jpg",
+    "titulo": "¡Adquiera ya! su póster de Juanito",
+    "categoria": "merch",
+    "fecha": "2015-11",
+    "descripcion": "Panfleto de venta: tres modelos de póster a $25 cada uno, edición limitada, «buscanos en la puerta (o por ahí)»."
+  },
+  {
+    "img": "archivo/galeria/merch/sticker-donkey.png",
+    "titulo": "Sticker de Donkey",
+    "categoria": "merch",
+    "fecha": "2015"
+  },
+  {
+    "img": "archivo/galeria/merch/remera-a.jpg",
+    "titulo": "Remera (opción A)",
+    "categoria": "merch",
+    "descripcion": "Diseño de remera negra con Juanito al frente."
+  },
+  {
+    "img": "archivo/galeria/merch/remera-b.jpg",
+    "titulo": "Remera (opción B)",
+    "categoria": "merch",
+    "descripcion": "Diseño de remera negra con el logo."
+  },
+  {
+    "img": "archivo/galeria/promo/dia-del-nino-2014.jpg",
+    "titulo": "Día del Niño",
+    "categoria": "promo",
+    "fecha": "2014-08",
+    "descripcion": "«Nunca te olvides de tu Juanito interior»."
+  },
+  {
+    "img": "archivo/galeria/promo/puro-games.jpg",
+    "titulo": "Crossover con Puro Games",
+    "categoria": "promo",
+    "fecha": "2014-08",
+    "descripcion": "Juanito con caricaturas de los conductores del programa Puro Games."
+  },
+  {
+    "img": "archivo/galeria/promo/the-hum.jpg",
+    "titulo": "Crossover con The Hum",
+    "categoria": "promo",
+    "fecha": "2014-08"
+  },
+  {
+    "img": "archivo/galeria/promo/halloween-2014.jpg",
+    "titulo": "Halloween 2014",
+    "categoria": "promo",
+    "fecha": "2014-10"
+  },
+  {
+    "img": "archivo/galeria/promo/navidad-2014.jpg",
+    "titulo": "Navidad 2014",
+    "categoria": "promo",
+    "fecha": "2014-12"
+  },
+  {
+    "img": "archivo/galeria/promo/halloween-2015.jpg",
+    "titulo": "Halloween 2015",
+    "categoria": "promo",
+    "fecha": "2015-10"
+  },
+  {
+    "img": "archivo/galeria/promo/navidad-2015.jpg",
+    "titulo": "Navidad 2015",
+    "categoria": "promo",
+    "fecha": "2015-12",
+    "descripcion": "¡Felices fiestas!"
+  },
+  {
+    "img": "archivo/galeria/promo/afiche-twitter.jpg",
+    "titulo": "¿Vos ya lo seguís en Twitter?",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/celestineia.jpg",
+    "titulo": "Juanito y Celestineia",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/now-available-steam.jpg",
+    "titulo": "Now available on Steam",
+    "categoria": "promo",
+    "fecha": "2017-08-03",
+    "descripcion": "Pieza del lanzamiento en Steam."
+  },
+  {
+    "img": "archivo/galeria/promo/halloween-2017.jpg",
+    "titulo": "Halloween update",
+    "categoria": "promo",
+    "fecha": "2017-10-25"
+  },
+  {
+    "img": "archivo/galeria/promo/pagalo-como-quieras.jpg",
+    "titulo": "Pagalo como quieras",
+    "categoria": "promo",
+    "fecha": "2017-11-28",
+    "descripcion": "Juanito anuncia todos los medios de pago posibles."
+  },
+  {
+    "img": "archivo/galeria/promo/san-patricio-2018.jpg",
+    "titulo": "San Patricio",
+    "categoria": "promo",
+    "fecha": "2018-03"
+  },
+  {
+    "img": "archivo/galeria/promo/100-mil-descargas.jpg",
+    "titulo": "¡Llegamos a las 100 MIL descargas!",
+    "categoria": "promo",
+    "fecha": "2018-03-16",
+    "descripcion": "Festejo de las cien mil descargas en Google Play."
+  },
+  {
+    "img": "archivo/galeria/promo/martes-13-2018.jpg",
+    "titulo": "Martes 13",
+    "categoria": "promo",
+    "fecha": "2018"
+  },
+  {
+    "img": "archivo/galeria/promo/awesome-game-awards.jpg",
+    "titulo": "Awesome Game Awards",
+    "categoria": "promo",
+    "fecha": "2018-08",
+    "descripcion": "Key art preparado para los Awesome Game Awards 2018, donde, según recuerda el estudio, Juanito resultó premiado."
+  },
+  {
+    "img": "archivo/galeria/promo/steam-hero.jpg",
+    "titulo": "Gráfico hero de Steam",
+    "categoria": "promo",
+    "descripcion": "Key art panorámico sin logo (3840 × 1240 en el original)."
+  },
+  {
+    "img": "archivo/galeria/promo/steam-capsula.jpg",
+    "titulo": "Cápsula principal de Steam",
+    "categoria": "promo",
+    "fecha": "2017"
+  },
+  {
+    "img": "archivo/galeria/promo/steam-biblioteca.jpg",
+    "titulo": "Cápsula de biblioteca de Steam",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/dlc-the-animation.jpg",
+    "titulo": "DLC: The Animation",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/dlc-the-art-book.jpg",
+    "titulo": "DLC: The Art Book",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/dlc-original-soundtrack.jpg",
+    "titulo": "DLC: Original Soundtrack",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/dlc-the-art-edition.jpg",
+    "titulo": "Bundle: The Art Edition",
+    "categoria": "promo"
+  },
+  {
+    "img": "archivo/galeria/promo/ost-portada.jpg",
+    "titulo": "Portada del Original Soundtrack",
+    "categoria": "promo",
+    "descripcion": "Gluk y Juanito con guitarra, en estética synthwave."
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
+    "titulo": "Homenaje a Volver al Futuro",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-tiburon.jpg",
+    "titulo": "Homenaje a Tiburón",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-et.jpg",
+    "titulo": "Homenaje a E.T.",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-ghost.jpg",
+    "titulo": "Homenaje a Ghost",
+    "categoria": "fondos",
+    "descripcion": "Juanito y Gluk en la escena del torno."
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-babality.jpg",
+    "titulo": "Babality",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-donkey-kong.jpg",
+    "titulo": "Homenaje a Donkey Kong",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-kung-fu-master.jpg",
+    "titulo": "Homenaje a Kung Fu Master",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-snow-bros.jpg",
+    "titulo": "Homenaje a Snow Bros",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-wonder-boy.jpg",
+    "titulo": "Homenaje a Wonder Boy",
+    "categoria": "fondos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-zombies.jpg",
+    "titulo": "Zombies Walked with Juanito",
+    "categoria": "fondos",
+    "descripcion": "Homenaje a Zombies Ate My Neighbors."
+  },
+  {
+    "img": "archivo/galeria/historia/web-coming-soon-2014.jpg",
+    "titulo": "La web «Coming soon» de 2014",
+    "categoria": "historia",
+    "fecha": "2014-03",
+    "descripcion": "Así era juanitogame.com: un gabinete arcade en niebla verde y «Coming soon / Próximamente / Em breve»."
+  },
+  {
+    "img": "archivo/galeria/historia/greenlight-dia-1.jpg",
+    "titulo": "Greenlight: día 1",
+    "categoria": "historia",
+    "fecha": "2017-03-07",
+    "descripcion": "Estadísticas de Steam Greenlight al primer día: 1.122 visitantes y 601 votos «Sí»."
+  },
+  {
+    "img": "archivo/galeria/historia/greenlight-dia-4.jpg",
+    "titulo": "Greenlight: día 4",
+    "categoria": "historia",
+    "fecha": "2017-03-10",
+    "descripcion": "A los cuatro días: 1.886 visitantes, 1.000 votos «Sí» (66 %) y 61 % del camino al Top 100."
+  },
+  {
+    "img": "archivo/galeria/historia/visita-crack-radiolexia.jpg",
+    "titulo": "De visita en Crack",
+    "categoria": "historia",
+    "fecha": "2016-11",
+    "descripcion": "El equipo en el estudio de Radiolexia, durante la entrevista en Crack."
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-primera-foto.jpg",
+    "titulo": "Primera foto del gabinete",
+    "categoria": "arcade",
+    "fecha": "2015-04-22",
+    "descripcion": "La primera foto fechada del arcade de Juanito: «Sobreviviste 13:32»."
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-marquesina.jpg",
+    "titulo": "Diseño de la marquesina",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-lateral-izquierdo.jpg",
+    "titulo": "Diseño del lateral izquierdo",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-lateral-derecho.jpg",
+    "titulo": "Diseño del lateral derecho",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-bezel.jpg",
+    "titulo": "Diseño del marco de pantalla",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-panel-de-control.jpg",
+    "titulo": "Diseño del panel de control",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-modelo-3d.jpg",
+    "titulo": "Modelo 3D del gabinete",
+    "categoria": "arcade",
+    "descripcion": "Render de prueba del modelo 3D del arcade."
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-lateral-3d.jpg",
+    "titulo": "Arte lateral para el gabinete 3D",
+    "categoria": "arcade"
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-ranking-2017.jpg",
+    "titulo": "Ranking del arcade",
+    "categoria": "arcade",
+    "fecha": "2017-03-30",
+    "descripcion": "La tabla de récords con las iniciales de los jugadores."
+  },
+  {
+    "img": "archivo/galeria/arcade/arcade-top-ranking.jpg",
+    "titulo": "Récord: 70:49 minutos",
+    "categoria": "arcade",
+    "fecha": "2017-06",
+    "descripcion": "«Lograste 70:49 min», con 53.210.840 puntos."
+  }
+]

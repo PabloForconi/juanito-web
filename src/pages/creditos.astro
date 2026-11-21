@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import GameEverCredit from '../components/GameEverCredit.astro';
+import creditosData from '../data/creditos.json';
+import type { Credito } from '../data/types';
+
+const creditos = creditosData as Credito[];
+---
+
+<Base title="Créditos" description="El equipo que hizo Juanito Arcade Mayhem.">
+  <PageHeader eyebrow="Créditos" title='Los que lo <span class="hl">hicieron</span>' lead="Unas veinte personas, cinco años de desarrollo y una cantidad de café que no conviene calcular.">
+    <div class="studio"><GameEverCredit size="lg" /></div>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <dl class="cred">
+        {
+          creditos.map((c) => (
+            <div data-reveal>
+              <dt>{c.rol}</dt>
+              {c.nombres.map((n) => (
+                <dd>{n}</dd>
+              ))}
+            </div>
+          ))
+        }
+      </dl>
+      <p class="fin" data-reveal>GAME OVER? <span class="hl">NO. CONTINUE ▮</span></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .studio {
+    margin-top: 2rem;
+  }
+  .cred {
+    margin: 0 auto;
+    max-width: 760px;
+    display: grid;
+    gap: 2.2rem;
+    text-align: center;
+  }
+  .cred dt {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+    margin-bottom: 0.4rem;
+  }
+  .cred dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+  }
+  .fin {
+    margin-top: 5rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+  }
+</style>

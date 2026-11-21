@@ -1,0 +1,23 @@
+{
+  "nombre": "Juanito Blockits",
+  "editorial": "El Dragón Azul",
+  "anio": 2022,
+  "diseno": "Alejandra Pini",
+  "ilustracion": "María Paolo",
+  "disenoGrafico": "Guillermo Núñez",
+  "jugadores": "2 a 4",
+  "duracion": "20 minutos",
+  "edad": "+8",
+  "mecanica": "Roll & write de poliominós",
+  "licencias": [
+    "Salta Pal Lao (Chile)",
+    "Frechverlag (Alemania), editado como \"Blockits\""
+  ],
+  "premios": "Finalista de los Premios Alfonso X 2023, según un video (sin confirmar en otra fuente).",
+  "descripcion": "Tirás los dados y dibujás en tu grilla la pieza que te toca, para completar líneas y sumar más que el resto. Al final de cada ronda los tableros rotan, y un modificador te deja cambiar la pieza a cambio de puntos. Comparte nombre con Blockits, el mundo Tetris del videojuego, y es el primer Juanito que se juega con lápiz. Arranca quien haya jugado un videojuego hace menos tiempo, obvio.",
+  "links": [
+    { "titulo": "Ficha en El Dragón Azul", "url": "https://www.eldragonazul.com.ar/juegos/juanito-blockits/" },
+    { "titulo": "Cómo se juega (video)", "url": "https://www.youtube.com/watch?v=S6V2V_yeMgA" },
+    { "titulo": "BoardGameGeek", "url": "https://boardgamegeek.com/boardgame/369384/juanito-blockits" }
+  ]
+}

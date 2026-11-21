@@ -1,0 +1,109 @@
+---
+/** "Un juego de GAME EVER": firma del estudio con link a su web. */
+import { Image } from 'astro:assets';
+import ge from '../assets/logo/game-ever.png';
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  label?: string; // texto antes del logo ("Un juego de")
+  after?: string; // texto después del logo ("presenta")
+  stacked?: boolean; // logo arriba y texto abajo, centrado, estilo créditos de película
+  byline?: boolean; // texto arriba y logo abajo, alineado a la izquierda (footer)
+}
+const { size = 'md', label = 'Un juego de', after, stacked = false, byline = false } = Astro.props;
+const widths = { sm: 72, md: 104, lg: 150 };
+const w = widths[size];
+---
+
+<a class:list={['ge', `ge--${size}`, stacked && 'ge--stacked', byline && 'ge--byline']} href="https://game-ever.github.io/gameever-web/es/" target="_blank" rel="noopener" aria-label={after ? `Game Ever Studio ${after}` : `${label} Game Ever Studio`}>
+  {!after && label && <span class="ge__label">{label}</span>}
+  <Image src={ge} alt="Game Ever" widths={[w, w * 2]} sizes={`${w}px`} style={byline ? undefined : `width:${w}px`} />
+  {after && (
+    <span class="ge__label">
+      <span class="ge__txt">{after}</span>
+    </span>
+  )}
+</a>
+
+<style>
+  .ge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .ge img {
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .ge:hover {
+    color: var(--ink);
+  }
+  .ge:hover img {
+    opacity: 1;
+  }
+  .ge__label {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .ge--lg .ge__label {
+    font-size: 0.85rem;
+  }
+  .ge--md .ge__label {
+    font-size: 0.8rem;
+  }
+
+  /* Variante "créditos de película": logo arriba, "— PRESENTA —" abajo */
+  .ge--stacked {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .ge--stacked .ge__label {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.45em;
+    color: var(--ink-faint);
+  }
+  /* el tracking deja espacio extra después de la última letra: lo compensamos */
+  .ge--stacked .ge__txt {
+    margin-right: -0.45em;
+  }
+  /* Centrado óptico: el logo tiene la flecha rosa a la derecha, así que las letras
+     "GAME EVER" quedan a la izquierda del centro de la imagen (39% del ancho).
+     Corremos la imagen para que las letras queden alineadas con el resto. */
+  .ge--stacked img {
+    translate: 11% 0;
+  }
+
+  /* Variante "firma": texto chico arriba, logo abajo, alineado a la izquierda */
+  /* el logo toma exactamente el ancho de la frase de arriba */
+  .ge--byline {
+    display: inline-grid;
+    width: max-content;
+    gap: 0.5rem;
+  }
+  .ge--byline img {
+    width: 100%;
+  }
+  .ge--byline .ge__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+  }
+  .ge--stacked .ge__label::before,
+  .ge--stacked .ge__label::after {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+</style>

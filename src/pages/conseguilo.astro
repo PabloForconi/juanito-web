@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import tiendasData from '../data/tiendas.json';
+
+interface Tienda {
+  nombre: string;
+  plataforma: string;
+  url: string;
+  precio?: string;
+  nota?: string;
+}
+const tiendas = tiendasData as Tienda[];
+---
+
+<Base title="Conseguilo" description="Dónde jugar Juanito Arcade Mayhem: Steam, App Store y Google Play.">
+  <PageHeader
+    eyebrow="Conseguilo"
+    title='Insert coin <span class="hl">para jugar</span>'
+    lead="Juanito sigue a la venta en Steam (Windows) y gratis en mobile. Los DLC de Soundtrack, Artbook y Animation también están en Steam."
+  >
+    <div class="badges"><StoreBadges align="start" size="lg" /></div>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <ul class="tiendas">
+        {
+          tiendas.map((t) => (
+            <li data-reveal>
+              <a class="card card--hover tienda" href={t.url} target="_blank" rel="noopener">
+                <span class="tienda__plat">{t.plataforma}</span>
+                <span class="h3">{t.nombre}</span>
+                {t.nota && <span class="muted">{t.nota}</span>}
+                <span class="tienda__foot">
+                  {t.precio && <span class="chip chip--lime">{t.precio}</span>}
+                  <span class="tienda__go">Ir ↗</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="muted nota" data-reveal>Los precios pueden variar según la región y las ofertas de cada tienda.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .badges {
+    margin-top: 1.8rem;
+  }
+  .tiendas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 1rem;
+  }
+  .tienda {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.3rem;
+    height: 100%;
+    align-content: start;
+  }
+  .tienda__plat {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .tienda__foot {
+    gap: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.6rem;
+  }
+  .tienda__go {
+    white-space: nowrap;
+    margin-left: auto;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--lime);
+  }
+  .nota {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+</style>

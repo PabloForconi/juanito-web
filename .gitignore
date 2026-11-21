@@ -1,0 +1,19 @@
+# deps / build
+node_modules/
+dist/
+.astro/
+
+# herramientas locales (no versionar binarios ni entornos)
+tools/ffmpeg/
+tools/.venv/
+__pycache__/
+
+# varios
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
+
+# documentación interna (investigación, inventario, plan): queda solo en local
+docs/

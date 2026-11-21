@@ -1,0 +1,157 @@
+---
+import { u } from '../lib/url';
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { asset } from '../lib/assets';
+import { fecha } from '../lib/format';
+import capturasData from '../data/pirateria-capturas.json';
+import sitiosData from '../data/pirateria-sitios.json';
+import type { CapturaPirata, SitioPirata } from '../data/types';
+
+const sitios = sitiosData as SitioPirata[];
+const capturas = await Promise.all(
+  (capturasData as CapturaPirata[]).map(async (c) => {
+    const src = asset(c.img);
+    return { ...c, src, big: (await getImage({ src, width: Math.min(src.width, 1400), format: 'webp' })).src };
+  }),
+);
+---
+
+<Base title="Salón de la fama de la piratería" description="Los sitios piratas que subieron Juanito Arcade Mayhem, presentados con cariño y sin links.">
+  <PageHeader
+    eyebrow="Salón de la fama de la piratería"
+    title='Los que <span class="hl">lo bajaron gratis</span>'
+    lead="Un juego indie argentino llega a las grandes ligas el día que lo crackean en Rusia. Acá, con todo el cariño, los sitios que lo subieron (sin links, obvio). El que lo compró, lo compró. El que no, ya sabe dónde está la tienda."
+  />
+
+  <section class="section">
+    <div class="container">
+      <ul class="polas">
+        {
+          capturas.map((c, i) => (
+            <li data-reveal style={`--r:${(i % 2 ? 1 : -1) * (1 + (i % 3))}deg`}>
+              <a class="pola" href={c.big} data-lightbox="piratas" data-caption={`${c.sitio} — ${c.chiste}`}>
+                <Image src={c.src} alt={`Captura de ${c.sitio}`} widths={[240, 400]} sizes="240px" />
+                <span class="pola__sitio">
+                  {c.sitio}
+                  {c.pais && <small> · {c.pais}</small>}
+                </span>
+                <span class="pola__chiste">{c.chiste}</span>
+                {c.fecha && <span class="pola__fecha">{fecha(c.fecha)}</span>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <h2 class="h2" data-reveal>Otros <span class="hl">mencionados de honor</span></h2>
+      <ul class="sitios">
+        {
+          sitios.map((s) => (
+            <li class="card" data-reveal>
+              <h3 class="h3">
+                {s.nombre}
+                {s.pais && <small> · {s.pais}</small>}
+              </h3>
+              <p class="muted">{s.detalle}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="buy" data-reveal>
+        <p>¿Te dio culpa? Todavía estás a tiempo.</p>
+        <a class="btn btn--primary" href={u('/conseguilo/')}>Comprarlo legal</a>
+      </div>
+    </div>
+  </section>
+  <Lightbox />
+</Base>
+
+<style>
+  .polas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    gap: 2rem 1.5rem;
+  }
+  .pola {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.8rem 0.8rem 1.1rem;
+    background: #f4f1e8;
+    color: #1a1a1a;
+    text-decoration: none;
+    rotate: var(--r);
+    box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.75);
+    transition: rotate 0.25s, scale 0.25s;
+  }
+  .pola:hover {
+    rotate: 0deg;
+    scale: 1.04;
+  }
+  .pola img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+    filter: saturate(0.9);
+  }
+  .pola__sitio {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 1.05rem;
+  }
+  .pola__sitio small {
+    font-family: var(--font-ui);
+    color: #555;
+  }
+  .pola__chiste {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  .pola__fecha {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: #777;
+  }
+  .sitios {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 1rem;
+  }
+  .sitios li {
+    padding: 1.1rem;
+  }
+  .sitios h3 small {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+  }
+  .sitios p {
+    margin: 0.4rem 0 0;
+  }
+  .buy {
+    margin-top: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+</style>

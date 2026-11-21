@@ -1,0 +1,400 @@
+[
+  {
+    "id": "trailer-mobile",
+    "titulo": "Mobile Gameplay Trailer",
+    "canal": "Game Ever Studio",
+    "fecha": "2018-01-09",
+    "youtubeId": "0beHvmWqsFY",
+    "categoria": "oficial",
+    "vistas": 224914,
+    "nota": "El trailer de la versión para celulares: el video oficial más visto del canal, por lejos."
+  },
+  {
+    "id": "trailer-steam",
+    "titulo": "Steam Gameplay Trailer",
+    "canal": "Game Ever Studio",
+    "fecha": "2017-07",
+    "youtubeId": "t8SUKgoI3QU",
+    "categoria": "oficial",
+    "vistas": 32586,
+    "nota": "Trailer de lanzamiento en Steam, a 60 fps: Donkey Kong, Wonder Boy, el Kremlin y el co-op de supervivencia."
+  },
+  {
+    "id": "trailer-beta",
+    "titulo": "Trailer [BETA]",
+    "canal": "Game Ever Studio",
+    "fecha": "2017-03",
+    "youtubeId": "q43h4WJrtUc",
+    "categoria": "oficial",
+    "vistas": 14549,
+    "nota": "El trailer con el que se pidieron votos en Steam Greenlight (y en Taringa!)."
+  },
+  {
+    "id": "gameplay-2014",
+    "titulo": "2014 Old Gameplay",
+    "canal": "Game Ever Studio",
+    "fecha": "2014",
+    "youtubeId": "SEbDL5XdTiE",
+    "categoria": "oficial",
+    "vistas": 11684,
+    "nota": "Cómo se veía Juanito en 2014, cuando todavía era un juego para tablets."
+  },
+  {
+    "id": "pillman-teaser",
+    "titulo": "Pill-Man Teaser",
+    "canal": "Game Ever Studio",
+    "fecha": "2014-04",
+    "youtubeId": "aHZYx_um7gE",
+    "categoria": "oficial",
+    "vistas": 6441,
+    "nota": "Parodia de la pantalla de attract de Pac-Man: Juanito irrumpe, todo se vuelve verde glitch y llegan las clonocélulas."
+  },
+  {
+    "id": "tecnopolis-2015",
+    "titulo": "Juanito en Tecnópolis 2015",
+    "canal": "Game Ever Studio",
+    "fecha": "2015-10-28",
+    "youtubeId": "bEgnlkaSHkw",
+    "categoria": "oficial",
+    "vistas": 1828,
+    "nota": "Chicos y grandes jugando en la sala Ar.Cade, el catálogo de videojuegos argentinos de Tecnópolis."
+  },
+  {
+    "id": "primer-pijama-gratis",
+    "titulo": "Primer Pijama GRATIS!",
+    "canal": "Game Ever Studio",
+    "youtubeId": "t5EmE-euPU0",
+    "categoria": "oficial",
+    "vistas": 1617,
+    "nota": "Anuncio del primer pijama cosmético de regalo. Juanito siempre fue de vestirse para la ocasión (en pijama)."
+  },
+  {
+    "id": "speedpaint-stage-8",
+    "titulo": "Speed Paint / Stage 8",
+    "canal": "Game Ever Studio",
+    "fecha": "2017",
+    "youtubeId": "SrUt-f0PrS4",
+    "categoria": "making-of",
+    "vistas": 1347,
+    "nota": "Speed paint de Leo Cirius: el fondo del mundo de Donkey Kong, de galpón vacío a mono gigante."
+  },
+  {
+    "id": "ost-main-theme",
+    "titulo": "Juanito Arcade Mayhem OST – Main Theme",
+    "canal": "Game Ever Studio",
+    "fecha": "2018-01",
+    "youtubeId": "s9Z50Lzgaag",
+    "categoria": "musica",
+    "nota": "El tema principal, de Mariano Guerino."
+  },
+  {
+    "id": "ost-blockits",
+    "titulo": "Juanito Arcade Mayhem OST – Blockits",
+    "canal": "Game Ever Studio",
+    "fecha": "2018",
+    "youtubeId": "bEVMUtICJg0",
+    "categoria": "musica",
+    "vistas": 12000,
+    "nota": "El tema del mundo Tetris, el más escuchado del soundtrack. Sí, el mismo nombre que el juego de mesa."
+  },
+  {
+    "id": "ost-pill-man",
+    "titulo": "Juanito Arcade Mayhem OST – Pill-Man",
+    "canal": "Game Ever Studio",
+    "fecha": "2018",
+    "youtubeId": "lHn_kUP1N5Y",
+    "categoria": "musica",
+    "nota": "El tema más largo del disco (más de cinco minutos) para el mundo parodia de Pac-Man."
+  },
+  {
+    "id": "teaser-3d-arcade-life",
+    "titulo": "Teaser 3D \"Arcade Life\" (primer corte)",
+    "canal": "Game Ever Studio",
+    "fecha": "2014-07",
+    "categoria": "animacion",
+    "nota": "Inédito. Teaser cinemático en 3D (Maya + After Effects): un galpón de arcades abandonados, un satélite, un rayo verde y la máquina de Juanito que se enciende. Cerraba con \"Coming soon November 2014\"."
+  },
+  {
+    "id": "animatic-opening-2011",
+    "titulo": "Animatic del opening (2011)",
+    "canal": "Game Ever Studio",
+    "fecha": "2011-04",
+    "categoria": "animacion",
+    "nota": "Inédito. 57 segundos de storyboard animado en lápiz azul: la casa, Gluk en su platillo y Juanito. El único rastro en video de la película que iba a ser."
+  },
+  {
+    "id": "intro-comic-2017",
+    "titulo": "Intro cómic del juego",
+    "canal": "Game Ever Studio",
+    "fecha": "2017",
+    "categoria": "animacion",
+    "nota": "Motion comic de 42 segundos: Juanito pierde su récord por un rayo, las clonocélulas infectan la máquina y Gluk lo dispara adentro del juego."
+  },
+  {
+    "id": "ending-creditos-2017",
+    "titulo": "Ending + créditos",
+    "canal": "Game Ever Studio",
+    "fecha": "2017-09",
+    "categoria": "animacion",
+    "nota": "Spoiler alert. El final animado en 2D, con el dedo luminoso de E.T., la placa \"TO BE JUANITED\" y los créditos completos hasta \"Thank you for playing!\"."
+  },
+  {
+    "id": "logo-original-2011",
+    "titulo": "Logo original: Juanito vs. las Clonocélulas Mutantes del Espacio Exterior",
+    "canal": "Game Ever Studio",
+    "fecha": "2011-04",
+    "categoria": "animacion",
+    "nota": "Inédito. 15 segundos de logo animado del proyecto de película, cuando Juanito todavía tenía nombre de película clase B."
+  },
+  {
+    "id": "halloween-2025",
+    "titulo": "Juanito Halloween",
+    "canal": "Game Ever Studio",
+    "fecha": "2025-10",
+    "categoria": "animacion",
+    "nota": "Animación 2D nueva de 21 segundos: Juanito con pijama de esqueleto bajo la luna. Prueba de que el pibe sigue vivo (disfrazado de muerto)."
+  },
+  {
+    "id": "jaba-play-all-bosses",
+    "titulo": "All Bosses + Ending",
+    "canal": "Jaba Play",
+    "fecha": "2024-04-14",
+    "youtubeId": "02grYTDfZd0",
+    "categoria": "comunidad",
+    "vistas": 296116,
+    "nota": "El video de Juanito más visto de todo YouTube, subido siete años después del lanzamiento."
+  },
+  {
+    "id": "srpelo-strem",
+    "titulo": "Pelo Strem",
+    "canal": "SrPelo",
+    "fecha": "2017-10-01",
+    "youtubeId": "UP1CzDq1h4w",
+    "categoria": "comunidad",
+    "vistas": 38845
+  },
+  {
+    "id": "crashelido-all-bosses",
+    "titulo": "All Bosses",
+    "canal": "Crashelido",
+    "fecha": "2017",
+    "youtubeId": "-qGDHuXOKAk",
+    "categoria": "comunidad",
+    "vistas": 33674
+  },
+  {
+    "id": "pepe-referencias",
+    "titulo": "¡¡REFERENCIAS POR DOQUIER!!",
+    "canal": "Pepe el Mago Juega",
+    "fecha": "2024-04-25",
+    "youtubeId": "CQb6odjwv6A",
+    "categoria": "comunidad",
+    "vistas": 33527,
+    "nota": "Primer capítulo de una serie de cuatro o más videos cazando cada homenaje del juego."
+  },
+  {
+    "id": "pepe-super-juanito-bros",
+    "titulo": "¡¡SUPER JUANITO BROS!!",
+    "canal": "Pepe el Mago Juega",
+    "fecha": "2024",
+    "youtubeId": "blzr5QDFPr8",
+    "categoria": "comunidad",
+    "vistas": 29229
+  },
+  {
+    "id": "amirgaris-hardcore",
+    "titulo": "Full Playthrough [Hardcore]",
+    "canal": "AmirGaris",
+    "fecha": "2019",
+    "youtubeId": "UYaEqK2lXC8",
+    "categoria": "comunidad",
+    "vistas": 25305,
+    "nota": "El juego entero en modo Hardcore. Respeto."
+  },
+  {
+    "id": "arronmunroe-2-player",
+    "titulo": "2 player 60fps",
+    "canal": "arronmunroe",
+    "fecha": "2020",
+    "youtubeId": "gq1hdPFSNvs",
+    "categoria": "comunidad",
+    "vistas": 21889,
+    "nota": "Juanito y Gluk en cooperativo local."
+  },
+  {
+    "id": "newbie-noobie-bosses",
+    "titulo": "All boss gameplay",
+    "canal": "newbie noobie",
+    "fecha": "2021",
+    "youtubeId": "xCUe0vyxI30",
+    "categoria": "comunidad",
+    "vistas": 19252
+  },
+  {
+    "id": "savchyn-bosses-ending",
+    "titulo": "All Bosses & Ending",
+    "canal": "TheSavchynGames",
+    "fecha": "2025",
+    "youtubeId": "Q7MGdbUGFfs",
+    "categoria": "comunidad",
+    "vistas": 17141
+  },
+  {
+    "id": "tapgameplay-mobile",
+    "titulo": "Gameplay iOS/Android",
+    "canal": "TapGameplay",
+    "fecha": "2018",
+    "youtubeId": "eYwq0ebfGrA",
+    "categoria": "comunidad",
+    "vistas": 11137
+  },
+  {
+    "id": "rosgamer-super-pang",
+    "titulo": "Juego a lo Super Pang",
+    "canal": "RosGamer_xD",
+    "fecha": "2017",
+    "youtubeId": "_xDs7buRjH4",
+    "categoria": "comunidad",
+    "vistas": 10595
+  },
+  {
+    "id": "buck-fernandez-made-in-argentina",
+    "titulo": "Arcade made in Argentina",
+    "canal": "Buck Fernandez",
+    "fecha": "2017",
+    "youtubeId": "ir3unXxmoCY",
+    "categoria": "comunidad",
+    "vistas": 9045
+  },
+  {
+    "id": "twobarracuda-sin-dano",
+    "titulo": "Todos los jefes sin daño",
+    "canal": "TwoBarracuda 59",
+    "fecha": "2017",
+    "youtubeId": "l6S8CtP_LDI",
+    "categoria": "comunidad",
+    "vistas": 6869,
+    "nota": "Todos los jefes sin recibir un solo golpe. Nosotros no podemos."
+  },
+  {
+    "id": "casal-gamer-coop",
+    "titulo": "Local co-op",
+    "canal": "Diário do Casal Gamer",
+    "fecha": "2017",
+    "youtubeId": "Qwh8sMvXHx8",
+    "categoria": "comunidad",
+    "vistas": 3245,
+    "nota": "Una pareja brasileña jugando en cooperativo, en portugués."
+  },
+  {
+    "id": "world-of-longplays-quicklook",
+    "titulo": "Quicklook",
+    "canal": "World-of-Longplays",
+    "fecha": "2020",
+    "youtubeId": "mYX2mG1AJXo",
+    "categoria": "comunidad",
+    "vistas": 3211
+  },
+  {
+    "id": "babaloo-come-to-brazil",
+    "titulo": "Come to Brazil meme",
+    "canal": "Babaloo",
+    "fecha": "2026-04-04",
+    "youtubeId": "FLiBY8F4XxI",
+    "categoria": "comunidad",
+    "nota": "Animación hecha por un fan con Juanito y el meme \"Come to Brazil\". En 2026. Nueve años después. Te queremos, Babaloo."
+  },
+  {
+    "id": "caith-sith-analisis",
+    "titulo": "Análisis: Juanito & Fidel Dungeon Rescue, dos joyas indie argentinas",
+    "canal": "Caith_Sith",
+    "fecha": "2017-08-11",
+    "youtubeId": "lzfNwdPRt98",
+    "categoria": "resena"
+  },
+  {
+    "id": "krozth-mini-resena",
+    "titulo": "Mini reseña",
+    "canal": "Krozth",
+    "fecha": "2017-08-16",
+    "youtubeId": "WjVf8J3cNPU",
+    "categoria": "resena"
+  },
+  {
+    "id": "jeff-sakura-valido",
+    "titulo": "¿Ha valido la pena…?",
+    "canal": "Jeff Sakura Videos",
+    "fecha": "2017-08-19",
+    "youtubeId": "1AUWza3SGMg",
+    "categoria": "resena"
+  },
+  {
+    "id": "extra-gr-referencias",
+    "titulo": "Referencias de otros juegos en Juanito",
+    "canal": "EXTRA GR",
+    "fecha": "2018-04-04",
+    "youtubeId": "tyzkVxmOB9Y",
+    "categoria": "resena"
+  },
+  {
+    "id": "spectrumero-zona-indie",
+    "titulo": "Zona Indie",
+    "canal": "El Spectrumero Javi Ortiz",
+    "fecha": "2020-02-24",
+    "youtubeId": "1qnYIg_qWjA",
+    "categoria": "resena"
+  },
+  {
+    "id": "nivel-xtremo-mtg2",
+    "titulo": "Pablo Forconi en Meet The Game 2",
+    "canal": "Nivel Xtremo",
+    "fecha": "2014-11-18",
+    "youtubeId": "ec8LsrSMUT8",
+    "categoria": "entrevista",
+    "nota": "La entrevista más vieja: el juego todavía se llamaba \"Juanito Game\"."
+  },
+  {
+    "id": "gamepod-live",
+    "titulo": "GAMEPOD LIVE con Forconi e Ibarlucía",
+    "canal": "GamePodVG",
+    "fecha": "2017-06-07",
+    "youtubeId": "0HVMR94q12g",
+    "categoria": "entrevista",
+    "nota": "\"¡Hoy Juanito va a la radio!\": programa de Radio LED con los dos directores."
+  },
+  {
+    "id": "duoq-entrevista",
+    "titulo": "Entrevista a lo DuoQ",
+    "canal": "DuoQ Gamers",
+    "fecha": "2017-08-18",
+    "youtubeId": "3W-IBlRo138",
+    "categoria": "entrevista"
+  },
+  {
+    "id": "geek-level-s02e07",
+    "titulo": "Geek Level Live S02E07",
+    "canal": "GeekLevel",
+    "fecha": "2017-09-06",
+    "youtubeId": "evLCYy_kHa4",
+    "categoria": "entrevista",
+    "nota": "Juanito comparte programa con Fidel Dungeon Rescue y Destiny 2."
+  },
+  {
+    "id": "playnomore-creadores",
+    "titulo": "Entrevistamos a los creadores",
+    "canal": "playNOmore T.V",
+    "fecha": "2017-09-17",
+    "youtubeId": "-E_t4OP6DkQ",
+    "categoria": "entrevista",
+    "nota": "Visita al estudio de Game Ever."
+  },
+  {
+    "id": "tn-tecno-377",
+    "titulo": "TN Tecno: videojuego argento",
+    "canal": "Game Ever Studio",
+    "fecha": "2018-07-04",
+    "youtubeId": "D9PvrZi4F4Q",
+    "categoria": "entrevista",
+    "nota": "El fragmento de TN Tecno 377 dedicado a Juanito. El programa salió al aire en agosto de 2017; el clip se subió al canal después."
+  }
+]

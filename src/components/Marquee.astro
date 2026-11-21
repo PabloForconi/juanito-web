@@ -1,0 +1,92 @@
+---
+/** Marquesina tipo cartel arcade con citas que corren en loop. */
+import citas from '../data/citas.json';
+import type { Cita } from '../data/types';
+
+const list = citas as Cita[];
+---
+
+<section class="mq" aria-label="Lo que dijeron">
+  <div class="mq__track">
+    {
+      [0, 1].map((k) => (
+        <ul aria-hidden={k === 1 ? 'true' : undefined}>
+          {list.map((c) => (
+            <li>
+              <q>{c.texto}</q>
+              <span>
+                {c.autor} · {c.fuente}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .mq {
+    position: relative;
+    overflow: hidden;
+    padding: 2.2rem 0;
+    border-block: 1px solid var(--line);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .mq__track {
+    display: flex;
+    width: max-content;
+    animation: mq 120s linear infinite;
+  }
+  .mq:hover .mq__track {
+    animation-play-state: paused;
+  }
+  .mq ul {
+    display: flex;
+    gap: 4rem;
+    margin: 0;
+    padding: 0 2rem;
+    list-style: none;
+  }
+  .mq li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    white-space: nowrap;
+  }
+  .mq q {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: clamp(1.1rem, 1.9vw, 1.6rem);
+    color: var(--ink);
+  }
+  .mq q::before,
+  .mq q::after {
+    color: var(--green-neon);
+  }
+  .mq li span {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+  .mq li::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    margin-left: 3rem;
+    border-radius: 50%;
+    background: var(--lime);
+    align-self: center;
+  }
+  @keyframes mq {
+    to { translate: -50% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mq__track {
+      animation: none;
+    }
+    .mq {
+      overflow-x: auto;
+    }
+  }
+</style>

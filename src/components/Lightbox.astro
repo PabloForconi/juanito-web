@@ -1,0 +1,135 @@
+---
+/**
+ * Lightbox global: cualquier <a data-lightbox="grupo" href="imagen-grande" data-caption="...">
+ * abre la imagen en un <dialog>, con flechas para navegar dentro del grupo.
+ * Se monta una sola vez por página.
+ */
+---
+
+<dialog class="lb" data-lb aria-label="Imagen ampliada">
+  <figure>
+    <img alt="" data-lb-img />
+    <figcaption data-lb-cap></figcaption>
+  </figure>
+  <button class="lb__btn lb__close" type="button" data-lb-close aria-label="Cerrar">✕</button>
+  <button class="lb__btn lb__prev" type="button" data-lb-prev aria-label="Anterior">‹</button>
+  <button class="lb__btn lb__next" type="button" data-lb-next aria-label="Siguiente">›</button>
+</dialog>
+
+<style>
+  .lb {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(3 7 10 / 0.96);
+    color: var(--ink);
+  }
+  .lb::backdrop {
+    background: transparent;
+  }
+  .lb figure {
+    margin: 0;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    place-items: center;
+    padding: 4rem 4.5rem 1.5rem;
+    gap: 1rem;
+  }
+  .lb img {
+    max-width: 100%;
+    max-height: calc(100dvh - 9rem);
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 40px 100px -30px rgb(0 0 0 / 0.9);
+  }
+  .lb figcaption {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    text-align: center;
+    color: var(--ink-dim);
+    max-width: 60rem;
+  }
+  .lb__btn {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .lb__close {
+    top: 1rem;
+    right: 1rem;
+  }
+  .lb__prev,
+  .lb__next {
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .lb__prev {
+    left: 1rem;
+  }
+  .lb__next {
+    right: 1rem;
+  }
+  @media (max-width: 640px) {
+    .lb figure {
+      padding: 4rem 0.5rem 1rem;
+    }
+    .lb__prev,
+    .lb__next {
+      top: auto;
+      bottom: 1rem;
+      translate: none;
+    }
+  }
+</style>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lb]');
+  if (dlg) {
+    const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const cap = dlg.querySelector<HTMLElement>('[data-lb-cap]')!;
+    let group: HTMLAnchorElement[] = [];
+    let idx = 0;
+
+    const show = (i: number) => {
+      idx = (i + group.length) % group.length;
+      const a = group[idx];
+      img.src = a.href;
+      img.alt = a.dataset.caption ?? '';
+      cap.textContent = a.dataset.caption ?? '';
+      dlg.querySelectorAll<HTMLElement>('.lb__prev, .lb__next').forEach((b) => (b.hidden = group.length < 2));
+    };
+
+    document.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-lightbox]');
+      if (!a) return;
+      e.preventDefault();
+      group = [...document.querySelectorAll<HTMLAnchorElement>(`a[data-lightbox="${a.dataset.lightbox}"]`)].filter(
+        (x) => x.offsetParent !== null,
+      );
+      show(group.indexOf(a));
+      dlg.showModal();
+    });
+    dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());
+    dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(idx - 1));
+    dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(idx + 1));
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg || (e.target as HTMLElement).tagName === 'FIGURE') dlg.close();
+    });
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(idx - 1);
+      if (e.key === 'ArrowRight') show(idx + 1);
+    });
+  }
+</script>

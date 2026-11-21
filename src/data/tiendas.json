@@ -1,0 +1,56 @@
+[
+  {
+    "nombre": "Arcade Mayhem Juanito",
+    "plataforma": "Steam (Windows)",
+    "url": "https://store.steampowered.com/app/617440/",
+    "precio": "USD 5,79",
+    "nota": "El juego completo: más de 80 niveles, 8 mundos, co-op local y 81 logros. También hay un paquete \"Commercial License\" a USD 9,99."
+  },
+  {
+    "nombre": "Juanito Arcade Mayhem – Soundtrack",
+    "plataforma": "Steam (DLC)",
+    "url": "https://store.steampowered.com/app/684240/",
+    "precio": "USD 2,99",
+    "nota": "Los 13 temas chiptune de Mariano Guerino."
+  },
+  {
+    "nombre": "Juanito Arcade Mayhem – Artbook",
+    "plataforma": "Steam (DLC)",
+    "url": "https://store.steampowered.com/app/684241/",
+    "precio": "USD 1,99",
+    "nota": "El arte del juego: personajes, clonocélulas y mundos."
+  },
+  {
+    "nombre": "Juanito Arcade Mayhem – The Animation",
+    "plataforma": "Steam (DLC)",
+    "url": "https://store.steampowered.com/app/684290/",
+    "precio": "USD 0,99",
+    "nota": "El origen de Juanito como protagonista de una película animada y su salto al videojuego."
+  },
+  {
+    "nombre": "Juanito Arcade Mayhem – The Art Edition",
+    "plataforma": "Steam (bundle)",
+    "url": "https://store.steampowered.com/app/617440/",
+    "precio": "USD 10,58",
+    "nota": "Juego más los tres DLC. Se compra desde la página del juego en Steam."
+  },
+  {
+    "nombre": "Arcade Mayhem Shooter",
+    "plataforma": "App Store (iPhone y iPad)",
+    "url": "https://apps.apple.com/us/app/arcade-mayhem-shooter/id937951287",
+    "precio": "Gratis (con compras dentro de la app)",
+    "nota": "4,6 estrellas sobre 455 valoraciones. Última versión: 3.7.3 (diciembre de 2019)."
+  },
+  {
+    "nombre": "Arcade Mayhem Shooter",
+    "plataforma": "Google Play (Android)",
+    "url": "https://play.google.com/store/apps/details?id=air.com.gameever.juanitoarcade",
+    "precio": "Gratis",
+    "nota": "La versión que llegó a las 100 mil descargas."
+  },
+  {
+    "nombre": "Juanito Arcade Mayhem",
+    "plataforma": "Fanatical (clave de Steam)",
+    "url": "https://www.fanatical.com/en/game/juanito-arcade-mayhem"
+  }
+]

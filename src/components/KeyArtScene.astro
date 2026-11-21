@@ -1,0 +1,440 @@
+---
+/**
+ * Hero de la home: la key art BG_Main_v6 desarmada en capas para parallax.
+ * Posiciones: src/assets/hero/layers.json (generado por `npm run assets -- hero`).
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import manifest from '../assets/hero/layers.json';
+import logo from '../assets/logo/logo-pintado.png';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/hero/**/*.png', { eager: true });
+const img = (name: string) => files[`../assets/hero/${name}.png`].default;
+
+const { w: W, h: H } = manifest.canvas;
+type LayerKey = keyof typeof manifest.layers;
+
+/**
+ * Orden de apilado = el del PSD (atrás → adelante).
+ * depth: cuánto se mueve con el mouse/scroll. float: animación idle.
+ */
+const stack: { key: LayerKey; depth: number; float?: 'clono' | 'shadow' | 'gluk' | 'juanito'; blend?: string; cls?: string }[] = [
+  { key: 'bg', depth: 0.12 },
+  { key: 'cables-far', depth: 0.25 },
+  { key: 'cables-near', depth: 0.45 },
+  { key: 'mono', depth: 0.3, cls: 'is-holo' },
+  { key: 'clonos/somb-clono-at-1', depth: 0.42, float: 'shadow' },
+  { key: 'clonos/somb-clono-at-2', depth: 0.5, float: 'shadow' },
+  { key: 'clonos/clono-at-1', depth: 0.42, float: 'clono' },
+  { key: 'clonos/clono-at-2', depth: 0.5, float: 'clono' },
+  { key: 'clonos/clono-at-3', depth: 0.35, float: 'clono' },
+  { key: 'clonos/clono-caracol', depth: 0.55, float: 'clono' },
+  { key: 'clonos/clono-moco', depth: 0.6, float: 'clono' },
+  { key: 'clonos/clono-escupe', depth: 0.75, float: 'clono' },
+  { key: 'clonos/clono-explota', depth: 0.9, float: 'clono' },
+  { key: 'juanito', depth: 0.8, float: 'juanito', cls: 'is-juanito' },
+  { key: 'gluk', depth: 0.65, float: 'gluk', cls: 'is-gluk' },
+  { key: 'light-front', depth: 1.05, blend: 'screen', cls: 'is-light' },
+];
+
+const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(4)}%`;
+---
+
+<section class="hero" aria-label="Juanito Arcade Mayhem">
+  <div class="hero__stage" data-stage>
+    {
+      stack.map(({ key, depth, float, blend, cls }) => {
+        const m = manifest.layers[key];
+        const share = m.w / W; // fracción del ancho del lienzo
+        return (
+          <div
+            class:list={['layer', cls]}
+            data-layer={key}
+            data-depth={depth}
+            style={`left:${pct(m.x, W)};top:${pct(m.y, H)};width:${pct(m.w, W)};${blend ? `mix-blend-mode:${blend};` : ''}`}
+          >
+            <div class="layer__intro">
+            <div class="layer__mouse">
+              <Image
+                src={img(key)}
+                alt=""
+                data-float={float}
+                widths={[480, 960, 1440, 2160, 2880].filter((x) => x <= m.w * 1.5)}
+                sizes={`(max-aspect-ratio: 4/5) ${Math.round(share * 230)}vw, ${Math.round(share * 110)}vw`}
+                loading="eager"
+                fetchpriority={key === 'bg' ? 'high' : 'auto'}
+                format="webp"
+                quality={82}
+              />
+            </div>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div class="hero__fx" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <h1 class="hero__logo" data-logo>
+      <Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="(max-aspect-ratio: 4/5) 88vw, 36vw" loading="eager" fetchpriority="high" />
+    </h1>
+    <p class="hero__tagline" data-tagline>
+      Unas clonocélulas del espacio infectaron los videojuegos clásicos.<br />
+      <strong>Un chico en pijama tiene que salvarlos.</strong>
+    </p>
+    <div class="hero__cta" data-cta>
+      <a class="btn btn--primary" href="#juego">Conocé el juego</a>
+      <a class="btn" href="#historia">La historia</a>
+    </div>
+    <div class="hero__scroll" aria-hidden="true" data-scrollhint>
+      <span>Scroll</span>
+      <i></i>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* El lienzo 16:9 cubre el viewport (como background-size: cover). */
+  .hero__stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, calc(100svh * 16 / 9));
+    aspect-ratio: 16 / 9;
+    translate: -50% -50%;
+    scale: 1.06; /* margen para que el parallax no muestre bordes */
+    transform-origin: 40% 60%;
+  }
+
+  /* En pantallas verticales la escena va abajo y el espacio queda arriba. */
+  @media (max-aspect-ratio: 4/5) {
+    .hero__stage {
+      width: 230vw;
+      top: auto;
+      bottom: -2%;
+      translate: -40% 0;
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    }
+  }
+
+  .layer {
+    position: absolute;
+    will-change: transform;
+  }
+  .layer__intro,
+  .layer__mouse,
+  .layer img {
+    width: 100%;
+    height: auto;
+  }
+  .layer img {
+    will-change: transform;
+  }
+
+  .is-holo img {
+    animation: holo 4s steps(1) infinite;
+  }
+  @keyframes holo {
+    0%, 100% { opacity: 1; }
+    47% { opacity: 0.75; }
+    48% { opacity: 1; }
+    74% { opacity: 0.85; }
+    75% { opacity: 1; }
+    76% { opacity: 0.6; }
+    77% { opacity: 1; }
+  }
+
+  /* Scanlines CRT + viñeta */
+  .hero__fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.16) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgb(0 10 16 / 0.75) 100%);
+    mix-blend-mode: multiply;
+  }
+  .hero::after {
+    /* fundido hacia el resto de la página */
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 22%;
+    background: linear-gradient(transparent, var(--deep));
+    pointer-events: none;
+  }
+
+  .hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero__content > * {
+    pointer-events: auto;
+  }
+
+  .hero__logo {
+    position: absolute;
+    left: 43%;
+    top: 5%;
+    width: min(36vw, 680px);
+    margin: 0;
+    filter: drop-shadow(0 0.4vw 0 rgb(0 20 28 / 0.6)) drop-shadow(0 0 2.2vw rgb(44 224 108 / 0.35));
+  }
+  .hero__logo img {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero__tagline {
+    position: absolute;
+    right: 4vw;
+    bottom: 22%;
+    max-width: 30rem;
+    margin: 0;
+    text-align: right;
+    font-size: clamp(1rem, 1.3vw, 1.35rem);
+    line-height: 1.45;
+    color: var(--ink);
+    text-shadow: 0 2px 12px rgb(0 0 0 / 0.8);
+  }
+  .hero__tagline strong {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 1.3em;
+    color: var(--lime);
+    text-shadow: var(--glow-green);
+  }
+
+  .hero__cta {
+    position: absolute;
+    right: 4vw;
+    bottom: 11%;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .btn {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 0.85em 1.3em;
+    border: 2px solid rgb(44 224 108 / 0.7);
+    background: rgb(0 28 42 / 0.65);
+    backdrop-filter: blur(6px);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.4), 0 0 18px rgb(44 224 108 / 0.2);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.4), 0 0 26px rgb(44 224 108 / 0.55);
+  }
+  .btn--primary {
+    color: var(--night);
+    background: linear-gradient(var(--lime), var(--green-neon));
+    border-color: var(--lime);
+  }
+
+  .hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 3%;
+    z-index: 2;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .hero__scroll i {
+    width: 14px;
+    height: 14px;
+    border-right: 2px solid var(--green-neon);
+    border-bottom: 2px solid var(--green-neon);
+    rotate: 45deg;
+    animation: nudge 1.6s ease-in-out infinite;
+  }
+  @keyframes nudge {
+    50% { translate: 0 6px; }
+  }
+
+  @media (max-aspect-ratio: 4/5) {
+    .hero__logo {
+      left: 50%;
+      top: 9%;
+      width: 88vw;
+      translate: -50% 0;
+    }
+    .hero__tagline {
+      left: 6vw;
+      right: 6vw;
+      top: calc(9% + 30vw);
+      bottom: auto;
+      max-width: none;
+      text-align: center;
+      font-size: 1rem;
+    }
+    .hero__cta {
+      left: 50%;
+      right: auto;
+      bottom: 9%;
+      translate: -50% 0;
+    }
+    .btn {
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    .hero__scroll {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-holo img,
+    .hero__scroll i {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const hero = document.querySelector<HTMLElement>('.hero')!;
+  const layers = [...hero.querySelectorAll<HTMLElement>('.layer')];
+  const byKey = (k: string) => hero.querySelector<HTMLElement>(`[data-layer="${k}"]`)!;
+  // Cada capa: .layer (scroll) > .layer__intro (entrada) > .layer__mouse (mouse) > img (idle)
+  const ib = (k: string) => byKey(k).querySelector<HTMLElement>('.layer__intro')!;
+  const clonoLayers = layers.filter((l) => l.dataset.layer!.startsWith('clonos/'));
+  const content = hero.querySelector<HTMLElement>('.hero__content')!;
+  const logo = hero.querySelector<HTMLElement>('[data-logo]')!;
+  const logoImg = logo.querySelector('img')!;
+  const tagline = hero.querySelector<HTMLElement>('[data-tagline]')!;
+  const cta = hero.querySelector<HTMLElement>('[data-cta]')!;
+  const hint = hero.querySelector<HTMLElement>('[data-scrollhint]')!;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  if (!reduce) {
+    // ---------------------------------------------------------- entrada
+    // La entrada arranca cuando las capas grandes están decodificadas (o a los 2,5 s).
+    const intro = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+    const keyImgs = ['bg', 'juanito', 'gluk'].map((k) => byKey(k).querySelector('img')!);
+    Promise.race([
+      Promise.all(keyImgs.map((i) => i.decode().catch(() => {}))),
+      new Promise((r) => setTimeout(r, 2500)),
+    ]).then(() => intro.play());
+    intro
+      .from(ib('bg'), { scale: 1.18, opacity: 0, duration: 1.6, ease: 'power2.out' })
+      .from([ib('cables-far'), ib('cables-near')], { yPercent: -40, opacity: 0, duration: 1.2, stagger: 0.1 }, 0.2)
+      .from(ib('mono'), { opacity: 0, scale: 0.85, duration: 0.9 }, 0.5)
+      .from(
+        clonoLayers.map((l) => l.querySelector('.layer__intro')),
+        { scale: 0, opacity: 0, duration: 0.8, stagger: { each: 0.06, from: 'random' }, ease: 'back.out(2.2)' },
+        0.6,
+      )
+      .from(ib('juanito'), { xPercent: -70, opacity: 0, duration: 1.1, ease: 'power4.out' }, 0.75)
+      .from(ib('gluk'), { xPercent: 90, yPercent: -40, rotate: 18, opacity: 0, duration: 1.2, ease: 'power4.out' }, 0.9)
+      .from(ib('light-front'), { opacity: 0, duration: 1.2 }, 1.1)
+      .from(logoImg, { yPercent: -160, scale: 0.6, opacity: 0, duration: 1, ease: 'back.out(1.6)' }, 1.2)
+      .to(logoImg, { keyframes: glitchFrames(), duration: 0.45, ease: 'none' }, 2.15)
+      .from(tagline, { y: 24, opacity: 0, duration: 0.8 }, 1.7)
+      .from(cta.children, { y: 20, opacity: 0, duration: 0.6, stagger: 0.12 }, 1.9)
+      .from(hint, { opacity: 0, duration: 0.8 }, 2.4);
+
+    // ---------------------------------------------------- loops "idle"
+    hero.querySelectorAll<HTMLElement>('[data-float]').forEach((el, i) => {
+      const kind = el.dataset.float;
+      const r = (a: number, b: number) => gsap.utils.random(a, b);
+      if (kind === 'clono') {
+        gsap.to(el, { y: r(-22, -10), rotate: r(-7, 7), duration: r(2.2, 3.6), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: i * 0.13 });
+      } else if (kind === 'shadow') {
+        gsap.to(el, { scale: 0.86, opacity: 0.7, duration: r(2.2, 3.6), ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      } else if (kind === 'gluk') {
+        gsap.to(el, { y: -10, rotate: -1.5, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      } else if (kind === 'juanito') {
+        gsap.to(el, { scaleY: 1.012, transformOrigin: '50% 100%', duration: 1.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      }
+    });
+    gsap.to(byKey('light-front').querySelector('img'), { opacity: 0.65, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.4 });
+    gsap.to(logo, { y: -6, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.6 });
+
+    // ------------------------------------------- parallax con el mouse
+    if (finePointer) {
+      const movers = layers.map((l) => {
+        const inner = l.querySelector<HTMLElement>('.layer__mouse')!;
+        const d = Number(l.dataset.depth);
+        return {
+          d,
+          x: gsap.quickTo(inner, 'x', { duration: 0.9, ease: 'power3.out' }),
+          y: gsap.quickTo(inner, 'y', { duration: 0.9, ease: 'power3.out' }),
+        };
+      });
+      const logoX = gsap.quickTo(logo, 'x', { duration: 1.2, ease: 'power3.out' });
+      hero.addEventListener('pointermove', (e) => {
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        for (const m of movers) {
+          m.x(-nx * m.d * 60);
+          m.y(-ny * m.d * 34);
+        }
+        logoX(nx * 14);
+      });
+    }
+
+    // ------------------------------------- scroll: la escena se "desarma"
+    const out = gsap.timeline({
+      scrollTrigger: { trigger: hero, start: 'top top', end: '+=90%', scrub: 0.6, pin: true },
+      defaults: { ease: 'none' },
+    });
+    out
+      .fromTo(byKey('bg'), { scale: 1, filter: 'brightness(1)' }, { scale: 1.12, filter: 'brightness(0.45)' }, 0)
+      .to([byKey('cables-far'), byKey('mono')], { yPercent: -30, opacity: 0.2 }, 0)
+      .to(byKey('cables-near'), { xPercent: -30, yPercent: -60, opacity: 0 }, 0)
+      .to(byKey('juanito'), { xPercent: -45, yPercent: 10, scale: 1.35 }, 0)
+      .to(byKey('gluk'), { xPercent: 70, yPercent: -25, scale: 1.25 }, 0)
+      .to(byKey('light-front'), { opacity: 0 }, 0)
+      .to(logo, { yPercent: -120 }, 0)
+      .to(content, { y: 60, opacity: 0 }, 0);
+    clonoLayers.forEach((l) => {
+        const box = l.getBoundingClientRect();
+        const cx = box.left + box.width / 2 - window.innerWidth / 2;
+        const cy = box.top + box.height / 2 - window.innerHeight / 2;
+        // las clonocélulas salen disparadas hacia afuera, según su posición
+        out.to(l, { x: cx * 0.9, y: cy * 0.9, scale: 1.6, rotate: gsap.utils.random(-40, 40), opacity: 0 }, 0);
+      });
+  }
+
+  /** Un "glitch" RGB corto sobre el logo. */
+  function glitchFrames() {
+    const f = (x: number, a: number) => ({
+      x,
+      filter: `drop-shadow(${a}px 0 0 rgba(255,0,93,.85)) drop-shadow(${-a}px 0 0 rgba(0,240,255,.85)) drop-shadow(0 0 2.2vw rgba(44,224,108,.35))`,
+    });
+    return [f(-6, 5), f(5, -4), f(-2, 3), f(3, -6), f(0, 0), { x: 0, filter: '' }];
+  }
+</script>

@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "grande",
+    "nombre": "Clonocélula Grande",
+    "original": "Clonocell Big Size",
+    "descripcion": "Cuanto más grandes, más vivas. Si le disparás se divide, así que conviene liquidarla antes de que ponga huevos.",
+    "img": "juego/clonos/grande.png"
+  },
+  {
+    "slug": "mediana",
+    "nombre": "Clonocélula Mediana",
+    "original": "Clonocell Medium",
+    "descripcion": "El término medio: a los tiros se parte en chiquitas, y si la dejás tranquila, crece.",
+    "img": "juego/clonos/mediana.png"
+  },
+  {
+    "slug": "chica",
+    "nombre": "Clonocélula Chica",
+    "original": "Clonocell Small",
+    "descripcion": "La más chiquita y la más fácil de reventar. El problema es que nunca viene sola.",
+    "img": "juego/clonos/chica.png"
+  },
+  {
+    "slug": "general",
+    "nombre": "Clonocélula General",
+    "original": "Clonocell General",
+    "descripcion": "Gorra militar y aires de mando: la que se cree jefa de la invasión.",
+    "img": "juego/clonos/general.png"
+  },
+  {
+    "slug": "soldado",
+    "nombre": "Clonocélula Soldado",
+    "original": "Clonocell Soldier",
+    "descripcion": "Tropa rasa con casco de pincho, lista para marchar adonde la mande la General.",
+    "img": "juego/clonos/soldado.png"
+  },
+  {
+    "slug": "madre",
+    "nombre": "Clonocélula Madre",
+    "original": "Clonocell Mother",
+    "descripcion": "La gigante de la familia. No para de largar clonocélulas nuevas, así que es prioridad número uno.",
+    "img": "juego/clonos/madre.png"
+  },
+  {
+    "slug": "tiradora",
+    "nombre": "Clonocélula Tiradora",
+    "original": "Clonocell Shooting",
+    "descripcion": "No se banca quedarse quieta: escupe gotas de baba para todos lados.",
+    "img": "juego/clonos/tiradora.png"
+  },
+  {
+    "slug": "escudo",
+    "nombre": "Clonocélula Escudo",
+    "original": "Clonocell Shield",
+    "descripcion": "La única azul de la familia, cerrada sobre sí misma como una coraza.",
+    "img": "juego/clonos/escudo.png"
+  },
+  {
+    "slug": "explosiva",
+    "nombre": "Clonocélula Explosiva",
+    "original": "Clonocell Explode",
+    "descripcion": "Cuando revienta, estalla en una lluvia de esferitas verdes. Mejor no estar cerca.",
+    "img": "juego/clonos/explosiva.png"
+  },
+  {
+    "slug": "babosa",
+    "nombre": "Clonocélula Babosa",
+    "original": "Clonocell Ooze",
+    "descripcion": "Va dejando un charco de baba por donde pasa. Asquerosa, pero inofensiva no es.",
+    "img": "juego/clonos/babosa.png"
+  }
+]

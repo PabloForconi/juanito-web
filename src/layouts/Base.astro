@@ -1,0 +1,100 @@
+---
+import { u } from '../lib/url';
+import '@fontsource-variable/rubik';
+import '@fontsource/russo-one/400.css';
+import '@fontsource/chakra-petch/500.css';
+import '@fontsource/chakra-petch/600.css';
+import '@fontsource/chakra-petch/700.css';
+import '@fontsource-variable/nunito';
+import '../styles/global.css';
+import Starfield from '../components/Starfield.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const SITE = 'Juanito Arcade Mayhem';
+const { title, description = 'El archivo de Juanito Arcade Mayhem: el juego, su historia, la prensa, los videos, el arte y la comunidad.' } =
+  Astro.props;
+const fullTitle = title ? `${title} · ${SITE}` : `${SITE} · El archivo`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#05090d" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+    <title>{fullTitle}</title>
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <Starfield />
+    <Nav />
+    <div id="contenido">
+      <slot />
+    </div>
+    <Footer />
+    <script>
+      // Aparición de bloques [data-reveal]: IntersectionObserver + transición CSS
+      // (liviano, sin librerías). Scroll nativo del navegador, sin smooth scroll.
+      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            let i = 0;
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const el = e.target as HTMLElement;
+              el.style.transitionDelay = `${Math.min(i++, 5) * 60}ms`;
+              el.classList.add('is-in');
+              io.unobserve(el);
+            }
+          },
+          { rootMargin: '0px 0px -6% 0px' },
+        );
+        els.forEach((el) => io.observe(el));
+        // Lo que ya está a la vista (o arriba, si se entró con un #ancla) aparece
+        // sin esperar al observer; en pestañas en segundo plano el observer se demora.
+        const showVisible = () =>
+          els.forEach((el) => {
+            if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < window.innerHeight) {
+              el.classList.add('is-in');
+              io.unobserve(el);
+            }
+          });
+        window.addEventListener('load', showVisible);
+        window.addEventListener('hashchange', showVisible);
+        setTimeout(showVisible, 1200);
+      } else {
+        els.forEach((el) => el.classList.add('is-in'));
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--lime);
+    color: var(--night);
+    font-family: var(--font-ui);
+    font-weight: 700;
+  }
+  .skip:focus {
+    top: 1rem;
+  }
+</style>

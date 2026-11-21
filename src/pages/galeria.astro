@@ -1,0 +1,190 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Gallery from '../components/Gallery.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { maybeAsset } from '../lib/assets';
+import { fecha } from '../lib/format';
+import galeriaData from '../data/galeria.json';
+import fanartData from '../data/fanart.json';
+import type { ItemGaleria, FanArt } from '../data/types';
+
+const galeria = galeriaData as ItemGaleria[];
+const fanart = fanartData as FanArt[];
+
+const cats: { id: ItemGaleria['categoria']; titulo: string; txt: string }[] = [
+  { id: 'historia', titulo: 'Del archivo', txt: 'La web «Coming soon» de 2014, las estadísticas de Greenlight y otras piezas del camino.' },
+  { id: 'afiche', titulo: 'Afiches', txt: 'Pósters históricos, del retro de cine clase B al ASCII.' },
+  { id: 'concept', titulo: 'Concept art y bocetos', txt: '' },
+  { id: 'fondos', titulo: 'Fondos', txt: '' },
+  { id: 'arcade', titulo: 'El gabinete arcade', txt: 'El mueble verde que recorrió expos desde 2015, y su versión slim de 2022.' },
+  { id: 'merch', titulo: 'Merch', txt: 'Pósters A3, remeras y stickers.' },
+  { id: 'promo', titulo: 'Piezas de difusión', txt: 'Fechas especiales, hitos y campañas en redes.' },
+];
+const presentes = cats.filter((c) => galeria.some((g) => g.categoria === c.id));
+const artbook = galeria.filter((g) => g.categoria === 'artbook');
+const portadaArtbook = maybeAsset(artbook[0]?.img);
+---
+
+<Base title="Galería" description="Arte, afiches, merch, el gabinete arcade y el fan art de Juanito Arcade Mayhem.">
+  <PageHeader eyebrow="Galería" title='Arte, afiches <span class="hl">y fan art</span>' lead="Tocá cualquier imagen para verla grande. Con las flechas del teclado pasás a la siguiente.">
+    <nav class="jump" aria-label="Categorías">
+      {presentes.map((c) => <a href={`#${c.id}`}>{c.titulo}</a>)}
+      {artbook.length > 0 && <a href="#artbook">Artbook</a>}
+      <a href="#fanart">Fan art</a>
+    </nav>
+  </PageHeader>
+
+  {
+    presentes.map((c) => (
+      <section class="section--tight" id={c.id}>
+        <div class="container">
+          <div data-reveal>
+            <h2 class="h2">{c.titulo}</h2>
+            {c.txt && <p class="lead">{c.txt}</p>}
+          </div>
+          <div class="gap">
+            <Gallery
+              group={c.id}
+              items={galeria
+                .filter((g) => g.categoria === c.id)
+                .map((g) => ({ img: g.img, caption: g.titulo, sub: [fecha(g.fecha), g.descripcion].filter(Boolean).join(' · ') || undefined }))}
+              ratio={c.id === 'afiche' ? '3/4' : '4/3'}
+            />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  {
+    artbook.length > 0 && (
+      <section class="section" id="artbook">
+        <div class="container artbook">
+          <div class="book" data-reveal aria-hidden="true">
+            <div class="book__cover">{portadaArtbook && <Image src={portadaArtbook} alt="" widths={[400, 700]} sizes="320px" />}</div>
+            <div class="book__pages" />
+          </div>
+          <div data-reveal>
+            <p class="eyebrow">Edición de colección</p>
+            <h2 class="h2">
+              The Art Book <span class="hl">de Juanito</span>
+            </h2>
+            <p class="lead">
+              Bocetos, personajes, mundos y clonocélulas de todas las generaciones. Acá van algunas páginas de muestra; el libro completo es
+              un DLC de Steam.
+            </p>
+            <a class="btn btn--primary" href="https://store.steampowered.com/app/684241/" target="_blank" rel="noopener">
+              Ver en Steam
+            </a>
+          </div>
+        </div>
+        <div class="container gap">
+          <Gallery group="artbook" items={artbook.slice(1).map((g) => ({ img: g.img, caption: g.titulo }))} ratio="auto" fit="contain" />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section" id="fanart">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Fan art</p>
+        <h2 class="h2">La comunidad <span class="hl">lo dibujó</span></h2>
+        <p class="lead">
+          {fanart.length} dibujos, casi todos del Concurso Fan-Art de 2017. Gracias a cada persona que se tomó el trabajo de dibujar a Juanito.
+        </p>
+      </div>
+      <div class="gap">
+        <Gallery
+          group="fanart"
+          min="200px"
+          ratio="1"
+          items={fanart.map((f) => ({ img: f.img, caption: f.autor, sub: [f.titulo, f.origen].filter(Boolean).join(' · ') || undefined }))}
+        />
+      </div>
+    </div>
+  </section>
+  <Lightbox />
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+  }
+  .jump a {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .jump a:hover {
+    color: var(--lime);
+    background: rgb(255 255 255 / 0.07);
+  }
+  section[id] {
+    scroll-margin-top: 100px;
+  }
+  .lead {
+    margin: 0.6rem 0 0;
+  }
+  .gap {
+    margin-top: 1.5rem;
+  }
+  .artbook {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .artbook .btn {
+    margin-top: 1.4rem;
+  }
+  .book {
+    position: relative;
+    perspective: 1400px;
+    width: 300px;
+    height: 400px;
+    margin-inline: auto;
+  }
+  .book__cover,
+  .book__pages {
+    position: absolute;
+    inset: 0;
+  }
+  .book__pages {
+    background: repeating-linear-gradient(90deg, #e9f4ee 0 2px, #cfdcd5 2px 3px);
+    translate: 14px 8px;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.8);
+  }
+  .book__cover {
+    z-index: 1;
+    transform-origin: left center;
+    transform: rotateY(-18deg);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 10px 20px 50px -10px rgb(0 0 0 / 0.8), 0 0 40px rgb(44 224 108 / 0.25);
+    background: var(--night);
+    overflow: hidden;
+  }
+  .book:hover .book__cover {
+    transform: rotateY(-38deg);
+  }
+  .book__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 800px) {
+    .artbook {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

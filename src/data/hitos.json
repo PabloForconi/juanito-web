@@ -1,0 +1,269 @@
+[
+  {
+    "fecha": "2011-03",
+    "titulo": "Primeros prototipos en Flash",
+    "texto": "Antes de tener nombre definitivo, Juanito ya corría en prototipos de Flash: un pibe, un perro, armas y fondos de barrio.",
+    "categoria": "origen"
+  },
+  {
+    "fecha": "2011-04",
+    "titulo": "Logo original y animatic del opening",
+    "texto": "Nace el logo animado \"Juanito vs. las Clonocélulas Mutantes del Espacio Exterior\" y un animatic de 57 segundos en lápiz azul: la casa, Gluk en su platillo y Juanito.",
+    "categoria": "origen"
+  },
+  {
+    "fecha": "2011-05-12",
+    "titulo": "El brief original",
+    "texto": "Un marcianito histérico despierta a Juanito, le pone una olla de casco, le da una pistola espacial y lo patea por la ventana. Un shooter estilo Pang en la calle del barrio, con un perro que desentierra power-ups.",
+    "categoria": "origen"
+  },
+  {
+    "fecha": "2011-07",
+    "titulo": "El pitch book",
+    "texto": "Trece páginas para vender \"Juanito vs. las estúpidas clonocélulas…\": sinopsis, personajes (Juanito, Gluk y el perro Dubi), fondos y una panorámica enorme de la ciudad.",
+    "categoria": "origen"
+  },
+  {
+    "fecha": "2012-10-24",
+    "titulo": "Juanito, la película",
+    "texto": "El proyecto se piensa como largometraje animado de 90 minutos: Juanito tiene 14 años, es \"fóbico a la ducha y a la sopa\" y bate el récord de Space Invaders tras casi 24 horas. Ese año salen los pósters vintage \"Dubi · Juanito · Gluk\".",
+    "categoria": "origen"
+  },
+  {
+    "fecha": "2013-07-08",
+    "titulo": "High Concept para el INCAA",
+    "texto": "Se presenta un High Concept de 30 páginas a un concurso del INCAA: película animada más videojuego, con sinopsis, mecánicas y equipo.",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2013-09",
+    "titulo": "El prototipo de iPhone",
+    "texto": "Primer prototipo móvil: clonocélulas en tres tamaños y los primeros mundos homenaje (Arkanoid, Donkey Kong, Kung-Fu, Pac-Man, Snow Bros, Tetris y Wonder Boy).",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2014-03",
+    "titulo": "La web \"Coming soon\"",
+    "texto": "Una landing negra con un gabinete arcade solitario en niebla verde: \"COMING SOON / PRÓXIMAMENTE / EM BREVE\". La web 2014 en todo su esplendor.",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2014-04",
+    "titulo": "Pill-Man Teaser",
+    "texto": "Juanito irrumpe en la pantalla de attract de un Pac-Man, todo se pone verde glitch y llegan las clonocélulas. El primer teaser público.",
+    "categoria": "desarrollo",
+    "link": "https://www.youtube.com/watch?v=aHZYx_um7gE"
+  },
+  {
+    "fecha": "2014-05-05",
+    "titulo": "Logo \"Arcade Mayhem\"",
+    "texto": "Después de varias pruebas, Scuzzo entrega el logo final. Chau \"Clonocélulas Mutantes\", hola \"Juanito Arcade Mayhem\".",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2014-05-10",
+    "titulo": "Primera expo: Meet The Game",
+    "texto": "En el Fusion Bar de la calle Florida, Juanito se juega por primera vez en público, en tablets y una notebook con joystick.",
+    "categoria": "evento"
+  },
+  {
+    "fecha": "2014-07",
+    "titulo": "Teaser 3D \"Arcade Life\" y gameplay 2014",
+    "texto": "Un teaser cinemático en 3D (galpón de arcades abandonados, satélite, rayo verde, la máquina de Juanito que se enciende) promete \"Coming soon November 2014\". También se arma el primer trailer de gameplay de la versión mobile.",
+    "categoria": "desarrollo",
+    "link": "https://www.youtube.com/watch?v=SEbDL5XdTiE"
+  },
+  {
+    "fecha": "2014-11-16",
+    "titulo": "Meet The Game 2: \"Juanito Game\"",
+    "texto": "En el Centro Cultural San Martín, con trofeo en forma de cartucho incluido. Pablo Forconi le habla a Nivel Xtremo del juego, que todavía se llamaba \"Juanito Game\". Ese mes también hay stand en EVA 2014.",
+    "categoria": "evento",
+    "link": "https://www.youtube.com/watch?v=ec8LsrSMUT8"
+  },
+  {
+    "fecha": "2015-04",
+    "titulo": "Nace el gabinete arcade",
+    "texto": "Juanito tiene su propio mueble arcade, verde y con marquesina. La primera foto fechada es del 22 de abril: \"Sobreviviste 13:32\".",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2015-04-23",
+    "titulo": "Feria del Libro",
+    "texto": "El arcade debuta en la Feria del Libro de Buenos Aires, en el stand de una comiquería y rodeado de peluches. \"Vení a jugar\".",
+    "categoria": "evento"
+  },
+  {
+    "fecha": "2015-07",
+    "titulo": "Tecnópolis: Ar.Cade",
+    "texto": "Juanito entra al catálogo jugable de videojuegos argentinos de Tecnópolis. Chicos haciendo fila para salvar los clásicos.",
+    "categoria": "evento",
+    "link": "https://www.youtube.com/watch?v=bEgnlkaSHkw"
+  },
+  {
+    "fecha": "2015-09",
+    "titulo": "Gira arcade 2015",
+    "texto": "MICA, Bit Bang Fest, Animacity, Meet The Game 3 y las fiestas Muere Monstruo Muere: el gabinete de Juanito no se pierde una.",
+    "categoria": "evento"
+  },
+  {
+    "fecha": "2016-04-30",
+    "titulo": "Geek Out! Fest 2.0",
+    "texto": "Otra vez \"vení a jugar\". Dato de color: entre los sponsors figura El Dragón Azul, la editorial que seis años después haría el juego de mesa.",
+    "categoria": "evento"
+  },
+  {
+    "fecha": "2016-11",
+    "titulo": "Test Fest y el giro a PC",
+    "texto": "Sesión de testeo con público (\"¡Gracias por ser parte del Testing de Juanito!\"), EVA 2016 y primera entrevista en radio. Hacia diciembre, el foco pasa a la versión de PC.",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2017-03-06",
+    "titulo": "Steam Greenlight y Taringa!",
+    "texto": "Arranca la campaña de Greenlight y Joaquín Ibarlucía la cuenta en Taringa!: \"un juego que hice para Steam!\". El post supera las 13.000 visitas.",
+    "categoria": "comunidad",
+    "link": "http://web.archive.org/web/20181115214148/https://www.taringa.net/posts/juegos/19801005/Juanito-Arcade-Mayhem-un-juego-que-hice-para-Steam.html"
+  },
+  {
+    "fecha": "2017-03-10",
+    "titulo": "1.000 votos \"Sí\" en 4 días",
+    "texto": "Al cuarto día, Greenlight marcaba 1.000 votos a favor (66 %) y el juego iba al 61 % del camino al Top 100. Según el estudio, lo aprobaron en 10 días.",
+    "categoria": "lanzamiento"
+  },
+  {
+    "fecha": "2017-05-06",
+    "titulo": "Clarín y el boom retro",
+    "texto": "Clarín publica \"Boom retro\", sobre los jóvenes que recuperan el espíritu de los fichines.",
+    "categoria": "prensa",
+    "link": "https://www.clarin.com/sociedad/boom-retro-jovenes-recuperan-espiritu-fichines-argentina_0_rkzBkdoJW.html"
+  },
+  {
+    "fecha": "2017-05-18",
+    "titulo": "Fecha confirmada",
+    "texto": "Se anuncia la salida: jueves 3 de agosto. A fin de mes, convocatoria abierta para testear antes del lanzamiento.",
+    "categoria": "lanzamiento"
+  },
+  {
+    "fecha": "2017-06-13",
+    "titulo": "Seleccionado por ADVA",
+    "texto": "Juanito entra en la segunda edición de \"Mi Primer Videojuego Publicado\" de ADVA. El agradecimiento: Juanito jugando al Pong en la tele.",
+    "categoria": "desarrollo",
+    "link": "https://culturageek.com.ar/juanito-arcade-mayhem-adva/"
+  },
+  {
+    "fecha": "2017-06-19",
+    "titulo": "Concurso Fan-Art",
+    "texto": "\"Queremos ver a Juanito en tu estilo\": en tres semanas llegan decenas de dibujos, de pósters synthwave a pixel art.",
+    "categoria": "comunidad"
+  },
+  {
+    "fecha": "2017-07-17",
+    "titulo": "Infobae: nostalgia ochentosa",
+    "texto": "Infobae presenta el juego como nostalgia ochentosa hecha en Argentina. Días después, en Taringa!, se regalan keys para el lanzamiento.",
+    "categoria": "prensa",
+    "link": "https://www.infobae.com/tecno/2017/07/17/juanito-arcade-mayhem-nostalgia-ochentosa-en-un-videojuego-argentino/"
+  },
+  {
+    "fecha": "2017-08-03",
+    "titulo": "¡Lanzamiento en Steam!",
+    "texto": "Juanito Arcade Mayhem sale en Steam con tres DLC el mismo día: Soundtrack, Artbook y The Animation. La Nación lo celebra esa misma jornada.",
+    "categoria": "lanzamiento",
+    "link": "https://store.steampowered.com/app/617440/"
+  },
+  {
+    "fecha": "2017-08-26",
+    "titulo": "Juanito en la tele",
+    "texto": "TN Tecno le dedica un bloque al \"videojuego argento\". Ese mes también hay radio, streams, Tandil y un rumor de port a Switch que recorrió medios de tres idiomas.",
+    "categoria": "prensa",
+    "link": "https://www.youtube.com/watch?v=D9PvrZi4F4Q"
+  },
+  {
+    "fecha": "2017-08-29",
+    "titulo": "Mandanos tu foto en pijama",
+    "texto": "Concurso en Facebook: foto en pijama a cambio de códigos del juego. Coherencia de marca ante todo.",
+    "categoria": "comunidad"
+  },
+  {
+    "fecha": "2017-10-09",
+    "titulo": "Versión 2.0: co-op",
+    "texto": "Llega el cooperativo en el modo Historia (Gluk es el jugador 2), más portugués de Brasil y chino simplificado.",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2017-10-25",
+    "titulo": "Pijamas de temporada",
+    "texto": "Update de Halloween y después Navidad, con 30 % OFF: Juanito estrena pijamas para cada fecha especial.",
+    "categoria": "desarrollo"
+  },
+  {
+    "fecha": "2018-01",
+    "titulo": "Llega a Android, gratis",
+    "texto": "La versión táctil aterriza en Google Play, gratuita y primero solo para Latinoamérica. Sin dash: con gente probándolo, los controles se complicaban.",
+    "categoria": "lanzamiento",
+    "link": "https://play.google.com/store/apps/details?id=air.com.gameever.juanitoarcade"
+  },
+  {
+    "fecha": "2018-03-16",
+    "titulo": "100 mil descargas",
+    "texto": "\"¡Llegamos a las 100 MIL descargas!\" en Android, a dos meses del lanzamiento móvil.",
+    "categoria": "comunidad"
+  },
+  {
+    "fecha": "2018-08-01",
+    "titulo": "Llega a iOS",
+    "texto": "Arcade Mayhem Shooter sale en el App Store, free-to-play. Pocket Gamer le pone 4 estrellas.",
+    "categoria": "lanzamiento",
+    "link": "https://apps.apple.com/us/app/arcade-mayhem-shooter/id937951287"
+  },
+  {
+    "fecha": "2018-08-10",
+    "titulo": "Juanito cumple su primer añito",
+    "texto": "Fiesta en Belgrano, de 23:30 a 5 de la mañana, para festejar el primer aniversario del lanzamiento.",
+    "categoria": "comunidad"
+  },
+  {
+    "fecha": "2019-12-18",
+    "titulo": "Última actualización",
+    "texto": "Sale la versión 3.7.3 en iOS, la última hasta hoy. El juego sigue disponible en las tiendas.",
+    "categoria": "legado"
+  },
+  {
+    "fecha": "2020-01-30",
+    "titulo": "Fama internacional (pirata)",
+    "texto": "Juanito aparece crackeado en sitios de medio mundo, con sinopsis que inventan \"a bipolar alien manipulator named Gluck\". Si te piratean, llegaste.",
+    "categoria": "legado"
+  },
+  {
+    "fecha": "2022",
+    "titulo": "Juanito Blockits, el juego de mesa",
+    "texto": "El Dragón Azul publica Juanito Blockits, un roll & write diseñado por Alejandra Pini, con licencias en Chile y Alemania. Ese año también se diseña un arcade slim nuevo.",
+    "categoria": "legado",
+    "link": "https://www.eldragonazul.com.ar/juegos/juanito-blockits/"
+  },
+  {
+    "fecha": "2024-04-14",
+    "titulo": "La comunidad lo redescubre",
+    "texto": "Jaba Play sube todos los jefes y el final: 296 mil vistas, el video de Juanito más visto. Días después, Pepe el Mago arranca su serie de let's plays.",
+    "categoria": "comunidad",
+    "link": "https://www.youtube.com/watch?v=02grYTDfZd0"
+  },
+  {
+    "fecha": "2025-10",
+    "titulo": "Clip de Halloween",
+    "texto": "Animación 2D nueva: Juanito con pijama de esqueleto bajo la luna. El personaje sigue dando señales de vida.",
+    "categoria": "legado"
+  },
+  {
+    "fecha": "2026-04-04",
+    "titulo": "Come to Brazil",
+    "texto": "El fan Babaloo publica una animación de Juanito con el meme \"Come to Brazil\". Nueve años después, el pijama sigue viajando.",
+    "categoria": "comunidad",
+    "link": "https://www.youtube.com/watch?v=FLiBY8F4XxI"
+  },
+  {
+    "fecha": "2026-11",
+    "titulo": "Este archivo",
+    "texto": "Todo lo que fue Juanito, junto en un solo lugar: para no olvidarlo y por si algún día vuelve.",
+    "categoria": "legado"
+  }
+]

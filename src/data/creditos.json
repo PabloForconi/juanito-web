@@ -1,0 +1,114 @@
+[
+  {
+    "rol": "Dirección",
+    "nombres": [
+      "Pablo Forconi",
+      "Joaquín Ibarlucía"
+    ]
+  },
+  {
+    "rol": "Producción",
+    "nombres": [
+      "Pablo Forconi"
+    ]
+  },
+  {
+    "rol": "Lead Game Designer",
+    "nombres": [
+      "Joaquín Ibarlucía"
+    ]
+  },
+  {
+    "rol": "Lead Programmer",
+    "nombres": [
+      "Joaquín Ibarlucía"
+    ]
+  },
+  {
+    "rol": "Programación adicional",
+    "nombres": [
+      "Leonardo Fernández Esteberena"
+    ]
+  },
+  {
+    "rol": "Dirección de arte",
+    "nombres": [
+      "Diego Forconi"
+    ]
+  },
+  {
+    "rol": "Lead Animators",
+    "nombres": [
+      "Facundo Friquet",
+      "Diego Forconi"
+    ]
+  },
+  {
+    "rol": "Diseño de personajes y concept art",
+    "nombres": [
+      "Gabriel Rodríguez"
+    ]
+  },
+  {
+    "rol": "Lead Backgrounds",
+    "nombres": [
+      "Lucas Bustos"
+    ]
+  },
+  {
+    "rol": "Lead Tech Artist",
+    "nombres": [
+      "Leonardo Cirius"
+    ]
+  },
+  {
+    "rol": "Logo",
+    "nombres": [
+      "Scuzzo"
+    ]
+  },
+  {
+    "rol": "Música",
+    "nombres": [
+      "Mariano Guerino"
+    ]
+  },
+  {
+    "rol": "Efectos de sonido",
+    "nombres": [
+      "Guillermo Bruno",
+      "Toni Leys",
+      "Mauro Aramburu"
+    ]
+  },
+  {
+    "rol": "Voces",
+    "nombres": [
+      "Felipe de Francisco"
+    ]
+  },
+  {
+    "rol": "Edición de video",
+    "nombres": [
+      "Micaela Lara"
+    ]
+  },
+  {
+    "rol": "Prensa y difusión",
+    "nombres": [
+      "Juan Lomanto",
+      "Alejandro Pro"
+    ]
+  },
+  {
+    "rol": "Agradecimientos",
+    "nombres": [
+      "ADVA y el programa \"Mi Primer Videojuego Publicado\"",
+      "La comunidad de Taringa!",
+      "Los artistas del Concurso Fan-Art 2017",
+      "El Dragón Azul y Alejandra Pini",
+      "Cada persona que jugó en el arcade en una expo",
+      "Y a vos, por salvar los videojuegos"
+    ]
+  }
+]

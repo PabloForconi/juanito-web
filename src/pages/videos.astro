@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import YouTube from '../components/YouTube.astro';
+import { fecha, miles } from '../lib/format';
+import videosData from '../data/videos.json';
+import type { Video } from '../data/types';
+
+const videos = videosData as Video[];
+
+const secciones: { cat: Video['categoria']; titulo: string; txt: string }[] = [
+  { cat: 'oficial', titulo: 'Trailers oficiales', txt: 'Los trailers que hizo el estudio para Steam, Greenlight y mobile.' },
+  {
+    cat: 'animacion',
+    titulo: 'Animación',
+    txt: 'La intro cómic, el ending, el teaser 3D de 2014 y el animatic del film original. Algunos todavía no están publicados: van a aparecer acá.',
+  },
+  { cat: 'making-of', titulo: 'Making of', txt: 'Speed paints y procesos.' },
+  { cat: 'comunidad', titulo: 'La comunidad lo jugó', txt: 'Más de 130 videos de gente de todo el mundo. Estos son algunos de los más vistos.' },
+  { cat: 'resena', titulo: 'Reseñas en video', txt: '' },
+  { cat: 'entrevista', titulo: 'Entrevistas', txt: '' },
+  { cat: 'musica', titulo: 'Música', txt: 'La banda sonora de Mariano Guerino, tema por tema.' },
+];
+---
+
+<Base title="Videos" description="Trailers, animación, gameplays de la comunidad y entrevistas de Juanito Arcade Mayhem.">
+  <PageHeader
+    eyebrow="Videos"
+    title='Trailers, animación <span class="hl">y mucho gameplay</span>'
+    lead="Los videos se cargan recién cuando les das play (y desde youtube-nocookie)."
+  >
+    <nav class="jump" aria-label="Categorías">
+      {secciones.filter((s) => videos.some((v) => v.categoria === s.cat)).map((s) => <a href={`#${s.cat}`}>{s.titulo}</a>)}
+    </nav>
+  </PageHeader>
+
+  {
+    secciones.map((s) => {
+      const list = videos.filter((v) => v.categoria === s.cat);
+      if (!list.length) return null;
+      return (
+        <section class="section--tight" id={s.cat}>
+          <div class="container">
+            <div data-reveal>
+              <h2 class="h2">{s.titulo}</h2>
+              {s.txt && <p class="lead">{s.txt}</p>}
+            </div>
+            <ul class="vids">
+              {list.map((v) => (
+                <li data-reveal>
+                  <YouTube id={v.youtubeId} title={v.titulo} />
+                  <p class="vids__t">{v.titulo}</p>
+                  <p class="vids__m">
+                    {v.canal}
+                    {v.fecha && <> · {fecha(v.fecha)}</>}
+                    {v.vistas && <> · {miles(v.vistas)} vistas</>}
+                  </p>
+                  {v.nota && <p class="vids__n">{v.nota}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      );
+    })
+  }
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+  }
+  .jump a {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .jump a:hover {
+    color: var(--lime);
+    background: rgb(255 255 255 / 0.07);
+  }
+  section[id] {
+    scroll-margin-top: 100px;
+  }
+  .lead {
+    margin: 0.6rem 0 0;
+  }
+  .vids {
+    list-style: none;
+    margin: 1.6rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    gap: 1.2rem;
+  }
+  .vids__t {
+    margin: 0.6rem 0 0;
+    font-family: var(--font-heading);
+  }
+  .vids__m {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-ui);
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+  }
+  .vids__n {
+    margin: 0.3rem 0 0;
+    font-size: 0.9rem;
+    color: var(--ink-dim);
+  }
+</style>

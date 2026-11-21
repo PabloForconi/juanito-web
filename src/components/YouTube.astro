@@ -1,0 +1,165 @@
+---
+/**
+ * Embed liviano de YouTube: muestra la miniatura y carga el iframe
+ * (youtube-nocookie) recién al hacer clic. Sin youtubeId = "próximamente".
+ */
+interface Props {
+  id?: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+{
+  id ? (
+    <div class="yt" data-yt={id} data-title={title}>
+      <button class="yt__btn" type="button" aria-label={`Reproducir: ${title}`}>
+        <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+        <span class="yt__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5 21 12 6 20.5z" /></svg></span>
+      </button>
+    </div>
+  ) : (
+    <div class="yt yt--soon">
+      <span>Próximamente</span>
+    </div>
+  )
+}
+
+<style>
+  .yt {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #000;
+    overflow: hidden;
+  }
+  .yt__btn {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .yt {
+    container-type: inline-size;
+  }
+  .yt img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s;
+  }
+  /* al pasar el mouse la imagen se oscurece un poco (sin zoom), como en la web de Game Ever */
+  @media (hover: hover) {
+    .yt:hover img,
+    .yt__btn:focus-visible img {
+      filter: brightness(0.75);
+    }
+  }
+  /* botón estilo YouTube con los verdes del logo pintado:
+     fondo = degradé de las letras: verde claro arriba (#c5ea1f) a verde de la base (#0bd57b)
+     triángulo = azul del contorno (#004470), para que contraste con el degradé
+     borde = amarillo de "ARCADE MAYHEM" (#f8d000) */
+  .yt__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 48px;
+    translate: -50% -50%;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #c5ea1f, #0bd57b);
+    border: 3px solid #f8d000;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+    transition: scale 0.3s var(--ease-out), background 0.2s;
+  }
+  .yt__play svg {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+    fill: #004470;
+  }
+  /* el botón crece con el tamaño del video */
+  @container (width >= 520px) {
+    .yt__play {
+      width: 80px;
+      height: 56px;
+      border-radius: 16px;
+    }
+    .yt__play svg {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  @container (width >= 900px) {
+    .yt__play {
+      width: 100px;
+      height: 70px;
+      border-radius: 20px;
+      border-width: 4px;
+    }
+    .yt__play svg {
+      width: 46px;
+      height: 46px;
+      margin-left: 4px;
+    }
+  }
+  .yt:hover .yt__play,
+  .yt__btn:focus-visible .yt__play {
+    scale: 1.1;
+    filter: brightness(1.08);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.4), 0 0 30px rgb(197 234 31 / 0.4);
+  }
+  /* :global porque el iframe se crea por JS y no lleva el atributo de scope de Astro */
+  .yt :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .yt--soon {
+    display: grid;
+    place-items: center;
+    cursor: default;
+    background:
+      radial-gradient(circle at 30% 20%, rgb(44 224 108 / 0.12), transparent 60%),
+      linear-gradient(135deg, var(--night-2), var(--deep));
+  }
+  .yt--soon span {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--ink-dim);
+    padding: 0.4em 0.9em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-yt]').forEach((box) => {
+    box.querySelector('button')!.addEventListener(
+      'click',
+      () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1&rel=0&playsinline=1`;
+        iframe.title = box.dataset.title ?? 'Video';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+        iframe.allowFullscreen = true;
+        box.replaceChildren(iframe);
+        iframe.focus();
+      },
+      { once: true },
+    );
+  });
+</script>

@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "juanito",
+    "nombre": "Juanito",
+    "rol": "Jugador 1 · Protagonista",
+    "descripcion": "El chico de la Tierra: un pibe argentino, bastante fiaca y muy gamer, que vive con su padre y en pijama. Cuando las clonocélulas infectan los videojuegos, le toca salvarlos a los tiros. Su mejor amigo es Dubi, su perro.",
+    "img": "fichas/juanito-v2.png"
+  },
+  {
+    "slug": "gluk",
+    "nombre": "Gluk",
+    "rol": "Jugador 2 · Compañero",
+    "descripcion": "El marciano que no es de Marte: viene de otro planeta... Medio bipolar y bastante manipulador, recluta a Juanito para la misión. Le tiene fobia a los cangrejos y algo sabe de las clonocélulas que no cuenta. En el co-op es el jugador 2.",
+    "img": "fichas/gluk-v2.png"
+  },
+  {
+    "slug": "dubi",
+    "nombre": "Dubi",
+    "rol": "Mejor amigo de Juanito",
+    "descripcion": "El perro de Juanito. Viene de la historia original de la película y quedó en bocetos y en el artbook, pero no llegó al juego.",
+    "img": "juego/dubi/boceto-1.jpg",
+    "extra": [
+      "juego/dubi/boceto-2.jpg"
+    ],
+    "oculto": true
+  }
+]

@@ -1,0 +1,372 @@
+---
+import { u } from '../lib/url';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import YouTube from '../components/YouTube.astro';
+import { maybeAsset } from '../lib/assets';
+import { fecha, anio, byFecha } from '../lib/format';
+import prensaData from '../data/prensa.json';
+import radioData from '../data/radio.json';
+import videosData from '../data/videos.json';
+import taringaData from '../data/taringa.json';
+import type { Nota, Radio, Video, PostTaringa } from '../data/types';
+
+const notas = (prensaData as Nota[]).slice().sort(byFecha);
+const destacadas = notas.filter((n) => n.destacada);
+const resto = notas.filter((n) => !n.destacada);
+const radios = (radioData as Radio[]).slice().sort(byFecha);
+const tele = (videosData as Video[]).filter((v) => v.categoria === 'entrevista').sort(byFecha);
+const taringa = (taringaData as PostTaringa[]).slice().sort(byFecha);
+
+const tipo: Record<Nota['tipo'], string> = { nota: 'Nota', review: 'Reseña', entrevista: 'Entrevista', noticia: 'Noticia' };
+const link = (n: Nota) => n.archivo ?? n.url;
+---
+
+<Base title="Prensa" description="Notas, reseñas, entrevistas de radio y TV sobre Juanito Arcade Mayhem.">
+  <PageHeader
+    eyebrow="Prensa"
+    title='Lo que se dijo <span class="hl">de Juanito</span>'
+    lead={`${notas.length} notas y reseñas, ${radios.length} programas de radio y varias entrevistas en video. De Clarín a un portal iraní, pasando por IGN España.`}
+  >
+    <nav class="jump" aria-label="Secciones">
+      <a href="#notas">Notas</a><a href="#radio">Radio</a><a href="#tv">TV y entrevistas</a><a href="#taringa">Taringa</a>
+    </nav>
+  </PageHeader>
+
+  <section class="section" id="notas">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Destacadas</p>
+      <div class="dest">
+        {
+          destacadas.map((n) => (
+            <a class="card nota-d" href={link(n)} target="_blank" rel="noopener" data-reveal>
+              <p class="nota-d__medio">{n.medio}</p>
+              <h3 class="h3">{n.titulo}</h3>
+              <p class="muted">{n.resumen}</p>
+              <p class="nota-d__meta">
+                <span class="chip">{tipo[n.tipo]}</span>
+                {n.puntaje && <span class="chip chip--lime">{n.puntaje}</span>}
+                <time datetime={n.fecha}>{fecha(n.fecha)}</time>
+              </p>
+            </a>
+          ))
+        }
+      </div>
+
+      <h2 class="h2 sub" data-reveal>Todas las notas</h2>
+      <ul class="notas">
+        {
+          resto.map((n) => (
+            <li data-reveal>
+              <a href={link(n)} target="_blank" rel="noopener">
+                <span class="notas__fecha">{fecha(n.fecha) || anio(n.fecha)}</span>
+                <span class="notas__medio">{n.medio}</span>
+                <span class="notas__tit">
+                  {n.titulo}
+                  <small>{n.resumen}</small>
+                </span>
+                <span class="notas__tags">
+                  {n.puntaje && <span class="chip chip--lime">{n.puntaje}</span>}
+                  <span class="chip">{tipo[n.tipo]}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="radio">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Radio y podcasts</p>
+        <h2 class="h2">Juanito <span class="hl">al aire</span></h2>
+        <p class="lead">Los audios se reproducen solo cuando vos le das play.</p>
+      </div>
+      <ul class="radios">
+        {
+          radios.map((r) => {
+            const img = maybeAsset(r.img);
+            return (
+              <li class="card radio" data-reveal>
+                {img ? (
+                  <Image src={img} alt="" widths={[160, 320]} sizes="120px" class="radio__img" />
+                ) : (
+                  <div class="radio__img radio__img--ph" aria-hidden="true">
+                    ON AIR
+                  </div>
+                )}
+                <div class="radio__body">
+                  <p class="radio__meta">
+                    {r.emisora} · <time datetime={r.fecha}>{fecha(r.fecha)}</time>
+                    {r.duracion && <> · {r.duracion}</>}
+                  </p>
+                  <h3 class="h3">{r.programa}</h3>
+                  <p class="muted">{r.descripcion}</p>
+                  {r.audio ? (
+                    <audio controls preload="none" src={u(r.audio)}>
+                      Tu navegador no reproduce audio.
+                    </audio>
+                  ) : (
+                    <p class="chip">Audio próximamente</p>
+                  )}
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="tv">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">TV y entrevistas en video</p>
+        <h2 class="h2">Cara <span class="hl">a cámara</span></h2>
+      </div>
+      <ul class="vids">
+        {
+          tele.map((v) => (
+            <li data-reveal>
+              <YouTube id={v.youtubeId} title={v.titulo} />
+              <p class="vids__t">{v.titulo}</p>
+              <p class="vids__m">
+                {v.canal}
+                {v.fecha && <> · {fecha(v.fecha)}</>}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="taringa">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Taringa!</p>
+        <h2 class="h2">La comunidad <span class="hl">que empujó</span></h2>
+        <p class="lead">
+          Joaquín Ibarlucía (@Jacowaco4) contó el desarrollo en Taringa, la comunidad argentina que ya no existe. Los posts sobrevivieron
+          en el Internet Archive.
+        </p>
+      </div>
+      <ul class="taringa">
+        {
+          taringa.map((t) => (
+            <li data-reveal>
+              <a class="card card--hover tpost" href={t.url} target="_blank" rel="noopener">
+                <time datetime={t.fecha}>{fecha(t.fecha)}</time>
+                <h3 class="h3">{t.titulo}</h3>
+                <p class="muted">{t.resumen}</p>
+                {t.stats && <p class="tpost__stats">{t.stats}</p>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+  }
+  .jump a {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .jump a:hover {
+    color: var(--lime);
+    background: rgb(255 255 255 / 0.07);
+  }
+  section[id] {
+    scroll-margin-top: 100px;
+  }
+  .dest {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 1rem;
+  }
+  .nota-d {
+    padding: 1.3rem;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .nota-d p {
+    margin: 0;
+  }
+  .nota-d__medio {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    color: var(--green-neon);
+  }
+  .nota-d__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    font-family: var(--font-ui);
+    color: var(--ink-dim);
+  }
+  .sub {
+    margin: 3rem 0 1rem;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+  }
+  .notas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .notas a {
+    display: grid;
+    grid-template-columns: 110px 170px 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.9rem 0.4rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .notas a:hover {
+    background: rgb(255 255 255 / 0.04);
+  }
+  .notas__fecha {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+  }
+  .notas__medio {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--green-neon);
+  }
+  .notas__tit {
+    display: grid;
+  }
+  .notas__tit small {
+    color: var(--ink-dim);
+    font-size: 0.88rem;
+  }
+  .notas__tags {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .radios {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr));
+    gap: 1rem;
+  }
+  .radio {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .radio__img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
+  .radio__img--ph {
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    color: var(--gluk-red);
+    border: 2px solid var(--gluk-red);
+    text-shadow: 0 0 10px var(--gluk-red);
+  }
+  .radio__body p {
+    margin: 0.3rem 0;
+  }
+  .radio__meta {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--green-neon);
+  }
+  .radio audio {
+    width: 100%;
+    margin-top: 0.6rem;
+    accent-color: var(--green-neon);
+  }
+
+  .vids {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr));
+    gap: 1.2rem;
+  }
+  .vids__t {
+    margin: 0.6rem 0 0;
+    font-family: var(--font-heading);
+  }
+  .vids__m {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-ui);
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+  }
+
+  .taringa {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 1rem;
+  }
+  .tpost {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.2rem;
+    height: 100%;
+    border-left: 4px solid #1f6fbf;
+  }
+  .tpost p,
+  .tpost h3 {
+    margin: 0;
+  }
+  .tpost time,
+  .tpost__stats {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--green-neon);
+  }
+
+  @media (max-width: 800px) {
+    .notas a {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+    .radio {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

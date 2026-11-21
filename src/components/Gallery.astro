@@ -1,0 +1,112 @@
+---
+/**
+ * Grilla de imágenes con lightbox. Cada item: ruta en src/assets + epígrafe.
+ * La miniatura sale con <Image>; el link apunta a una versión grande (getImage).
+ */
+import { Image, getImage } from 'astro:assets';
+import { asset } from '../lib/assets';
+
+interface Item {
+  img: string;
+  caption: string;
+  sub?: string;
+}
+interface Props {
+  items: Item[];
+  group: string;
+  min?: string; // ancho mínimo de columna
+  fit?: 'cover' | 'contain';
+  ratio?: string; // "4/3", "1", "auto"
+}
+const { items, group, min = '220px', fit = 'cover', ratio = '4/3' } = Astro.props;
+
+const resolved = await Promise.all(
+  items.map(async (it) => {
+    const src = asset(it.img);
+    const big = await getImage({ src, width: Math.min(src.width, 1800), format: 'webp', quality: 85 });
+    return { ...it, src, big: big.src };
+  }),
+);
+---
+
+<ul class="gal" style={`--min:${min};--ratio:${ratio};--fit:${fit}`}>
+  {
+    resolved.map((it) => (
+      <li data-reveal>
+        <a href={it.big} data-lightbox={group} data-caption={it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
+          <Image src={it.src} alt={it.caption} widths={[320, 480, 720]} sizes={`(max-width: 600px) 50vw, ${min}`} loading="lazy" />
+          <span class="gal__cap">
+            <b>{it.caption}</b>
+            {it.sub && <small>{it.sub}</small>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .gal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+    grid-template-columns: repeat(auto-fill, minmax(min(100% / 2 - 0.5rem, var(--min)), 1fr));
+  }
+  .gal a {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .gal img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--ratio);
+    object-fit: var(--fit);
+    transition: scale 0.4s, filter 0.3s;
+  }
+  .gal a:hover img {
+    scale: 1.05;
+    filter: brightness(1.1);
+  }
+  .gal a:hover {
+    border-color: var(--line-strong);
+  }
+  .gal__cap {
+    position: absolute;
+    inset: auto 0 0;
+    display: grid;
+    padding: 1.6rem 0.75rem 0.6rem;
+    background: linear-gradient(transparent, rgb(3 7 10 / 0.9));
+    font-family: var(--font-ui);
+    line-height: 1.25;
+    translate: 0 30%;
+    opacity: 0;
+    transition: translate 0.25s, opacity 0.25s;
+  }
+  .gal a:hover .gal__cap,
+  .gal a:focus-visible .gal__cap {
+    translate: 0 0;
+    opacity: 1;
+  }
+  .gal__cap b {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .gal__cap small {
+    color: var(--ink-dim);
+    font-size: 0.8rem;
+  }
+  @media (hover: none) {
+    .gal__cap {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+</style>

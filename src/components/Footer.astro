@@ -1,0 +1,150 @@
+---
+import { u } from '../lib/url';
+import { Image } from 'astro:assets';
+import logo from '../assets/logo/logo-pintado.png';
+import { NAV, NAV_MORE, CTA } from '../lib/nav';
+import GameEverCredit from './GameEverCredit.astro';
+
+const redes = [
+  { label: 'Steam', href: 'https://store.steampowered.com/app/617440/' },
+  { label: 'YouTube', href: 'https://www.youtube.com/user/gameeverstudio' },
+  { label: 'Facebook', href: 'https://www.facebook.com/juanitoarcade/' },
+  { label: 'Instagram', href: 'https://www.instagram.com/gameeverstudio/' },
+  { label: 'Game Ever Studio', href: 'https://www.gameeverstudio.com/' },
+];
+---
+
+<footer class="footer">
+  <div class="footer__glow" aria-hidden="true"></div>
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href={u('/')} aria-label="Inicio"><Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="220px" /></a>
+      <p class="muted">
+        El archivo de <b>Juanito Arcade Mayhem</b>, el primer juego de Game Ever Studio. Hecho en Buenos Aires con alfajores, choripanes y
+        mucho cariño.
+      </p>
+      <div class="footer__studio"><GameEverCredit size="sm" label="Creado por" byline /></div>
+    </div>
+    <nav aria-label="Secciones" class="footer__col">
+      <p class="eyebrow">Archivo</p>
+      {NAV.map((i) => <a href={i.href}>{i.label}</a>)}
+    </nav>
+    <nav aria-label="Más" class="footer__col">
+      <p class="eyebrow">Más</p>
+      {[...NAV_MORE, CTA].map((i) => <a href={i.href}>{i.label}</a>)}
+    </nav>
+    <div class="footer__col">
+      <p class="eyebrow">Afuera</p>
+      {
+        redes.map((r) => (
+          <a href={r.href} target="_blank" rel="noopener">
+            {r.label} ↗
+          </a>
+        ))
+      }
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© 2011–2026 Game Ever Studio. Juanito, Gluk y las clonocélulas son de Game Ever.</span>
+    <span class="footer__insert">INSERT COIN ▮</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    margin-top: 6rem;
+    padding: 4.5rem 0 1.5rem;
+    overflow: hidden;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 clamp(0.6rem, 2vw, 1.2rem) 0;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    border-radius: 36px 36px 0 0;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.01));
+    z-index: -1;
+  }
+  .footer__glow {
+    position: absolute;
+    left: 50%;
+    top: -180px;
+    width: 700px;
+    height: 300px;
+    translate: -50% 0;
+    background: radial-gradient(ellipse, rgb(44 224 108 / 0.18), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .footer__brand img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 1.2rem;
+  }
+  .footer__brand p {
+    max-width: 26rem;
+    margin: 0;
+  }
+  .footer__studio {
+    margin-top: 1.8rem;
+  }
+  .footer__col {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+  }
+  .footer__col .eyebrow {
+    margin-bottom: 0.6rem;
+    justify-self: start;
+  }
+  .footer__col a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer__col a:hover {
+    color: var(--ink);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+  .footer__insert {
+    color: var(--lime);
+    letter-spacing: 0.15em;
+    animation: blink 1.4s steps(2) infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0.3; }
+  }
+  @media (max-width: 800px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer__insert {
+      animation: none;
+    }
+  }
+</style>

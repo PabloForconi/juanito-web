@@ -1,0 +1,441 @@
+[
+  {
+    "slug": "meet-the-game-2014",
+    "nombre": "Meet The Game",
+    "fecha": "2014-05-10",
+    "lugar": "Fusion Bar, Florida 328, CABA",
+    "descripcion": "Primera edición de la expo de videojuegos argentinos de Gamedia. Juanito se pudo jugar en tablets y en una notebook con joystick.",
+    "flyer": "archivo/eventos/meet-the-game-2014/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/meet-the-game-2014/01.jpg",
+      "archivo/eventos/meet-the-game-2014/02.jpg",
+      "archivo/eventos/meet-the-game-2014/03.jpg",
+      "archivo/eventos/meet-the-game-2014/04.jpg",
+      "archivo/eventos/meet-the-game-2014/05.jpg",
+      "archivo/eventos/meet-the-game-2014/06.jpg",
+      "archivo/eventos/meet-the-game-2014/07.jpg",
+      "archivo/eventos/meet-the-game-2014/08.jpg"
+    ]
+  },
+  {
+    "slug": "toronjapalooza-2014",
+    "nombre": "Toronjapalooza",
+    "fecha": "2014-07-26",
+    "lugar": "Espacio Cultural Chacra de los Remedios, Parque Avellaneda, CABA",
+    "descripcion": "«Evento cultural nerd» con demo de Juanito en tablet y la foto grupal del equipo.",
+    "flyer": "archivo/eventos/toronjapalooza-2014/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/toronjapalooza-2014/01.jpg",
+      "archivo/eventos/toronjapalooza-2014/02.jpg",
+      "archivo/eventos/toronjapalooza-2014/03.jpg",
+      "archivo/eventos/toronjapalooza-2014/04.jpg"
+    ]
+  },
+  {
+    "slug": "eva-2014",
+    "nombre": "EVA 2014",
+    "fecha": "2014-11",
+    "lugar": "CABA",
+    "descripcion": "Exposición de Videojuegos Argentina: stand de Game Ever en el Espacio Indie, con tablets, notebook y joystick, tarjetas y banner.",
+    "fotos": [
+      "archivo/eventos/eva-2014/01.jpg",
+      "archivo/eventos/eva-2014/02.jpg",
+      "archivo/eventos/eva-2014/03.jpg",
+      "archivo/eventos/eva-2014/04.jpg",
+      "archivo/eventos/eva-2014/05.jpg",
+      "archivo/eventos/eva-2014/06.jpg",
+      "archivo/eventos/eva-2014/07.jpg",
+      "archivo/eventos/eva-2014/08.jpg"
+    ]
+  },
+  {
+    "slug": "meet-the-game-2",
+    "nombre": "Meet The Game 2",
+    "fecha": "2014-11-16",
+    "lugar": "Centro Cultural San Martín, Sarmiento 1551, CABA",
+    "descripcion": "Segunda edición de la expo de Gamedia. Juanito jugable en monitor y un trofeo con forma de cartucho de Famicom.",
+    "flyer": "archivo/eventos/meet-the-game-2/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/meet-the-game-2/01.jpg",
+      "archivo/eventos/meet-the-game-2/02.jpg",
+      "archivo/eventos/meet-the-game-2/03.jpg",
+      "archivo/eventos/meet-the-game-2/04.jpg",
+      "archivo/eventos/meet-the-game-2/05.jpg",
+      "archivo/eventos/meet-the-game-2/06.jpg",
+      "archivo/eventos/meet-the-game-2/07.jpg"
+    ]
+  },
+  {
+    "slug": "feria-del-libro-2015",
+    "nombre": "Feria Internacional del Libro de Buenos Aires",
+    "fecha": "2015-04-23",
+    "lugar": "La Rural, Pabellón Azul, stand 225 (Genesis Comic Store)",
+    "descripcion": "Del 23 de abril al 11 de mayo, el gabinete arcade de Juanito estuvo en el stand de la comiquería, rodeado de peluches: «Vení a jugar».",
+    "flyer": "archivo/eventos/feria-del-libro-2015/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/feria-del-libro-2015/01.jpg",
+      "archivo/eventos/feria-del-libro-2015/02.jpg",
+      "archivo/eventos/feria-del-libro-2015/03.jpg",
+      "archivo/eventos/feria-del-libro-2015/04.jpg",
+      "archivo/eventos/feria-del-libro-2015/05.jpg"
+    ]
+  },
+  {
+    "slug": "tecnopolis-2015",
+    "nombre": "Tecnópolis 2015: Ar.Cade",
+    "fecha": "2015-07",
+    "lugar": "Tecnópolis, Villa Martelli",
+    "descripcion": "Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul.",
+    "fotos": [
+      "archivo/eventos/tecnopolis-2015/01.jpg",
+      "archivo/eventos/tecnopolis-2015/02.jpg",
+      "archivo/eventos/tecnopolis-2015/03.jpg",
+      "archivo/eventos/tecnopolis-2015/04.jpg",
+      "archivo/eventos/tecnopolis-2015/05.jpg",
+      "archivo/eventos/tecnopolis-2015/06.jpg",
+      "archivo/eventos/tecnopolis-2015/07.jpg",
+      "archivo/eventos/tecnopolis-2015/08.jpg"
+    ]
+  },
+  {
+    "slug": "meet-the-devs-2015",
+    "nombre": "Meet The Devs: Extended Edition",
+    "fecha": "2015-08-15",
+    "lugar": "Centro Cultural General San Martín, CABA",
+    "descripcion": "Evento de Gamedia con el gabinete arcade de Juanito y su standee junto a Donkey.",
+    "flyer": "archivo/eventos/meet-the-devs-2015/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/meet-the-devs-2015/01.jpg",
+      "archivo/eventos/meet-the-devs-2015/02.jpg",
+      "archivo/eventos/meet-the-devs-2015/03.jpg",
+      "archivo/eventos/meet-the-devs-2015/04.jpg",
+      "archivo/eventos/meet-the-devs-2015/05.jpg",
+      "archivo/eventos/meet-the-devs-2015/06.jpg",
+      "archivo/eventos/meet-the-devs-2015/07.jpg",
+      "archivo/eventos/meet-the-devs-2015/08.jpg"
+    ]
+  },
+  {
+    "slug": "mica-2015",
+    "nombre": "MICA 2015",
+    "fecha": "2015-09-06",
+    "lugar": "CABA",
+    "descripcion": "Mercado de Industrias Culturales Argentinas: Juanito en el espacio «Videojuegos Argentinos».",
+    "fotos": [
+      "archivo/eventos/mica-2015/01.jpg",
+      "archivo/eventos/mica-2015/02.jpg",
+      "archivo/eventos/mica-2015/03.jpg",
+      "archivo/eventos/mica-2015/04.jpg",
+      "archivo/eventos/mica-2015/05.jpg",
+      "archivo/eventos/mica-2015/06.jpg"
+    ]
+  },
+  {
+    "slug": "bit-bang-fest-2",
+    "nombre": "Bit Bang Fest, edición 2",
+    "fecha": "2015-09-12",
+    "descripcion": "Festival de videojuegos con conferencias, testeo, juegos de mesa y competencias. Hubo multitud alrededor del arcade de Juanito.",
+    "fotos": [
+      "archivo/eventos/bit-bang-fest-2/01.jpg",
+      "archivo/eventos/bit-bang-fest-2/02.jpg",
+      "archivo/eventos/bit-bang-fest-2/03.jpg",
+      "archivo/eventos/bit-bang-fest-2/04.jpg",
+      "archivo/eventos/bit-bang-fest-2/05.jpg",
+      "archivo/eventos/bit-bang-fest-2/06.jpg",
+      "archivo/eventos/bit-bang-fest-2/07.jpg",
+      "archivo/eventos/bit-bang-fest-2/08.jpg"
+    ]
+  },
+  {
+    "slug": "animacity-2015",
+    "nombre": "Animacity 2015",
+    "fecha": "2015-10-04",
+    "descripcion": "El gabinete estrenó vinilo nuevo, con Juanito, Donkey y la grilla neón.",
+    "fotos": [
+      "archivo/eventos/animacity-2015/01.jpg",
+      "archivo/eventos/animacity-2015/02.jpg",
+      "archivo/eventos/animacity-2015/03.jpg",
+      "archivo/eventos/animacity-2015/04.jpg",
+      "archivo/eventos/animacity-2015/05.jpg",
+      "archivo/eventos/animacity-2015/06.jpg",
+      "archivo/eventos/animacity-2015/07.jpg",
+      "archivo/eventos/animacity-2015/08.jpg"
+    ]
+  },
+  {
+    "slug": "muere-monstruo-muere-2015",
+    "nombre": "Muere Monstruo Muere: Arcade Demons Night",
+    "fecha": "2015-10-30",
+    "lugar": "Teatro El Mandril, Humberto 1° 2758, San Cristóbal",
+    "descripcion": "Fiesta con bandas (Nave, Jupitron, Shitty) y arcades, con Juanito en pantalla.",
+    "flyer": "archivo/eventos/muere-monstruo-muere-2015/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/muere-monstruo-muere-2015/01.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/02.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/03.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/04.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/05.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/06.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/07.jpg",
+      "archivo/eventos/muere-monstruo-muere-2015/08.jpg"
+    ]
+  },
+  {
+    "slug": "eva-2015",
+    "nombre": "EVA 2015",
+    "fecha": "2015",
+    "descripcion": "Flyer «Mini Arcade» preparado para la Exposición de Videojuegos Argentina 2015.",
+    "flyer": "archivo/eventos/eva-2015/flyer.jpg",
+    "fotos": []
+  },
+  {
+    "slug": "meet-the-game-3",
+    "nombre": "Meet The Game 3: Rise of the Devs",
+    "fecha": "2015-11-14",
+    "lugar": "Centro Cultural General San Martín, CABA",
+    "descripcion": "Tercera edición de la expo de Gamedia, con el arcade de Juanito junto a otros juegos argentinos.",
+    "flyer": "archivo/eventos/meet-the-game-3/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/meet-the-game-3/01.jpg",
+      "archivo/eventos/meet-the-game-3/02.jpg",
+      "archivo/eventos/meet-the-game-3/03.jpg",
+      "archivo/eventos/meet-the-game-3/04.jpg",
+      "archivo/eventos/meet-the-game-3/05.jpg",
+      "archivo/eventos/meet-the-game-3/06.jpg",
+      "archivo/eventos/meet-the-game-3/07.jpg",
+      "archivo/eventos/meet-the-game-3/08.jpg"
+    ]
+  },
+  {
+    "slug": "muere-monstruo-muere-1-ano",
+    "nombre": "Muere Monstruo Muere: cumple del primer año",
+    "fecha": "2015-11-27",
+    "lugar": "Teatro El Mandril, San Cristóbal",
+    "descripcion": "«Película + arcades + banda + mucho más». En la puerta se vendían los pósters de Juanito a $25.",
+    "flyer": "archivo/eventos/muere-monstruo-muere-1-ano/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/muere-monstruo-muere-1-ano/01.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/02.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/03.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/04.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/05.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/06.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/07.jpg",
+      "archivo/eventos/muere-monstruo-muere-1-ano/08.jpg"
+    ]
+  },
+  {
+    "slug": "checkpoint-2015",
+    "nombre": "Checkpoint: fiesta de fin de año",
+    "fecha": "2015-12-12",
+    "lugar": "TecnoBar, Fitz Roy 2021, Palermo",
+    "descripcion": "Fiesta de fin de año «junto a Juanito», con flyer protagonizado por él.",
+    "flyer": "archivo/eventos/checkpoint-2015/flyer.jpg",
+    "fotos": []
+  },
+  {
+    "slug": "geek-out-fest-2",
+    "nombre": "Geek Out! Fest 2.0",
+    "fecha": "2016-04-30",
+    "lugar": "Centro Cultural San Martín, CABA",
+    "descripcion": "«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek.",
+    "flyer": "archivo/eventos/geek-out-fest-2/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/geek-out-fest-2/01.jpg",
+      "archivo/eventos/geek-out-fest-2/02.jpg",
+      "archivo/eventos/geek-out-fest-2/03.jpg",
+      "archivo/eventos/geek-out-fest-2/04.jpg",
+      "archivo/eventos/geek-out-fest-2/05.jpg",
+      "archivo/eventos/geek-out-fest-2/06.jpg",
+      "archivo/eventos/geek-out-fest-2/07.jpg",
+      "archivo/eventos/geek-out-fest-2/08.jpg"
+    ]
+  },
+  {
+    "slug": "meet-the-devs-2016",
+    "nombre": "Meet The Devs Extended 2016",
+    "fecha": "2016-05-21",
+    "lugar": "CABA",
+    "descripcion": "Charlas de videojuegos, realidad virtual, juegos indie y arcades.",
+    "fotos": [
+      "archivo/eventos/meet-the-devs-2016/01.jpg",
+      "archivo/eventos/meet-the-devs-2016/02.jpg",
+      "archivo/eventos/meet-the-devs-2016/03.jpg",
+      "archivo/eventos/meet-the-devs-2016/04.jpg",
+      "archivo/eventos/meet-the-devs-2016/05.jpg"
+    ]
+  },
+  {
+    "slug": "nave-100",
+    "nombre": "Nave 100",
+    "fecha": "2016-06-11",
+    "descripcion": "El arcade de Juanito en una noche con bandas en vivo y murales.",
+    "fotos": [
+      "archivo/eventos/nave-100/01.jpg",
+      "archivo/eventos/nave-100/02.jpg",
+      "archivo/eventos/nave-100/03.jpg",
+      "archivo/eventos/nave-100/04.jpg",
+      "archivo/eventos/nave-100/05.jpg",
+      "archivo/eventos/nave-100/06.jpg"
+    ]
+  },
+  {
+    "slug": "fichinait-2016",
+    "nombre": "Fichinait",
+    "fecha": "2016-08-13",
+    "lugar": "Nicasio Oroño 2480, CABA",
+    "descripcion": "Fiesta gamer de La Comunidad del Sótano con Tumba, Argentron Arcade, The Black Heart, Metadron, Nave y Juanito, entre otros.",
+    "flyer": "archivo/eventos/fichinait-2016/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/fichinait-2016/01.jpg",
+      "archivo/eventos/fichinait-2016/02.jpg"
+    ]
+  },
+  {
+    "slug": "test-fest-2016",
+    "nombre": "Juanito Test Fest",
+    "fecha": "2016-11",
+    "descripcion": "Sesión de testeo abierta del juego. Cada tester se llevaba una tarjeta: «¡Gracias por ser parte del Testing de Juanito!».",
+    "flyer": "archivo/eventos/test-fest-2016/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/test-fest-2016/01.jpg",
+      "archivo/eventos/test-fest-2016/02.jpg"
+    ]
+  },
+  {
+    "slug": "fiesta-pow-1",
+    "nombre": "Fiesta Pow 1",
+    "fecha": "2016-11-04",
+    "descripcion": "El arcade de Juanito en una fiesta, con grupos jugando hasta tarde.",
+    "fotos": [
+      "archivo/eventos/fiesta-pow-1/01.jpg",
+      "archivo/eventos/fiesta-pow-1/02.jpg",
+      "archivo/eventos/fiesta-pow-1/03.jpg",
+      "archivo/eventos/fiesta-pow-1/04.jpg",
+      "archivo/eventos/fiesta-pow-1/05.jpg",
+      "archivo/eventos/fiesta-pow-1/06.jpg",
+      "archivo/eventos/fiesta-pow-1/07.jpg",
+      "archivo/eventos/fiesta-pow-1/08.jpg"
+    ]
+  },
+  {
+    "slug": "eva-2016",
+    "nombre": "EVA 2016",
+    "fecha": "2016-11-05",
+    "lugar": "CABA",
+    "descripcion": "El arcade con la nueva grilla de neón y mucho público en la Exposición de Videojuegos Argentina.",
+    "fotos": [
+      "archivo/eventos/eva-2016/01.jpg",
+      "archivo/eventos/eva-2016/02.jpg",
+      "archivo/eventos/eva-2016/03.jpg",
+      "archivo/eventos/eva-2016/04.jpg",
+      "archivo/eventos/eva-2016/05.jpg",
+      "archivo/eventos/eva-2016/06.jpg",
+      "archivo/eventos/eva-2016/07.jpg",
+      "archivo/eventos/eva-2016/08.jpg"
+    ]
+  },
+  {
+    "slug": "muere-monstruo-muere-2016",
+    "nombre": "Muere Monstruo Muere: 2 años de amor",
+    "fecha": "2016-11-11",
+    "lugar": "Teatro El Mandril, San Cristóbal",
+    "descripcion": "Segundo aniversario de la fiesta, con flyer protagonizado por Juanito: «Película + arcades + feria».",
+    "flyer": "archivo/eventos/muere-monstruo-muere-2016/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/muere-monstruo-muere-2016/01.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/02.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/03.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/04.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/05.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/06.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/07.jpg",
+      "archivo/eventos/muere-monstruo-muere-2016/08.jpg"
+    ]
+  },
+  {
+    "slug": "geek-out-fest-3",
+    "nombre": "Geek Out! Fest 3.0",
+    "fecha": "2017-05-06",
+    "lugar": "Centro Cultural San Martín, CABA",
+    "descripcion": "El arcade de Juanito, muy jugado por chicos, y una mesa de juegos argentinos junto a JuegosArgentinos.org.",
+    "fotos": [
+      "archivo/eventos/geek-out-fest-3/01.jpg",
+      "archivo/eventos/geek-out-fest-3/02.jpg",
+      "archivo/eventos/geek-out-fest-3/03.jpg",
+      "archivo/eventos/geek-out-fest-3/04.jpg",
+      "archivo/eventos/geek-out-fest-3/05.jpg",
+      "archivo/eventos/geek-out-fest-3/06.jpg",
+      "archivo/eventos/geek-out-fest-3/07.jpg",
+      "archivo/eventos/geek-out-fest-3/08.jpg"
+    ]
+  },
+  {
+    "slug": "fichinait-2",
+    "nombre": "Fichinait Vol. 2",
+    "fecha": "2017-05-06",
+    "descripcion": "Segunda fiesta Fichinait: arcades hasta la madrugada y un récord de 50:18 minutos en Juanito.",
+    "fotos": [
+      "archivo/eventos/fichinait-2/01.jpg",
+      "archivo/eventos/fichinait-2/02.jpg",
+      "archivo/eventos/fichinait-2/03.jpg",
+      "archivo/eventos/fichinait-2/04.jpg",
+      "archivo/eventos/fichinait-2/05.jpg",
+      "archivo/eventos/fichinait-2/06.jpg",
+      "archivo/eventos/fichinait-2/07.jpg",
+      "archivo/eventos/fichinait-2/08.jpg"
+    ]
+  },
+  {
+    "slug": "triple-fest-2017",
+    "nombre": "Triple Fest",
+    "fecha": "2017-08",
+    "descripcion": "Banner compartido de Juanito con Fidel (Dungeon Rescue) y Bildo, otros juegos argentinos.",
+    "flyer": "archivo/eventos/triple-fest-2017/flyer.jpg",
+    "fotos": []
+  },
+  {
+    "slug": "random-tandil-2017",
+    "nombre": "Random: Convención de Freaks, Volumen II",
+    "fecha": "2017-08-19",
+    "lugar": "Altos de Unión, Quintana 450, Tandil",
+    "descripcion": "Convención auspiciada por el Municipio de Tandil, con el salón lleno.",
+    "flyer": "archivo/eventos/random-tandil-2017/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/random-tandil-2017/01.jpg"
+    ]
+  },
+  {
+    "slug": "geek-out-fest-4",
+    "nombre": "Geek Out! Fest 4.0",
+    "fecha": "2018-04-28",
+    "lugar": "Centro Cultural San Martín, Sarmiento 1551, CABA",
+    "descripcion": "Sede argentina del International Tabletop Day, junto a JuegosArgentinos.org. Juanito invitaba: «¡Vení a jugar!».",
+    "flyer": "archivo/eventos/geek-out-fest-4/flyer.jpg",
+    "fotos": [
+      "archivo/eventos/geek-out-fest-4/01.jpg"
+    ]
+  },
+  {
+    "slug": "arcade-evento-2018",
+    "nombre": "ARCADE Evento",
+    "fecha": "2018",
+    "fotos": [
+      "archivo/eventos/arcade-evento-2018/01.jpg",
+      "archivo/eventos/arcade-evento-2018/02.jpg",
+      "archivo/eventos/arcade-evento-2018/03.jpg",
+      "archivo/eventos/arcade-evento-2018/04.jpg",
+      "archivo/eventos/arcade-evento-2018/05.jpg",
+      "archivo/eventos/arcade-evento-2018/06.jpg"
+    ]
+  },
+  {
+    "slug": "primer-aniversario-2018",
+    "nombre": "Juanito cumple su primer añito",
+    "fecha": "2018-08-10",
+    "lugar": "Zapiola 2450, Belgrano, CABA",
+    "descripcion": "Fiesta por el primer aniversario del lanzamiento en Steam.",
+    "flyer": "archivo/eventos/primer-aniversario-2018/flyer.jpg",
+    "fotos": []
+  }
+]

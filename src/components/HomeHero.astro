@@ -1,0 +1,400 @@
+---
+import { u } from '../lib/url';
+/**
+ * Hero de la home: el logo al centro, Juanito y Gluk a los costados, todo armado
+ * de entrada sobre el espacio, con info a la vista. Al scrollear las capas se
+ * separan en parallax (sin pin).
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import logo from '../assets/logo/logo-pintado.png';
+import juanito from '../assets/characters/juanito.png';
+import gluk from '../assets/characters/gluk.png';
+import StoreBadges from './StoreBadges.astro';
+import GameEverCredit from './GameEverCredit.astro';
+
+const clonoFiles = import.meta.glob<{ default: ImageMetadata }>('../assets/hero/clonos/*.png', { eager: true });
+const clono = (n: string) => clonoFiles[`../assets/hero/clonos/${n}.png`].default;
+
+/** Clonocélulas decorativas: posición (% del hero), ancho (vw), profundidad. */
+const clonos = [
+  { n: 'clono-at-3', x: 6, y: 10, w: 3.2, d: 0.35 },
+  { n: 'clono-moco', x: 32, y: 20, w: 3.6, d: 0.6 },
+  { n: 'clono-caracol', x: 88, y: 14, w: 4.2, d: 0.5 },
+  { n: 'clono-at-1', x: 90, y: 87, w: 4.6, d: 0.8 },
+  { n: 'clono-escupe', x: 7, y: 76, w: 5.2, d: 0.9 },
+  { n: 'clono-at-2', x: 61, y: 94, w: 6.2, d: 1.1 },
+  { n: 'clono-at-3', x: 46, y: 12, w: 2.6, d: 0.3 },
+];
+
+---
+
+<section class="hh" aria-labelledby="hh-title">
+  <div class="hh__orbits" aria-hidden="true">
+    <i style="--in:0%;--a:0.06;--t:90s;--c:var(--lime)"></i>
+    <i style="--in:12%;--a:0.08;--t:60s;--c:var(--green-neon)"></i>
+    <i style="--in:24%;--a:0.1;--t:40s;--c:#3be8d0"></i>
+  </div>
+
+  <div class="hh__clonos" aria-hidden="true">
+    {
+      clonos.map((c) => (
+        <div class:list={['hh__clono', c.d < 0.4 && 'is-far', c.d > 1 && 'is-near']} data-depth={c.d} style={`left:${c.x}%;top:${c.y}%;width:${c.w}vw`}>
+          <div class="m">
+            <Image src={clono(c.n)} alt="" widths={[160, 320]} sizes={`${Math.ceil(c.w * 1.2)}vw`} data-float />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="hh__char hh__char--juanito" data-depth="0.9" data-char="juanito">
+    <div class="m">
+      <Image
+        src={juanito}
+        alt="Juanito, en pijama, corre con su pistola láser"
+        widths={[420, 640, 840, 1200]}
+        sizes="(max-aspect-ratio: 4/5) 62vw, 34vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+
+  <div class="hh__char hh__char--gluk" data-depth="0.7" data-char="gluk">
+    <div class="m">
+      <Image
+        src={gluk}
+        alt="Gluk, el alien, en su platillo con una pistola"
+        widths={[360, 560, 800]}
+        sizes="(max-aspect-ratio: 4/5) 48vw, 27vw"
+        loading="eager"
+      />
+    </div>
+  </div>
+
+  <div class="hh__center" data-center>
+    <div class="hh__studio" data-in><GameEverCredit size="lg" after="presenta" stacked /></div>
+    <h1 class="hh__logo" id="hh-title" data-logo>
+      <Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="(max-aspect-ratio: 4/5) 90vw, 46vw" loading="eager" fetchpriority="high" />
+    </h1>
+    <p class="hh__lead" data-in>
+      Unas clonocélulas del espacio infectaron los videojuegos clásicos.
+      <strong>Un chico en pijama tiene que salvarlos.</strong>
+    </p>
+    <div class="hh__cta" data-in>
+      <a class="btn btn--primary" href={u('/el-juego/')}>Conocé el juego</a>
+      <a class="btn" href={u('/historia/')}>La historia</a>
+    </div>
+    <div class="hh__stores" data-in>
+      <StoreBadges />
+    </div>
+  </div>
+  <div class="hh__scroll" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hh {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    place-items: center;
+    padding: calc(84px + 2vh) 4vw 9vh;
+  }
+
+  /* órbitas finas detrás del logo + halo */
+  .hh__orbits {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: min(1100px, 95vw);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .hh__orbits::before {
+    content: '';
+    position: absolute;
+    inset: 22%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(44 224 108 / 0.2), rgb(18 181 168 / 0.08) 45%, transparent 70%);
+    filter: blur(30px);
+  }
+  .hh__orbits i {
+    position: absolute;
+    inset: var(--in);
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / var(--a));
+    animation: spin var(--t) linear infinite;
+  }
+  .hh__orbits i::after {
+    /* un "satélite" que recorre la órbita */
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 14px var(--c);
+  }
+  @keyframes spin {
+    to { rotate: 360deg; }
+  }
+
+  .hh__clonos {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hh__clono {
+    position: absolute;
+    translate: -50% -50%;
+  }
+  .hh__clono img,
+  .hh__char img {
+    width: 100%;
+    height: auto;
+  }
+  /* profundidad de campo: las lejanas, desenfocadas */
+  .hh__clono.is-far img {
+    filter: blur(3px) saturate(0.8);
+    opacity: 0.7;
+  }
+  .hh__clono.is-near img {
+    filter: blur(1.5px);
+  }
+
+  .hh__char {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .hh__char img {
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.55));
+  }
+  .hh__char--juanito {
+    left: 5vw;
+    bottom: 6vh;
+    width: min(29vw, 47vh);
+    max-width: 560px;
+  }
+  .hh__char--gluk {
+    right: 5vw;
+    top: 32%;
+    width: 27vw;
+    max-width: 520px;
+  }
+
+  .hh__center {
+    position: relative;
+    z-index: 2;
+    width: min(44rem, 46vw);
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 1.2rem;
+  }
+  .hh__logo {
+    margin: 0;
+    width: 100%;
+    filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.5));
+  }
+  .hh__logo img {
+    width: 100%;
+    height: auto;
+  }
+  .hh__lead {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    line-height: 1.5;
+    color: var(--ink-dim);
+  }
+  .hh__lead strong {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 1.3em;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hh__text {
+    margin: 0;
+    max-width: 34rem;
+    color: var(--ink-faint);
+    font-size: 0.98rem;
+  }
+  .hh__text b {
+    color: var(--ink-dim);
+    font-weight: 600;
+  }
+  .hh__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-top: 0.4rem;
+  }
+  .hh__studio {
+    margin-bottom: 0.4rem;
+  }
+  .hh__stores {
+    margin-top: 1.8rem;
+  }
+
+  .hh__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 3vh;
+    translate: -50% 0;
+    width: 24px;
+    height: 38px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+  }
+  .hh__scroll::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 7px;
+    width: 3px;
+    height: 7px;
+    translate: -50% 0;
+    border-radius: 3px;
+    background: var(--ink);
+    animation: wheel 1.8s var(--ease-out) infinite;
+  }
+  @keyframes wheel {
+    0% { opacity: 0; translate: -50% 0; }
+    30% { opacity: 1; }
+    100% { opacity: 0; translate: -50% 12px; }
+  }
+
+  /* ----------------------------------------------- pantallas verticales */
+  @media (max-aspect-ratio: 4/5) {
+    .hh {
+      place-items: start center;
+      padding: calc(84px + 3vh) 5vw 0;
+    }
+    .hh__center {
+      width: 100%;
+      gap: 0.9rem;
+    }
+    .hh__text,
+    .hh__stores,
+    .hh__scroll {
+      display: none;
+    }
+    .hh__orbits {
+      top: 22%;
+      width: 140vw;
+    }
+    .hh__char--juanito {
+      width: 62vw;
+      left: -6vw;
+      bottom: -6vh;
+    }
+    .hh__char--gluk {
+      width: 48vw;
+      right: -2vw;
+      top: auto;
+      bottom: 14vh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hh__orbits i,
+    .hh__scroll::after {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const hero = document.querySelector<HTMLElement>('.hh')!;
+  const juanito = hero.querySelector<HTMLElement>('[data-char="juanito"]')!;
+  const gluk = hero.querySelector<HTMLElement>('[data-char="gluk"]')!;
+  const logo = hero.querySelector<HTMLElement>('[data-logo]')!;
+  const clonos = [...hero.querySelectorAll<HTMLElement>('.hh__clono')];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  if (!reduce) {
+    // Entrada corta: todo aparece en ~1,2 s. Cada elemento tiene 2 niveles de
+    // transform: el contenedor (entrada + scroll) y .m (mouse); el img (idle).
+    const img = (el: HTMLElement) => el.querySelector('img')!;
+    gsap
+      .timeline({ defaults: { ease: 'power3.out' } })
+      .from(img(juanito), { xPercent: -45, opacity: 0, duration: 0.9 }, 0)
+      .from(img(gluk), { xPercent: 50, yPercent: -20, rotate: 14, opacity: 0, duration: 1 }, 0.05)
+      .from(logo, { scale: 0.7, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, 0.1)
+      .to(logo, { keyframes: glitchFrames(), duration: 0.4, ease: 'none' }, 0.75)
+      .from(hero.querySelectorAll('[data-in]'), { y: 18, opacity: 0, duration: 0.6, stagger: 0.08 }, 0.3)
+      .from(clonos.map(img), { scale: 0, opacity: 0, duration: 0.6, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(2.2)' }, 0.2);
+
+    // Loops "idle"
+    clonos.forEach((c, i) => {
+      const r = gsap.utils.random;
+      gsap.to(c.querySelector('[data-float]'), {
+        y: r(-24, -10), rotate: r(-10, 10), duration: r(2.2, 3.8), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1 + i * 0.15,
+      });
+    });
+    gsap.to(img(gluk), { y: -14, rotate: -2, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1 });
+    gsap.to(img(juanito), { y: -6, duration: 1.9, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1 });
+
+    // Parallax con el mouse
+    if (finePointer) {
+      const movers = [juanito, gluk, ...clonos].map((el) => {
+        const m = el.querySelector<HTMLElement>('.m')!;
+        // Las clonocélulas están "más lejos" que los personajes: se mueven bastante menos.
+        const far = el.classList.contains('hh__clono') ? 0.3 : 1;
+        return {
+          d: Number(el.dataset.depth) * far,
+          x: gsap.quickTo(m, 'x', { duration: 0.9, ease: 'power3.out' }),
+          y: gsap.quickTo(m, 'y', { duration: 0.9, ease: 'power3.out' }),
+        };
+      });
+      const lx = gsap.quickTo(logo, 'x', { duration: 1.2, ease: 'power3.out' });
+      const ly = gsap.quickTo(logo, 'y', { duration: 1.2, ease: 'power3.out' });
+      hero.addEventListener('pointermove', (e) => {
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        for (const m of movers) {
+          m.x(-nx * m.d * 50);
+          m.y(-ny * m.d * 30);
+        }
+        lx(nx * 10);
+        ly(ny * 6);
+      });
+    }
+
+    // Scroll: los personajes acompañan la página (sin irse a los costados); solo
+    // las clonocélulas flotan hacia arriba a distinta velocidad.
+    const st = { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.5 };
+    clonos.forEach((c) => {
+      const d = Number(c.dataset.depth);
+      gsap.to(c, { y: -window.innerHeight * d * 0.25, rotate: gsap.utils.random(-20, 20), ease: 'none', scrollTrigger: st });
+    });
+  }
+
+  function glitchFrames() {
+    const f = (x: number, a: number) => ({
+      x,
+      filter: `drop-shadow(${a}px 0 0 rgba(255,0,93,.85)) drop-shadow(${-a}px 0 0 rgba(0,240,255,.85)) drop-shadow(0 0 2.4vw rgba(44,224,108,.4))`,
+    });
+    return [f(-6, 5), f(5, -4), f(-2, 3), f(3, -6), f(0, 0), { x: 0, filter: '' }];
+  }
+</script>
