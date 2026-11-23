@@ -26,6 +26,7 @@ npm run assets -- hero      # solo un grupo (hero, logo)
 
 - Para `npm run assets` hace falta el venv de Python en `tools/.venv`, con psd-tools[composite], pillow y pymupdf.
 - ffmpeg portable está en `tools/ffmpeg/bin/`.
+- La imagen para compartir el sitio (`public/og.jpg`, una sola para todo el sitio) se arma con `tools/.venv/Scripts/python.exe tools/make_og.py`, a partir de la key art y el logo ya exportados.
 - `tools/.venv` y `tools/ffmpeg` no se versionan. Si faltan, se recrean con:
 
 ```

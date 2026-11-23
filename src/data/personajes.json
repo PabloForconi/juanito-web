@@ -17,7 +17,7 @@
     "slug": "dubi",
     "nombre": "Dubi",
     "rol": "Mejor amigo de Juanito",
-    "descripcion": "El perro de Juanito. Viene de la historia original de la película y quedó en bocetos y en el artbook, pero no llegó al juego.",
+    "descripcion": "El perro de Juanito. Estaba en los primeros prototipos y en la historia original; quedó en bocetos y en el artbook, pero no llegó al juego final.",
     "img": "juego/dubi/boceto-1.jpg",
     "extra": [
       "juego/dubi/boceto-2.jpg"

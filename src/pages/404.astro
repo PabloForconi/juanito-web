@@ -1,0 +1,80 @@
+---
+/** Página de error 404 (GitHub Pages la sirve sola para cualquier ruta que no exista). */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+import { asset } from '../lib/assets';
+
+const gluk = asset('characters/gluk.png');
+const clono = asset('hero/clonos/clono-at-1.png');
+---
+
+<Base title="Página no encontrada" description="Esta página fue infectada por las clonocélulas.">
+  <main class="nf">
+    <div class="container nf__in">
+      <div class="nf__art" aria-hidden="true">
+        <Image class="nf__gluk" src={gluk} alt="" widths={[280, 560]} sizes="280px" loading="eager" />
+        <Image class="nf__clono" src={clono} alt="" widths={[120, 240]} sizes="120px" loading="eager" />
+      </div>
+      <p class="nf__code">Error 404</p>
+      <h1 class="h-display">Esta página fue <span class="hl">infectada</span></h1>
+      <p class="lead">Una clonocélula se la comió. Gluk dice que no fue él.</p>
+      <div class="nf__cta">
+        <a class="btn btn--primary" href={u('/')}>Volver al inicio</a>
+        <a class="btn" href={u('/el-juego/')}>El juego</a>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 120px 0 4rem;
+    text-align: center;
+  }
+  .nf__in {
+    display: grid;
+    justify-items: center;
+  }
+  .nf__art {
+    position: relative;
+    width: min(280px, 70vw);
+    margin-bottom: 1.5rem;
+  }
+  .nf__gluk {
+    display: block;
+    width: 100%;
+    height: auto;
+    rotate: -6deg;
+  }
+  .nf__clono {
+    position: absolute;
+    right: -18%;
+    top: -8%;
+    width: 42%;
+    height: auto;
+    rotate: 14deg;
+  }
+  .nf__code {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gluk-red);
+  }
+  .nf .lead {
+    margin: 1rem 0 0;
+  }
+  .nf__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.8rem;
+  }
+</style>

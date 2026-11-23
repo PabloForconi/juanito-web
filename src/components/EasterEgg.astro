@@ -1,0 +1,246 @@
+---
+/**
+ * Easter egg: con el código Konami (↑↑↓↓←→←→BA) o tocando 5 veces a Gluk en la
+ * home, Juanito cruza la pantalla corriendo y les dispara a unas clonocélulas.
+ * Sin sonido. Todo se arma recién cuando se activa (no pesa nada antes).
+ * Con "reducir movimiento" solo aparece el cartel de puntaje.
+ */
+import { getImage } from 'astro:assets';
+import juanito from '../assets/characters/juanito.png';
+import c1 from '../assets/hero/clonos/clono-at-1.png';
+import c2 from '../assets/hero/clonos/clono-at-3.png';
+import c3 from '../assets/hero/clonos/clono-caracol.png';
+import c4 from '../assets/hero/clonos/clono-escupe.png';
+import c5 from '../assets/hero/clonos/clono-moco.png';
+
+const juanitoSrc = (await getImage({ src: juanito, width: 420, format: 'webp' })).src;
+const clonos = await Promise.all([c1, c2, c3, c4, c5].map(async (c) => (await getImage({ src: c, width: 180, format: 'webp' })).src));
+---
+
+<div data-egg data-juanito={juanitoSrc} data-clonos={JSON.stringify(clonos)} hidden></div>
+
+<style is:global>
+  .egg {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .egg__clono,
+  .egg__juanito,
+  .egg__laser,
+  .egg__pts {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .egg__clono {
+    width: var(--s);
+    height: auto;
+    filter: drop-shadow(0 6px 12px rgb(0 0 0 / 0.5));
+  }
+  .egg__juanito {
+    height: min(36vh, 300px);
+    width: auto;
+    filter: drop-shadow(0 14px 24px rgb(0 0 0 / 0.55));
+  }
+  .egg__laser {
+    height: 4px;
+    border-radius: 4px;
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, #fff, #c5ea1f 30%, #2ce06c);
+    box-shadow: 0 0 12px #2ce06c, 0 0 24px rgb(44 224 108 / 0.6);
+  }
+  .egg__pts {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--lime);
+    text-shadow: 0 2px 0 #004470, 0 0 14px rgb(208 236 18 / 0.6);
+    white-space: nowrap;
+  }
+  .egg__score {
+    position: absolute;
+    top: clamp(84px, 12vh, 110px);
+    right: clamp(16px, 4vw, 40px);
+    padding: 0.45rem 0.9rem;
+    border: 2px solid var(--lime);
+    border-radius: 10px;
+    background: rgb(5 9 13 / 0.85);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--lime);
+  }
+</style>
+
+<script>
+  const host = document.querySelector<HTMLElement>('[data-egg]');
+  if (host) {
+    const juanitoSrc = host.dataset.juanito!;
+    const clonoSrcs: string[] = JSON.parse(host.dataset.clonos || '[]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    let running = false;
+
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls: string, parent: HTMLElement) => {
+      const e = document.createElement(tag);
+      e.className = cls;
+      parent.append(e);
+      return e;
+    };
+    const loadImg = (src: string, cls: string, parent: HTMLElement) =>
+      new Promise<HTMLImageElement>((res) => {
+        const i = el('img', cls, parent);
+        i.alt = '';
+        i.onload = i.onerror = () => res(i);
+        i.src = src;
+      });
+
+    const run = async () => {
+      if (running) return;
+      running = true;
+      const vw = innerWidth;
+      const vh = innerHeight;
+      const layer = el('div', 'egg', document.body);
+      layer.setAttribute('aria-hidden', 'true');
+      const score = el('div', 'egg__score', layer);
+      let pts = 0;
+      const setScore = () => (score.textContent = `SCORE ${String(pts).padStart(6, '0')}`);
+      setScore();
+
+      if (reduce) {
+        pts = 1000;
+        setScore();
+        await wait(2200);
+        layer.remove();
+        running = false;
+        return;
+      }
+
+      // clonocélulas flotando en la parte de arriba, ordenadas de izquierda a derecha
+      const n = vw < 700 ? 4 : 6;
+      const clonos = await Promise.all(
+        Array.from({ length: n }, async (_, k) => {
+          const img = await loadImg(clonoSrcs[k % clonoSrcs.length], 'egg__clono', layer);
+          const s = Math.round((vw < 700 ? 52 : 72) + Math.random() * 26);
+          const x = ((k + 0.5) / n) * vw - s / 2 + (Math.random() - 0.5) * (vw / n) * 0.5;
+          const y = vh * (0.14 + Math.random() * 0.32);
+          img.style.setProperty('--s', `${s}px`);
+          img.style.transform = `translate(${x}px, ${y}px)`;
+          img.animate([{ opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1 }], {
+            duration: 380,
+            delay: k * 70,
+            easing: 'cubic-bezier(.2,1.4,.4,1)',
+            fill: 'backwards',
+          });
+          const bob = img.animate([{ translate: '0 0' }, { translate: '0 -10px' }], {
+            duration: 900 + Math.random() * 400,
+            direction: 'alternate',
+            iterations: Infinity,
+            easing: 'ease-in-out',
+          });
+          return { img, x, y, s, bob };
+        }),
+      );
+
+      // Juanito cruza de izquierda a derecha
+      const juanito = await loadImg(juanitoSrc, 'egg__juanito', layer);
+      const jw = juanito.getBoundingClientRect().width;
+      const jh = juanito.getBoundingClientRect().height;
+      const y0 = vh - jh - vh * 0.03;
+      const dur = vw < 700 ? 3600 : 4600;
+      const runAnim = juanito.animate(
+        [{ transform: `translate(${-jw}px, ${y0}px)` }, { transform: `translate(${vw + 20}px, ${y0}px)` }],
+        { duration: dur, easing: 'linear', fill: 'forwards' },
+      );
+      juanito.animate([{ translate: '0 0', rotate: '-2deg' }, { translate: '0 -14px', rotate: '2deg' }], {
+        duration: 260,
+        direction: 'alternate',
+        iterations: Infinity,
+        easing: 'ease-in-out',
+      });
+
+      // disparos: cada clonocélula recibe un láser cuando Juanito pasa cerca
+      const shoot = async (c: (typeof clonos)[number]) => {
+        const jr = juanito.getBoundingClientRect();
+        const gx = jr.left + jr.width * 0.88;
+        const gy = jr.top + jr.height * 0.4;
+        const tx = c.x + c.s / 2;
+        const ty = c.y + c.s / 2;
+        const len = Math.hypot(tx - gx, ty - gy);
+        const ang = Math.atan2(ty - gy, tx - gx);
+        const laser = el('div', 'egg__laser', layer);
+        laser.style.width = `${len}px`;
+        laser.style.transform = `translate(${gx}px, ${gy - 2}px) rotate(${ang}rad)`;
+        laser.animate([{ scale: '0 1', opacity: 1 }, { scale: '1 1', opacity: 1, offset: 0.4 }, { scale: '1 1', opacity: 0 }], {
+          duration: 260,
+          easing: 'ease-out',
+        }).onfinish = () => laser.remove();
+        await wait(110);
+        c.bob.cancel();
+        c.img.animate([{ scale: 1, opacity: 1, rotate: '0deg' }, { scale: 1.7, opacity: 0, rotate: '25deg' }], {
+          duration: 300,
+          easing: 'ease-out',
+          fill: 'forwards',
+        });
+        const p = el('div', 'egg__pts', layer);
+        p.textContent = '+100';
+        p.style.transform = `translate(${tx - 24}px, ${ty - 16}px)`;
+        p.animate([{ translate: '0 0', opacity: 1 }, { translate: '0 -46px', opacity: 0 }], {
+          duration: 800,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }).onfinish = () => p.remove();
+        pts += 100;
+        setScore();
+      };
+
+      // momento de cada disparo: cuando el arma de Juanito está un poco antes de la clonocélula
+      clonos.forEach((c) => {
+        const gunX = c.x + c.s / 2 - vw * 0.12;
+        const t = ((gunX + jw * 0.12) / (vw + 20 + jw)) * dur;
+        setTimeout(() => shoot(c), Math.max(250, t));
+      });
+
+      await runAnim.finished;
+      pts += 400; // bonus por limpiar la pantalla
+      setScore();
+      score.animate([{ scale: 1 }, { scale: 1.15 }, { scale: 1 }], { duration: 400 });
+      await wait(1100);
+      await layer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' }).finished;
+      layer.remove();
+      running = false;
+    };
+
+    // código Konami
+    const seq = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+    let pos = 0;
+    window.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === seq[pos]) {
+        pos++;
+        if (pos === seq.length) {
+          pos = 0;
+          run();
+        }
+      } else {
+        pos = k === seq[0] ? 1 : 0;
+      }
+    });
+
+    // en pantallas táctiles: 5 toques seguidos sobre un elemento [data-egg-tap] (Gluk en la home)
+    let taps = 0;
+    let last = 0;
+    document.addEventListener('click', (e) => {
+      if (!(e.target as Element | null)?.closest?.('[data-egg-tap]')) return;
+      const now = performance.now();
+      taps = now - last < 700 ? taps + 1 : 1;
+      last = now;
+      if (taps >= 5) {
+        taps = 0;
+        run();
+      }
+    });
+  }
+</script>

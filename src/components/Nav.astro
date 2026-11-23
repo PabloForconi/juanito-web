@@ -4,10 +4,11 @@ import logo from '../assets/logo/logo.svg';
 import { NAV, NAV_MORE, CTA } from '../lib/nav';
 
 const path = Astro.url.pathname;
+const isHome = path === u('/');
 const isActive = (href: string) => path === href || path.startsWith(href);
 ---
 
-<header class="nav" data-nav>
+<header class:list={['nav', isHome && 'nav--home']} data-nav>
   <div class="nav__inner">
     <a class="nav__logo" href={u('/')} aria-label="Inicio · Juanito Arcade Mayhem">
       <img src={logo.src} width={logo.width} height={logo.height} alt="" />
@@ -34,6 +35,14 @@ const isActive = (href: string) => path === href || path.startsWith(href);
         </div>
       </div>
     </nav>
+
+    <button class="nav__arcade" type="button" aria-pressed="false" aria-label="Modo arcade" title="Modo arcade" data-arcade>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="6.2" r="3.4" fill="currentColor" />
+        <path d="M12 9.5v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <path d="M5.2 16.5h13.6l-1.3 3.5H6.5z" fill="currentColor" />
+      </svg>
+    </button>
 
     <a class="btn btn--primary btn--sm nav__cta" href={CTA.href}>{CTA.label}</a>
 
@@ -87,6 +96,16 @@ const isActive = (href: string) => path === href || path.startsWith(href);
     border-color: var(--line);
     backdrop-filter: blur(18px) saturate(140%);
     box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.7);
+  }
+  /* En la home el logo de la barra aparece recién cuando el logo grande de la
+     portada sale de pantalla (así no se ve dos veces). */
+  .nav__logo {
+    transition: opacity 0.35s ease, translate 0.35s var(--ease-out);
+  }
+  .nav--home:not(.is-past) .nav__logo {
+    opacity: 0;
+    translate: 0 -6px;
+    pointer-events: none;
   }
   .nav__logo img {
     height: 34px;
@@ -166,6 +185,32 @@ const isActive = (href: string) => path === href || path.startsWith(href);
   .nav__cta {
     margin-left: 0.4rem;
   }
+  /* botón del modo arcade (joystick) */
+  .nav__arcade {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    margin-left: 0.3rem;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgb(255 255 255 / 0.06);
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .nav__arcade:hover {
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.1);
+  }
+  .nav__arcade[aria-pressed='true'] {
+    color: #06140c;
+    background: var(--lime);
+    border-color: var(--lime);
+    box-shadow: 0 0 18px rgb(208 236 18 / 0.45);
+  }
   .nav__burger {
     display: none;
     margin-left: auto;
@@ -233,12 +278,44 @@ const isActive = (href: string) => path === href || path.startsWith(href);
     }
     .nav__burger {
       display: block;
+      margin-left: 0.5rem;
+    }
+    .nav__arcade {
+      margin-left: auto;
+      width: 44px;
+      height: 44px;
     }
   }
 </style>
 
 <script>
   const nav = document.querySelector<HTMLElement>('[data-nav]')!;
+
+  // Modo arcade: filtro CRT en todo el sitio. Se recuerda entre visitas (si el
+  // navegador lo permite); Base.astro lo aplica antes de pintar para que no parpadee.
+  const arcadeBtn = nav.querySelector<HTMLButtonElement>('[data-arcade]')!;
+  const root = document.documentElement;
+  arcadeBtn.setAttribute('aria-pressed', String(root.classList.contains('arcade')));
+  arcadeBtn.addEventListener('click', () => {
+    const on = !root.classList.contains('arcade');
+    root.classList.toggle('arcade', on);
+    arcadeBtn.setAttribute('aria-pressed', String(on));
+    try {
+      localStorage.setItem('juanito-arcade', on ? '1' : '0');
+    } catch {}
+    if (on && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.classList.add('arcade-on');
+      setTimeout(() => root.classList.remove('arcade-on'), 600);
+    }
+  });
+
+  // Home: mostrar el logo de la barra cuando el logo de la portada ya no se ve.
+  const heroLogo = document.querySelector<HTMLElement>('[data-logo]');
+  if (nav.classList.contains('nav--home') && heroLogo && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => nav.classList.toggle('is-past', !e.isIntersecting), { rootMargin: '-70px 0px 0px 0px' }).observe(heroLogo);
+  } else {
+    nav.classList.add('is-past');
+  }
   const burger = nav.querySelector<HTMLButtonElement>('[data-burger]')!;
   const sheet = nav.querySelector<HTMLElement>('[data-sheet]')!;
   const more = nav.querySelector<HTMLButtonElement>('[data-more]')!;

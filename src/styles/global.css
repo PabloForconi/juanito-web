@@ -81,6 +81,42 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Modo arcade (botón del menú): filtro de monitor CRT sobre todo el sitio.
+   Es una capa fija y quieta (líneas de barrido, viñeta, esquinas redondeadas);
+   no se anima ni usa filtros, así que no pesa al scrollear. */
+html.arcade body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.6) 100%),
+    repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.3) 0 1px, transparent 1px 3px),
+    linear-gradient(rgb(44 224 108 / 0.035), rgb(44 224 108 / 0.035));
+  box-shadow:
+    0 0 0 40px #000,
+    inset 0 0 110px rgb(0 0 0 / 0.75);
+  transform: translateZ(0);
+}
+html.arcade .h-display,
+html.arcade .h2 {
+  text-shadow: 0 0 16px rgb(44 224 108 / 0.35);
+}
+/* destello de "encendido" al activarlo */
+html.arcade-on body::before {
+  animation: crt-on 0.5s ease-out;
+}
+@keyframes crt-on {
+  0% {
+    background-color: rgb(255 255 255 / 0.18);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
 ::selection {
   background: var(--lime);
   color: var(--deep);

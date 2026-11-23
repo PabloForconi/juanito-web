@@ -7,7 +7,8 @@ import { asset, maybeAsset } from '../lib/assets';
 import { fecha, anio, byFecha } from '../lib/format';
 import hitosData from '../data/hitos.json';
 import eventosData from '../data/eventos.json';
-import type { Hito, Evento } from '../data/types';
+import recordsData from '../data/records.json';
+import type { Hito, Evento, Records } from '../data/types';
 
 const hitos = (hitosData as Hito[]).slice().sort(byFecha);
 const eventos = (eventosData as Evento[]).slice().sort(byFecha);
@@ -32,6 +33,16 @@ const evs = await Promise.all(
     return { ...e, cover: imgs[0] ? asset(imgs[0]) : undefined, big, count: imgs.length };
   }),
 );
+// Récords del gabinete: fotos en grande para el lightbox
+const records = recordsData as Records;
+const recFotos = await Promise.all(
+  records.fotos.map(async (f) => {
+    const src = asset(f.img);
+    return { ...f, src, big: (await getImage({ src, width: Math.min(src.width, 1600), format: 'webp', quality: 85 })).src };
+  }),
+);
+const pts = (n: number) => n.toLocaleString('es-AR');
+
 const aniosEventos = [...new Set(eventos.map((e) => anio(e.fecha)))];
 
 const cat: Record<Hito['categoria'], string> = {
@@ -45,11 +56,11 @@ const cat: Record<Hito['categoria'], string> = {
 };
 ---
 
-<Base title="Historia" description="De película animada a videojuego: la historia de Juanito Arcade Mayhem, de 2011 a hoy.">
+<Base title="Historia" description="De los prototipos en Flash a Steam: la historia de Juanito Arcade Mayhem, de 2011 a hoy.">
   <PageHeader
     eyebrow="Historia"
-    title='De película animada <span class="hl">a fichín</span>'
-    lead="Juanito nació en 2011 como el protagonista de un largometraje animado: «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, terminó siendo un videojuego. Esta es la línea de tiempo."
+    title='Un fichín <span class="hl">con alma de dibujo animado</span>'
+    lead="Juanito nació en 2011 como un videojuego que también podía convertirse en dibujo animado. Por entonces se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, llegó a Steam. Esta es la línea de tiempo."
   >
     <nav class="years" aria-label="Años">
       {[...porAnio.keys()].map((y) => <a href={`#y${y}`}>{y}</a>)}
@@ -98,7 +109,7 @@ const cat: Record<Hito['categoria'], string> = {
         <h2 class="h2">El gabinete <span class="hl">salió de gira</span></h2>
         <p class="lead">
           Entre 2014 y 2018 Juanito estuvo en {eventos.length} eventos: ferias, festivales, fiestas y convenciones. Desde 2015, casi
-          siempre con su propio gabinete arcade verde. Tocá un evento para ver las fotos.
+          siempre con su propio gabinete arcade verde.
         </p>
       </div>
       {
@@ -114,7 +125,6 @@ const cat: Record<Hito['categoria'], string> = {
                       {e.cover && (
                         <a href={e.big[0]} data-lightbox={e.slug} data-caption={`${e.nombre} · ${fecha(e.fecha)}`} class="ev__cover">
                           <Image src={e.cover} alt={`${e.nombre}`} widths={[360, 560]} sizes="(max-width: 600px) 90vw, 280px" />
-                          {e.count > 1 && <span class="ev__count">{e.count} fotos</span>}
                         </a>
                       )}
                       {e.big.slice(1).map((b, i) => (
@@ -123,7 +133,10 @@ const cat: Record<Hito['categoria'], string> = {
                         </a>
                       ))}
                       <div class="ev__body">
-                        <time datetime={e.fecha}>{fecha(e.fecha)}</time>
+                        <p class="ev__meta">
+                          <time datetime={e.fecha}>{fecha(e.fecha)}</time>
+                          {e.count > 1 && <span class="ev__count">{e.count} fotos</span>}
+                        </p>
                         <h4 class="h3">{e.nombre}</h4>
                         {e.lugar && <p class="ev__lugar">{e.lugar}</p>}
                         {e.descripcion && <p class="ev__desc">{e.descripcion}</p>}
@@ -135,6 +148,47 @@ const cat: Record<Hito['categoria'], string> = {
           </div>
         ))
       }
+    </div>
+  </section>
+
+  <section class="section" id="records">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Récords</p>
+        <h2 class="h2">Los que le <span class="hl">ganaron al gabinete</span></h2>
+        <p class="lead">El gabinete guardaba un ranking histórico: gana el que más tiempo sobrevive. MAP fue el rey de la tabla hasta que apareció EMI.</p>
+      </div>
+      <div class="hs" data-reveal>
+        <div class="hs__screen">
+          <p class="hs__title">High scores</p>
+          <ol class="hs__list">
+            {
+              records.tabla.map((r, i) => (
+                <li class:list={['hs__row', i === 0 && 'is-top']}>
+                  <span class="hs__pos">{i + 1}.</span>
+                  <span class="hs__ini">{r.ini}</span>
+                  <span class="hs__time">{r.tiempo}</span>
+                  <span class="hs__pts">{pts(r.puntaje)}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="hs__foot">Tiempo sobrevivido · Puntaje</p>
+        </div>
+        <ul class="hs__fotos">
+          {
+            recFotos.map((f) => (
+              <li>
+                <a href={f.big} data-lightbox="records" data-caption={`${f.titulo} · ${fecha(f.fecha)}`}>
+                  <Image src={f.src} alt={f.titulo} widths={[320, 560]} sizes="(max-width: 900px) 30vw, 220px" />
+                </a>
+                <p>{f.titulo}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="hs__nota">{records.nota}</p>
     </div>
   </section>
   <Lightbox />
@@ -259,10 +313,10 @@ const cat: Record<Hito['categoria'], string> = {
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    align-items: start;
     gap: 1rem;
   }
   .ev {
-    height: 100%;
     overflow: hidden;
   }
   .ev__cover {
@@ -272,13 +326,16 @@ const cat: Record<Hito['categoria'], string> = {
   .ev__cover img {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    display: block;
+  }
+  .ev__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0;
   }
   .ev__count {
-    position: absolute;
-    right: 0.6rem;
-    bottom: 0.6rem;
     font-family: var(--font-ui);
     font-weight: 700;
     font-size: 0.78rem;
@@ -304,6 +361,127 @@ const cat: Record<Hito['categoria'], string> = {
     margin: 0.3rem 0 0;
     font-size: 0.92rem;
     color: var(--ink-dim);
+  }
+
+  /* Récords: pantalla de high scores estilo arcade + fotos de prueba */
+  #records {
+    scroll-margin-top: 100px;
+  }
+  .hs {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: start;
+    margin-top: 2rem;
+  }
+  .hs__screen {
+    padding: clamp(1.4rem, 3.5vw, 2.4rem) clamp(1.1rem, 3.5vw, 2.6rem);
+    border-radius: 22px;
+    border: 2px solid #1a2a3a;
+    background: radial-gradient(120% 90% at 50% 0%, #0d1a2b 0%, #05080f 70%);
+    box-shadow: inset 0 0 60px rgb(0 0 0 / 0.8), 0 0 0 6px #0a0f14, 0 0 40px rgb(44 224 108 / 0.12);
+  }
+  .hs__title {
+    margin: 0 0 1.2rem;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f8d000;
+    text-shadow: 0 0 18px rgb(248 208 0 / 0.45);
+  }
+  .hs__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .hs__row {
+    display: grid;
+    grid-template-columns: 2.4em 3.4em minmax(4.5em, 1fr) minmax(7em, 1.4fr);
+    gap: 0.6rem;
+    align-items: baseline;
+    font-family: var(--font-heading);
+    font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: #eef6f2;
+  }
+  .hs__pos {
+    text-align: right;
+    color: var(--ink-dim);
+  }
+  .hs__time {
+    text-align: right;
+  }
+  .hs__pts {
+    text-align: right;
+  }
+  .hs__row.is-top {
+    color: var(--lime);
+    text-shadow: 0 0 14px rgb(208 236 18 / 0.45);
+  }
+  .hs__row.is-top .hs__pos {
+    color: var(--lime);
+  }
+  .hs__foot {
+    margin: 1.2rem 0 0;
+    text-align: center;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  /* fotos de prueba: la vertical (EMI) ocupa dos filas, las otras dos al costado */
+  .hs__fotos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+  .hs__fotos li:first-child {
+    grid-row: span 2;
+  }
+  .hs__fotos a {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+  }
+  .hs__fotos img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: filter 0.3s;
+  }
+  .hs__fotos a:hover img {
+    filter: brightness(1.12);
+  }
+  .hs__fotos p {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+  }
+  .hs__nota {
+    margin: 1.2rem 0 0;
+    max-width: 52rem;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 900px) {
+    .hs {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 700px) {

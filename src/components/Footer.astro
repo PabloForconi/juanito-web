@@ -1,5 +1,6 @@
 ---
 import { u } from '../lib/url';
+import { BUILD } from '../lib/build';
 import { Image } from 'astro:assets';
 import logo from '../assets/logo/logo-pintado.png';
 import { NAV, NAV_MORE, CTA } from '../lib/nav';
@@ -46,7 +47,9 @@ const redes = [
   </div>
   <div class="container footer__bottom">
     <span>© 2011–2026 Game Ever Studio. Juanito, Gluk y las clonocélulas son de Game Ever.</span>
-    <span class="footer__insert">INSERT COIN ▮</span>
+    <!-- solo se ve la versión; el commit y la fecha quedan en atributos para chequear -->
+    <span class="footer__ver" data-commit={BUILD.commit} data-built={BUILD.date}>Versión {BUILD.version}</span>
+    <a class="footer__insert" href={u('/historia/#records')} title="High scores">INSERT COIN ▮</a>
   </div>
 </footer>
 
@@ -126,8 +129,15 @@ const redes = [
     font-size: 0.85rem;
     color: var(--ink-faint);
   }
+  .footer__ver {
+    margin-right: auto;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    opacity: 0.8;
+  }
   .footer__insert {
     color: var(--lime);
+    text-decoration: none;
     letter-spacing: 0.15em;
     animation: blink 1.4s steps(2) infinite;
   }

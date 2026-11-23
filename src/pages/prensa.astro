@@ -10,14 +10,21 @@ import prensaData from '../data/prensa.json';
 import radioData from '../data/radio.json';
 import videosData from '../data/videos.json';
 import taringaData from '../data/taringa.json';
+import { medios, logoDe } from '../lib/medios';
 import type { Nota, Radio, Video, PostTaringa } from '../data/types';
 
-const notas = (prensaData as Nota[]).slice().sort(byFecha);
+// Las notas con el link caído no se muestran.
+const notas = (prensaData as Nota[]).filter((n) => !n.caida).sort(byFecha);
 const destacadas = notas.filter((n) => n.destacada);
 const resto = notas.filter((n) => !n.destacada);
 const radios = (radioData as Radio[]).slice().sort(byFecha);
 const tele = (videosData as Video[]).filter((v) => v.categoria === 'entrevista').sort(byFecha);
 const taringa = (taringaData as PostTaringa[]).slice().sort(byFecha);
+
+// Franja "Salió en": un logo por medio, en el orden de medios.json
+const salioEn = medios.filter((m) => notas.some((n) => n.medio === m.nombre));
+// Logo de Taringa (el de 2018, la época de los posts)
+const logoTaringa = maybeAsset('prensa/logos/taringa.png');
 
 const tipo: Record<Nota['tipo'], string> = { nota: 'Nota', review: 'Reseña', entrevista: 'Entrevista', noticia: 'Noticia' };
 const link = (n: Nota) => n.archivo ?? n.url;
@@ -34,34 +41,71 @@ const link = (n: Nota) => n.archivo ?? n.url;
     </nav>
   </PageHeader>
 
+  <section class="salio" aria-label="Medios que hablaron de Juanito">
+    <div class="container">
+      <p class="salio__t">Salió en</p>
+      <ul class="salio__list">
+        {
+          salioEn.map((m) => {
+            const l = logoDe(m.nombre);
+            return (
+              <li>
+                {l ? (
+                  <Image src={l.img} alt={m.nombre} height={l.h * 2} style={`height:${l.h}px`} />
+                ) : (
+                  <span class="medio-txt">{m.nombre}</span>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
   <section class="section" id="notas">
     <div class="container">
       <p class="eyebrow" data-reveal>Destacadas</p>
       <div class="dest">
         {
-          destacadas.map((n) => (
-            <a class="card nota-d" href={link(n)} target="_blank" rel="noopener" data-reveal>
-              <p class="nota-d__medio">{n.medio}</p>
-              <h3 class="h3">{n.titulo}</h3>
-              <p class="muted">{n.resumen}</p>
-              <p class="nota-d__meta">
-                <span class="chip">{tipo[n.tipo]}</span>
-                {n.puntaje && <span class="chip chip--lime">{n.puntaje}</span>}
-                <time datetime={n.fecha}>{fecha(n.fecha)}</time>
-              </p>
-            </a>
-          ))
+          destacadas.map((n) => {
+            const portada = maybeAsset(n.portada);
+            const l = logoDe(n.medio, 0.85);
+            return (
+              <a class="card card--hover nota-d" href={link(n)} target="_blank" rel="noopener" data-reveal>
+                {portada && (
+                  <Image class="nota-d__img" src={portada} alt="" widths={[400, 640, 900]} sizes="(max-width: 700px) 92vw, 400px" />
+                )}
+                <div class="nota-d__body">
+                  <p class="nota-d__medio">
+                    {l ? <Image src={l.img} alt={n.medio} height={l.h * 2} style={`height:${l.h}px`} /> : n.medio}
+                  </p>
+                  <h3 class="h3">{n.titulo}</h3>
+                  <p class="muted">{n.resumen}</p>
+                  <p class="nota-d__meta">
+                    <span class="chip">{tipo[n.tipo]}</span>
+                    {n.puntaje && <span class="chip chip--lime">{n.puntaje}</span>}
+                    <time datetime={n.fecha}>{fecha(n.fecha)}</time>
+                  </p>
+                </div>
+              </a>
+            );
+          })
         }
       </div>
 
       <h2 class="h2 sub" data-reveal>Todas las notas</h2>
       <ul class="notas">
         {
-          resto.map((n) => (
+          resto.map((n) => {
+            const l = logoDe(n.medio, 0.75);
+            return (
             <li data-reveal>
               <a href={link(n)} target="_blank" rel="noopener">
                 <span class="notas__fecha">{fecha(n.fecha) || anio(n.fecha)}</span>
-                <span class="notas__medio">{n.medio}</span>
+                <span class="notas__medio">
+                  {l ? <Image src={l.img} alt={n.medio} height={l.h * 2} style={`height:${l.h}px`} /> : n.medio}
+                </span>
                 <span class="notas__tit">
                   {n.titulo}
                   <small>{n.resumen}</small>
@@ -72,7 +116,8 @@ const link = (n: Nota) => n.archivo ?? n.url;
                 </span>
               </a>
             </li>
-          ))
+            );
+          })
         }
       </ul>
     </div>
@@ -83,7 +128,6 @@ const link = (n: Nota) => n.archivo ?? n.url;
       <div data-reveal>
         <p class="eyebrow">Radio y podcasts</p>
         <h2 class="h2">Juanito <span class="hl">al aire</span></h2>
-        <p class="lead">Los audios se reproducen solo cuando vos le das play.</p>
       </div>
       <ul class="radios">
         {
@@ -159,7 +203,10 @@ const link = (n: Nota) => n.archivo ?? n.url;
           taringa.map((t) => (
             <li data-reveal>
               <a class="card card--hover tpost" href={t.url} target="_blank" rel="noopener">
-                <time datetime={t.fecha}>{fecha(t.fecha)}</time>
+                <p class="tpost__top">
+                  {logoTaringa && <Image src={logoTaringa} alt="Taringa!" height={30} style="height:15px" />}
+                  <time datetime={t.fecha}>{fecha(t.fecha)}</time>
+                </p>
                 <h3 class="h3">{t.titulo}</h3>
                 <p class="muted">{t.resumen}</p>
                 {t.stats && <p class="tpost__stats">{t.stats}</p>}
@@ -202,7 +249,21 @@ const link = (n: Nota) => n.archivo ?? n.url;
     gap: 1rem;
   }
   .nota-d {
-    padding: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nota-d__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--line);
+  }
+  .nota-d__body {
+    padding: 1.2rem 1.3rem 1.3rem;
     display: grid;
     gap: 0.5rem;
     align-content: start;
@@ -211,11 +272,60 @@ const link = (n: Nota) => n.archivo ?? n.url;
     margin: 0;
   }
   .nota-d__medio {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: 0.9rem;
     letter-spacing: 0.04em;
     color: var(--green-neon);
+  }
+  .nota-d__medio img,
+  .notas__medio img,
+  .salio__list img {
+    width: auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  /* Franja "Salió en" */
+  .salio {
+    padding: 0.5rem 0 1rem;
+  }
+  .salio + .section {
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .salio__t {
+    margin: 0 0 1rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .salio__list {
+    list-style: none;
+    margin: 0;
+    padding: 1.4rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem 2.4rem;
+    border-block: 1px solid var(--line);
+  }
+  .salio__list li {
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .salio__list li:hover {
+    opacity: 1;
+  }
+  .medio-txt {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--ink);
   }
   .nota-d__meta {
     display: flex;
@@ -239,7 +349,7 @@ const link = (n: Nota) => n.archivo ?? n.url;
     display: grid;
     grid-template-columns: 110px 170px 1fr auto;
     gap: 1rem;
-    align-items: baseline;
+    align-items: center;
     padding: 0.9rem 0.4rem;
     border-bottom: 1px solid var(--line);
     color: var(--ink);
@@ -255,6 +365,7 @@ const link = (n: Nota) => n.archivo ?? n.url;
     font-size: 0.9rem;
   }
   .notas__medio {
+    align-self: center;
     font-family: var(--font-ui);
     font-weight: 700;
     color: var(--green-neon);
@@ -352,6 +463,18 @@ const link = (n: Nota) => n.archivo ?? n.url;
   .tpost h3 {
     margin: 0;
   }
+  .tpost__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.3rem !important;
+  }
+  .tpost__top img {
+    width: auto;
+    display: block;
+    opacity: 0.85;
+  }
   .tpost time,
   .tpost__stats {
     font-family: var(--font-ui);
@@ -363,7 +486,14 @@ const link = (n: Nota) => n.archivo ?? n.url;
   @media (max-width: 800px) {
     .notas a {
       grid-template-columns: 1fr;
-      gap: 0.2rem;
+      gap: 0.35rem;
+    }
+    .notas__medio {
+      align-self: start;
+    }
+    .salio__list {
+      gap: 1.1rem 1.6rem;
+      justify-content: center;
     }
     .radio {
       grid-template-columns: 1fr;

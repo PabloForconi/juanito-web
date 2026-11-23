@@ -1,10 +1,13 @@
 ---
 /**
  * Selector de mundos estilo "pantalla de selección" del juego.
- * Carrusel propio (sin scroll nativo): la pista se mueve con transform y una
- * animación suavizada (lerp en requestAnimationFrame). Se puede arrastrar con
- * mouse o dedo (con inercia), usar la rueda/trackpad horizontal, las flechas,
- * los puntitos o el teclado. El mundo activo queda al centro y su texto abajo.
+ * Dos modos según el dispositivo:
+ *  - Táctil (celular/tablet): scroll horizontal NATIVO con scroll-snap. Es lo más
+ *    fluido en un teléfono (inercia y rebote del propio sistema).
+ *  - Mouse (PC): la pista se mueve con transform y una animación suavizada que
+ *    depende del tiempo (igual a 60 o 144 Hz). Se arrastra con el mouse (con
+ *    inercia), rueda o trackpad horizontal, flechas, puntitos o teclado.
+ * El oscurecimiento de los costados va por clase: no se recalcula en cada cuadro.
  */
 import { Image } from 'astro:assets';
 import { maybeAsset } from '../lib/assets';
@@ -30,7 +33,7 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
           mundos.map((m, i) => {
             const chip = maybeAsset(m.chip);
             return (
-              <li class="wc__item" data-i={i}>
+              <li class:list={['wc__item', i === 0 && 'is-on']} data-i={i}>
                 <button type="button" class:list={['wc__card', m.flip && 'is-flip']} aria-label={m.nombre} data-go={i} tabindex="-1">
                   {chip && (
                     <Image src={chip} alt="" widths={[440, 546, 1092]} sizes="(max-width: 700px) 80vw, 546px" draggable="false" loading={i < 3 ? 'eager' : 'lazy'} />
@@ -85,11 +88,12 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
        chicas se achican todos por igual */
     --card: min(546px, 80vw);
     overflow: hidden;
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 2.5rem;
     cursor: grab;
-    touch-action: pan-y; /* el scroll vertical de la página sigue funcionando */
+    touch-action: pan-y;
     outline: none;
     user-select: none;
+    -webkit-user-select: none;
   }
   .wc__viewport.is-dragging {
     cursor: grabbing;
@@ -99,11 +103,24 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 0;
     will-change: transform;
   }
   .wc__item {
+    position: relative;
     flex: 0 0 var(--card);
+  }
+  /* sombra barata debajo del cartucho (en vez de filter: drop-shadow, caro de repintar) */
+  .wc__item::after {
+    content: '';
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 3%;
+    height: 8%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.6), transparent);
+    z-index: -1;
+    pointer-events: none;
   }
   .wc__card {
     display: block;
@@ -112,17 +129,45 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
     border: 0;
     background: none;
     cursor: inherit;
-    /* el oscurecimiento lo calcula el script según la distancia al centro (--dim) */
-    filter: brightness(calc(1 - var(--dim, 0.65))) saturate(calc(1 - var(--dim, 0.65) * 0.45));
+    -webkit-tap-highlight-color: transparent;
+    /* los de los costados quedan oscuros; el activo se ilumina con una transición corta */
+    filter: brightness(0.38) saturate(0.7);
+    transition: filter 0.35s ease;
+  }
+  .wc__item.is-on .wc__card {
+    filter: none;
   }
   .wc__card img {
+    display: block;
     width: 100%;
     height: auto;
     pointer-events: none;
-    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
   }
   .wc__card.is-flip img {
     transform: scaleX(-1);
+  }
+
+  /* Modo táctil: scroll nativo con imán al centro */
+  .wc__viewport.is-native {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: auto;
+    cursor: auto;
+  }
+  .wc__viewport.is-native::-webkit-scrollbar {
+    display: none;
+  }
+  .wc__viewport.is-native .wc__track {
+    width: max-content;
+    padding-inline: calc((100vw - var(--card)) / 2);
+    will-change: auto;
+  }
+  .wc__viewport.is-native .wc__item {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   .wc__nav {
@@ -228,6 +273,13 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
       display: none;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .wc__card,
+    .wc__panel,
+    .wc__dot {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
@@ -239,27 +291,15 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
     const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
     const dots = [...root.querySelectorAll<HTMLElement>('[data-dot]')];
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const touch = window.matchMedia('(pointer: coarse)').matches;
     const last = items.length - 1;
-
-    // Geometría: posición x (en px) de la pista para centrar el item i.
-    let step = 0; // distancia entre centros de items
-    let base = 0; // x para centrar el item 0
-    const measure = () => {
-      const w = items[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      step = w + gap;
-      base = viewport.clientWidth / 2 - w / 2;
-    };
-    const xFor = (i: number) => base - i * step;
-
-    let x = 0; // posición actual
-    let target = 0; // posición a la que se acerca suavemente
-    let active = -1;
-    let running = false;
+    const clamp = (i: number) => Math.max(0, Math.min(last, i));
+    let active = 0;
 
     const setActive = (i: number) => {
       if (i === active) return;
       active = i;
+      items.forEach((el, k) => el.classList.toggle('is-on', k === i));
       dots.forEach((el, k) => el.classList.toggle('is-on', k === i));
       panels.forEach((el, k) => {
         el.classList.toggle('is-on', k === i);
@@ -267,127 +307,183 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
       });
     };
 
-    const render = () => {
-      track.style.transform = `translate3d(${x}px, 0, 0)`;
-      // oscurecer según la distancia al centro (0 = activo, 1 = a un item o más)
-      const pos = (base - x) / step;
-      cards.forEach((c, k) => c.style.setProperty('--dim', String(Math.min(1, Math.abs(k - pos)) * 0.65)));
-    };
+    let go: (i: number) => void;
 
-    const loop = () => {
-      if (!running) return;
-      const dx = target - x;
-      x += dx * 0.12; // suavizado (más chico = más suave)
-      if (Math.abs(dx) < 0.3) {
-        x = target;
-        running = false;
-      }
-      render();
-      if (running) requestAnimationFrame(loop);
-    };
-    const animate = () => {
-      if (reduce) {
-        x = target;
+    if (touch) {
+      // ------------------------------------------------ modo táctil (scroll nativo)
+      viewport.classList.add('is-native');
+      const centerOf = (el: HTMLElement) => el.offsetLeft + el.offsetWidth / 2 - viewport.clientWidth / 2;
+      let lockUntil = 0;
+      go = (i) => {
+        const k = clamp(i);
+        lockUntil = performance.now() + 700;
+        viewport.scrollTo({ left: centerOf(items[k]), behavior: reduce ? 'auto' : 'smooth' });
+        setActive(k);
+      };
+      let raf = 0;
+      viewport.addEventListener(
+        'scroll',
+        () => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = 0;
+            if (performance.now() < lockUntil) return;
+            const pos = viewport.scrollLeft;
+            let best = 0;
+            let dist = Infinity;
+            items.forEach((el, k) => {
+              const d = Math.abs(centerOf(el) - pos);
+              if (d < dist) {
+                dist = d;
+                best = k;
+              }
+            });
+            setActive(best);
+          });
+        },
+        { passive: true },
+      );
+      cards.forEach((c, k) => c.addEventListener('click', () => go(k)));
+    } else {
+      // ------------------------------------------------ modo mouse (animado con transform)
+      let step = 0;
+      let base = 0;
+      const measure = () => {
+        step = items[0].getBoundingClientRect().width;
+        base = viewport.clientWidth / 2 - step / 2;
+      };
+      const xFor = (i: number) => base - i * step;
+      const nearest = (pos: number) => clamp(Math.round((base - pos) / step));
+
+      let x = 0;
+      let target = 0;
+      let running = false;
+      let prev = 0;
+      const render = () => {
+        track.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+      };
+      const loop = (now: number) => {
+        if (!running) return;
+        // suavizado exponencial según el tiempo transcurrido (independiente de los FPS)
+        const dt = prev ? Math.min(50, now - prev) : 16;
+        prev = now;
+        x += (target - x) * (1 - Math.exp(-dt / 120));
+        if (Math.abs(target - x) < 0.3) {
+          x = target;
+          running = false;
+        }
         render();
-        return;
-      }
-      if (!running) {
-        running = true;
-        requestAnimationFrame(loop);
-      }
-    };
-
-    const go = (i: number) => {
-      const k = Math.max(0, Math.min(last, i));
-      target = xFor(k);
-      setActive(k);
-      animate();
-    };
-    const nearest = (pos: number) => Math.max(0, Math.min(last, Math.round((base - pos) / step)));
-
-    // ---------------------------------------------------- arrastre (mouse/dedo)
-    let dragging = false;
-    let moved = false;
-    let startX = 0;
-    let startPos = 0;
-    let lastX = 0;
-    let lastT = 0;
-    let vel = 0;
-    viewport.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      dragging = true;
-      moved = false;
-      startX = lastX = e.clientX;
-      lastT = performance.now();
-      startPos = x;
-      vel = 0;
-    });
-    viewport.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      const dx = e.clientX - startX;
-      if (!moved && Math.abs(dx) > 6) {
-        moved = true;
-        running = false; // el dedo/mouse toma el control
-        viewport.classList.add('is-dragging');
-        viewport.setPointerCapture(e.pointerId);
-      }
-      if (!moved) return;
-      const now = performance.now();
-      vel = (e.clientX - lastX) / Math.max(1, now - lastT); // px/ms
-      lastX = e.clientX;
-      lastT = now;
-      // resistencia en los extremos
-      let next = startPos + dx;
-      const min = xFor(last);
-      const max = xFor(0);
-      if (next > max) next = max + (next - max) * 0.35;
-      if (next < min) next = min + (next - min) * 0.35;
-      x = target = next;
-      render();
-      setActive(nearest(x));
-    });
-    const endDrag = () => {
-      if (!dragging) return;
-      dragging = false;
-      viewport.classList.remove('is-dragging');
-      if (!moved) return;
-      // inercia: proyecta el movimiento según la velocidad al soltar
-      go(nearest(x + vel * 220));
-      setTimeout(() => (moved = false), 0);
-    };
-    viewport.addEventListener('pointerup', endDrag);
-    viewport.addEventListener('pointercancel', endDrag);
-    viewport.addEventListener('lostpointercapture', endDrag);
-
-    // clic en un cartucho de costado = ir a ese mundo
-    cards.forEach((c, k) =>
-      c.addEventListener('click', (e) => {
-        if (moved) {
-          e.preventDefault();
+        if (running) requestAnimationFrame(loop);
+      };
+      const animate = () => {
+        if (reduce) {
+          x = target;
+          render();
           return;
         }
-        go(k);
-      }),
-    );
-
-    // rueda / trackpad horizontal
-    let wheelAcc = 0;
-    let wheelTimer = 0;
-    viewport.addEventListener(
-      'wheel',
-      (e) => {
-        if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical: deja scrollear la página
-        e.preventDefault();
-        wheelAcc += e.deltaX;
-        clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(() => (wheelAcc = 0), 180);
-        if (Math.abs(wheelAcc) > 60) {
-          go(active + Math.sign(wheelAcc));
-          wheelAcc = 0;
+        if (!running) {
+          running = true;
+          prev = 0;
+          requestAnimationFrame(loop);
         }
-      },
-      { passive: false },
-    );
+      };
+      go = (i) => {
+        const k = clamp(i);
+        target = xFor(k);
+        setActive(k);
+        animate();
+      };
+
+      // arrastre con el mouse (o lápiz)
+      let dragging = false;
+      let moved = false;
+      let startX = 0;
+      let startPos = 0;
+      let lastX = 0;
+      let lastT = 0;
+      let vel = 0;
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        dragging = true;
+        moved = false;
+        startX = lastX = e.clientX;
+        lastT = performance.now();
+        startPos = x;
+        vel = 0;
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        if (!moved) {
+          if (Math.abs(dx) < 5) return;
+          moved = true;
+          running = false;
+          viewport.classList.add('is-dragging');
+          viewport.setPointerCapture(e.pointerId);
+        }
+        const now = performance.now();
+        vel = vel * 0.6 + ((e.clientX - lastX) / Math.max(1, now - lastT)) * 0.4; // px/ms suavizada
+        lastX = e.clientX;
+        lastT = now;
+        let next = startPos + dx;
+        const min = xFor(last);
+        const max = xFor(0);
+        if (next > max) next = max + (next - max) * 0.35;
+        if (next < min) next = min + (next - min) * 0.35;
+        x = target = next;
+        render();
+        setActive(nearest(x));
+      });
+      const endDrag = () => {
+        if (!dragging) return;
+        dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (!moved) return;
+        // si el mouse quedó quieto antes de soltar, no hay inercia
+        if (performance.now() - lastT > 90) vel = 0;
+        go(nearest(x + vel * 250));
+        setTimeout(() => (moved = false), 0);
+      };
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      viewport.addEventListener('lostpointercapture', endDrag);
+      cards.forEach((c, k) =>
+        c.addEventListener('click', (e) => {
+          if (moved) {
+            e.preventDefault();
+            return;
+          }
+          go(k);
+        }),
+      );
+
+      // rueda / trackpad horizontal
+      let wheelAcc = 0;
+      let wheelTimer = 0;
+      viewport.addEventListener(
+        'wheel',
+        (e) => {
+          if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+          e.preventDefault();
+          wheelAcc += e.deltaX;
+          clearTimeout(wheelTimer);
+          wheelTimer = window.setTimeout(() => (wheelAcc = 0), 180);
+          if (Math.abs(wheelAcc) > 60) {
+            go(active + Math.sign(wheelAcc));
+            wheelAcc = 0;
+          }
+        },
+        { passive: false },
+      );
+
+      const init = () => {
+        measure();
+        x = target = xFor(active);
+        render();
+      };
+      window.addEventListener('resize', init);
+      init();
+    }
 
     root.querySelector('[data-prev]')?.addEventListener('click', () => go(active - 1));
     root.querySelector('[data-next]')?.addEventListener('click', () => go(active + 1));
@@ -396,20 +492,10 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
       if (e.key === 'ArrowRight') {
         e.preventDefault();
         go(active + 1);
-      }
-      if (e.key === 'ArrowLeft') {
+      } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         go(active - 1);
       }
     });
-
-    const init = () => {
-      measure();
-      x = target = xFor(Math.max(0, active));
-      render();
-    };
-    window.addEventListener('resize', init);
-    setActive(0);
-    init();
   });
 </script>

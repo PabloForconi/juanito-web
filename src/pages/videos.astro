@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
 import PageHeader from '../components/PageHeader.astro';
 import YouTube from '../components/YouTube.astro';
 import { fecha, miles } from '../lib/format';
@@ -19,7 +20,6 @@ const secciones: { cat: Video['categoria']; titulo: string; txt: string }[] = [
   { cat: 'comunidad', titulo: 'La comunidad lo jugó', txt: 'Más de 130 videos de gente de todo el mundo. Estos son algunos de los más vistos.' },
   { cat: 'resena', titulo: 'Reseñas en video', txt: '' },
   { cat: 'entrevista', titulo: 'Entrevistas', txt: '' },
-  { cat: 'musica', titulo: 'Música', txt: 'La banda sonora de Mariano Guerino, tema por tema.' },
 ];
 ---
 
@@ -27,10 +27,10 @@ const secciones: { cat: Video['categoria']; titulo: string; txt: string }[] = [
   <PageHeader
     eyebrow="Videos"
     title='Trailers, animación <span class="hl">y mucho gameplay</span>'
-    lead="Los videos se cargan recién cuando les das play (y desde youtube-nocookie)."
   >
     <nav class="jump" aria-label="Categorías">
       {secciones.filter((s) => videos.some((v) => v.categoria === s.cat)).map((s) => <a href={`#${s.cat}`}>{s.titulo}</a>)}
+      <a href={u('/musica/')}>Música →</a>
     </nav>
   </PageHeader>
 

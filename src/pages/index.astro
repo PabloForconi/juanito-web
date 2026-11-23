@@ -12,11 +12,18 @@ import radio from '../data/radio.json';
 import videos from '../data/videos.json';
 import eventos from '../data/eventos.json';
 import fanart from '../data/fanart.json';
+import { medios, logoDe } from '../lib/medios';
 
 /**
  * Home simple y de impacto: hero → citas → trailer → mosaico del archivo → CTA.
  * El detalle vive en cada sección; acá solo se invita a entrar.
  */
+// Franja de logos de prensa: los medios de más peso que tienen logo
+const logosPrensa = medios
+  .filter((m) => m.logo)
+  .slice(0, 7)
+  .map((m) => ({ nombre: m.nombre, logo: logoDe(m.nombre, 0.9)! }));
+
 const tiles = [
   {
     area: 'juego',
@@ -30,7 +37,7 @@ const tiles = [
     area: 'historia',
     href: u('/historia/'),
     eyebrow: 'Historia',
-    title: 'De película animada a fichín',
+    title: 'Un fichín con alma de dibujo animado',
     text: 'De 2011 a hoy, año por año.',
     img: 'archivo/galeria/afiche/retro-dubi-juanito-gluk.jpg',
     pos: '30% 50%',
@@ -39,7 +46,7 @@ const tiles = [
     area: 'prensa',
     href: u('/prensa/'),
     eyebrow: 'Prensa',
-    big: String(prensa.length),
+    big: String(prensa.filter((n) => !('caida' in n && n.caida)).length),
     title: 'notas y reseñas',
     text: `Más ${radio.length} audios de radio.`,
   },
@@ -95,6 +102,24 @@ const tiles = [
     <HomeHero />
 
     <Marquee />
+
+    <!-- Medios que hablaron del juego -->
+    <section class="press" aria-labelledby="press-t">
+      <div class="container">
+        <a class="press__link" href={u('/prensa/')}>
+          <p class="press__t" id="press-t">Hablaron de Juanito</p>
+          <ul class="press__list">
+            {
+              logosPrensa.map((m) => (
+                <li>
+                  <Image src={m.logo.img} alt={m.nombre} height={m.logo.h * 2} style={`height:${m.logo.h}px`} />
+                </li>
+              ))
+            }
+          </ul>
+        </a>
+      </div>
+    </section>
 
     <!-- Trailer -->
     <section class="section">
@@ -166,6 +191,55 @@ const tiles = [
 </Base>
 
 <style>
+  /* Franja de logos de prensa */
+  .press {
+    padding: clamp(1.8rem, 4vw, 2.8rem) 0 0;
+  }
+  .press__link {
+    display: grid;
+    justify-items: center;
+    gap: 1.2rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .press__t {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    transition: color 0.2s;
+  }
+  .press__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem clamp(1.6rem, 3.5vw, 3rem);
+  }
+  .press__list img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    opacity: 0.55;
+    transition: opacity 0.25s;
+  }
+  @media (max-width: 600px) {
+    .press__list li:nth-child(n + 7) {
+      display: none;
+    }
+  }
+  .press__link:hover .press__t {
+    color: var(--lime);
+  }
+  .press__link:hover img {
+    opacity: 0.9;
+  }
   .head {
     margin-bottom: clamp(1.8rem, 4vw, 3rem);
   }

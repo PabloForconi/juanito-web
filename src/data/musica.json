@@ -1,0 +1,22 @@
+{
+  "titulo": "Original Soundtrack",
+  "autor": "Mariano Guerino",
+  "portada": "fichas/ost-portada.png",
+  "steam": "https://store.steampowered.com/app/684240/",
+  "precio": "USD 2,99",
+  "temas": [
+    { "n": 1, "titulo": "Main Theme", "youtubeId": "s9Z50Lzgaag", "duracion": "2:40" },
+    { "n": 2, "titulo": "Investigate", "youtubeId": "RIiZq32VqUo", "duracion": "2:26" },
+    { "n": 3, "titulo": "Blockits", "youtubeId": "bEVMUtICJg0", "duracion": "2:40" },
+    { "n": 4, "titulo": "Arkadroid", "youtubeId": "LFEXhUMmjgY", "duracion": "3:22" },
+    { "n": 5, "titulo": "Wonderdub", "youtubeId": "oGOBeiFGi28", "duracion": "3:31" },
+    { "n": 6, "titulo": "Snow Sises", "youtubeId": "LETDbAYfVk8", "duracion": "3:13" },
+    { "n": 7, "titulo": "Kung-Fu Dub", "youtubeId": "C1HX3CRmcQk", "duracion": "3:22" },
+    { "n": 8, "titulo": "Monkey Gong", "youtubeId": "gvHFyd26cOM", "duracion": "4:50" },
+    { "n": 9, "titulo": "Pill-Man", "youtubeId": "lHn_kUP1N5Y", "duracion": "5:37" },
+    { "n": 10, "titulo": "Boing", "youtubeId": "N6m1TGO8p1U", "duracion": "3:08" },
+    { "n": 11, "titulo": "Boss Stage 1", "youtubeId": "EEnM6ucz7Qs", "duracion": "2:45" },
+    { "n": 12, "titulo": "Boss Stage 2", "youtubeId": "Y15NT7qEGjQ", "duracion": "3:38" },
+    { "n": 13, "titulo": "Boss Stage 3", "youtubeId": "okn5hrO-EQo", "duracion": "3:16" }
+  ]
+}

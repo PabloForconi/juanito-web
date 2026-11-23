@@ -1,0 +1,340 @@
+---
+/**
+ * Música: la banda sonora como un disco. Portada grande, datos, lista de temas y
+ * un solo reproductor (YouTube, cargado recién al dar play). Al terminar un tema
+ * pasa solo al siguiente. Los temas salen de src/data/musica.json.
+ */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { asset } from '../lib/assets';
+import musicaData from '../data/musica.json';
+import type { Disco } from '../data/types';
+
+const disco = musicaData as Disco;
+const portada = asset(disco.portada);
+const segundos = disco.temas.reduce((acc, t) => {
+  const [m, s] = t.duracion.split(':').map(Number);
+  return acc + m * 60 + s;
+}, 0);
+const minutos = Math.round(segundos / 60);
+---
+
+<Base title="Música" description={`La banda sonora de Juanito Arcade Mayhem: ${disco.temas.length} temas de ${disco.autor}.`}>
+  <PageHeader
+    eyebrow="Música"
+    title='La banda sonora <span class="hl">de Juanito</span>'
+    lead={`${disco.temas.length} temas de ${disco.autor}: el tema principal, uno por cada mundo y la música de los jefes.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="album" data-album>
+        <div class="album__media">
+          <div class="album__cover" data-reveal>
+            <Image src={portada} alt={`Portada de Juanito Arcade Mayhem – ${disco.titulo}`} widths={[400, 640, 900]} sizes="(max-width: 860px) 92vw, 460px" loading="eager" />
+          </div>
+          <div class="album__player" data-player hidden>
+            <div data-mount></div>
+          </div>
+        </div>
+
+        <div class="album__info" data-reveal>
+          <p class="album__kicker">{disco.titulo}</p>
+          <h2 class="album__title">Juanito Arcade Mayhem</h2>
+          <p class="album__meta">
+            {disco.autor} · {disco.temas.length} temas · {minutos} min
+          </p>
+          <div class="album__cta">
+            <button class="btn btn--primary" type="button" data-play-all>Escuchar el disco</button>
+            <a class="btn" href={disco.steam} target="_blank" rel="noopener">
+              Comprar en Steam{disco.precio && <span class="album__precio"> · {disco.precio}</span>}
+            </a>
+          </div>
+
+          <ol class="tracks">
+            {
+              disco.temas.map((t, i) => (
+                <li>
+                  <button class="track" type="button" data-track={i} data-id={t.youtubeId} aria-label={`Reproducir ${t.n}. ${t.titulo}`}>
+                    <span class="track__n">{String(t.n).padStart(2, '0')}</span>
+                    <span class="track__play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M7 4.5 20 12 7 19.5z" /></svg>
+                    </span>
+                    <span class="track__t">{t.titulo}</span>
+                    <span class="track__d">{t.duracion}</span>
+                  </button>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .album {
+    display: grid;
+    grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  .album__media {
+    position: sticky;
+    top: 100px;
+    display: grid;
+    gap: 1rem;
+  }
+  .album__cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7), 0 0 60px rgb(44 224 108 / 0.12);
+  }
+  .album__player {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    background: #000;
+  }
+  .album__player[hidden] {
+    display: none;
+  }
+  .album__player :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .album__kicker {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .album__title {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .album__meta {
+    margin: 0.7rem 0 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--ink-dim);
+  }
+  .album__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.4rem 0 1.8rem;
+  }
+  .album__precio {
+    color: var(--ink-dim);
+  }
+
+  .tracks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .track {
+    display: grid;
+    grid-template-columns: 2.4rem 1.6rem 1fr auto;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.8rem 0.6rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .track:hover {
+    background: rgb(255 255 255 / 0.04);
+  }
+  .track__n {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+  .track__play {
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #c5ea1f, #0bd57b);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .track__play svg {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-left: 2px;
+    fill: #004470;
+  }
+  .track:hover .track__play,
+  .track:focus-visible .track__play,
+  .track.is-on .track__play {
+    opacity: 1;
+  }
+  .track__t {
+    font-family: var(--font-heading);
+    font-size: 1.02rem;
+  }
+  .track__d {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink-dim);
+  }
+  .track.is-on {
+    background: rgb(208 236 18 / 0.06);
+  }
+  .track.is-on .track__t,
+  .track.is-on .track__n {
+    color: var(--lime);
+  }
+
+  @media (max-width: 860px) {
+    .album {
+      grid-template-columns: 1fr;
+    }
+    .album__media {
+      position: static;
+      max-width: 520px;
+    }
+    .album__info .album__player {
+      position: sticky;
+      top: 92px;
+      z-index: 3;
+      margin-bottom: 1rem;
+      box-shadow: 0 16px 30px -10px rgb(0 0 0 / 0.8);
+    }
+  }
+</style>
+
+<script>
+  type YTPlayer = {
+    loadVideoById: (id: string) => void;
+    playVideo: () => void;
+    mute: () => void;
+    getPlayerState: () => number;
+  };
+  type YTNamespace = {
+    Player: new (
+      el: HTMLElement,
+      opts: {
+        host?: string;
+        videoId: string;
+        playerVars?: Record<string, number>;
+        events?: {
+          onReady?: (e: { target: YTPlayer }) => void;
+          onStateChange?: (e: { data: number; target: YTPlayer }) => void;
+        };
+      },
+    ) => YTPlayer;
+  };
+  const w = window as unknown as { YT?: YTNamespace; onYouTubeIframeAPIReady?: () => void };
+
+  let apiReady: Promise<YTNamespace> | null = null;
+  const loadApi = () =>
+    (apiReady ??= new Promise<YTNamespace>((resolve) => {
+      if (w.YT?.Player) return resolve(w.YT);
+      const prev = w.onYouTubeIframeAPIReady;
+      w.onYouTubeIframeAPIReady = () => {
+        prev?.();
+        resolve(w.YT!);
+      };
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.append(tag);
+    }));
+
+  document.querySelectorAll<HTMLElement>('[data-album]').forEach((album) => {
+    const wrap = album.querySelector<HTMLElement>('[data-player]')!;
+    const mount = album.querySelector<HTMLElement>('[data-mount]')!;
+    const tracks = [...album.querySelectorAll<HTMLButtonElement>('[data-track]')];
+    let player: YTPlayer | null = null;
+    let current = -1;
+
+    // En celular el reproductor va justo arriba de la lista (y queda fijo al
+    // scrollear), así no se pierde de vista al tocar un tema de abajo.
+    if (window.matchMedia('(max-width: 860px)').matches) {
+      album.querySelector('.tracks')?.before(wrap);
+    }
+
+    // precarga la API cuando el usuario se acerca a tocar algo
+    album.addEventListener('pointerenter', () => loadApi(), { once: true });
+
+    const mark = (i: number) => {
+      current = i;
+      tracks.forEach((t, k) => {
+        t.classList.toggle('is-on', k === i);
+        if (k === i) t.setAttribute('aria-current', 'true');
+        else t.removeAttribute('aria-current');
+      });
+    };
+
+    const play = async (i: number) => {
+      if (i < 0 || i >= tracks.length) return;
+      const id = tracks[i].dataset.id!;
+      mark(i);
+      wrap.hidden = false;
+      if (player) {
+        player.loadVideoById(id);
+        return;
+      }
+      const YT = await loadApi();
+      player = new YT.Player(mount, {
+        host: 'https://www.youtube-nocookie.com',
+        videoId: id,
+        playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+        events: {
+          onReady: (e) => {
+            e.target.playVideo();
+            // si el navegador bloqueó el autoplay con sonido, arranca en silencio
+            setTimeout(() => {
+              const s = e.target.getPlayerState();
+              if (s === -1 || s === 5) {
+                e.target.mute();
+                e.target.playVideo();
+              }
+            }, 800);
+          },
+          // al terminar un tema, sigue con el próximo
+          onStateChange: (e) => {
+            if (e.data === 0) play(current + 1);
+          },
+        },
+      });
+    };
+
+    tracks.forEach((t, i) => t.addEventListener('click', () => play(i)));
+    album.querySelector('[data-play-all]')?.addEventListener('click', () => {
+      play(0);
+      if (window.matchMedia('(max-width: 860px)').matches) wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+</script>

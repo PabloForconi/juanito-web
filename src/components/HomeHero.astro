@@ -54,7 +54,7 @@ const clonos = [
         src={juanito}
         alt="Juanito, en pijama, corre con su pistola láser"
         widths={[420, 640, 840, 1200]}
-        sizes="(max-aspect-ratio: 4/5) 62vw, 34vw"
+        sizes="(max-aspect-ratio: 4/5) 42vw, 34vw"
         loading="eager"
         fetchpriority="high"
       />
@@ -62,12 +62,12 @@ const clonos = [
   </div>
 
   <div class="hh__char hh__char--gluk" data-depth="0.7" data-char="gluk">
-    <div class="m">
+    <div class="m" data-egg-tap>
       <Image
         src={gluk}
         alt="Gluk, el alien, en su platillo con una pistola"
         widths={[360, 560, 800]}
-        sizes="(max-aspect-ratio: 4/5) 48vw, 27vw"
+        sizes="(max-aspect-ratio: 4/5) 46vw, 27vw"
         loading="eager"
       />
     </div>
@@ -79,11 +79,18 @@ const clonos = [
       <Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="(max-aspect-ratio: 4/5) 90vw, 46vw" loading="eager" fetchpriority="high" />
     </h1>
     <p class="hh__lead" data-in>
-      Unas clonocélulas del espacio infectaron los videojuegos clásicos.
-      <strong>Un chico en pijama tiene que salvarlos.</strong>
+      <span class="hh__lead-full">
+        <span class="hh__lead-intro">Las clonocélulas han infectado todos nuestros videojuegos favoritos</span>
+        <strong>y solo hay un niño que puede salvarlos: ¡Juanito!</strong>
+      </span>
+      <!-- versión corta para celular -->
+      <span class="hh__lead-short">
+        <span class="hh__lead-intro">Los videojuegos están infectados.</span>
+        <strong>Solo Juanito puede salvarlos.</strong>
+      </span>
     </p>
     <div class="hh__cta" data-in>
-      <a class="btn btn--primary" href={u('/el-juego/')}>Conocé el juego</a>
+      <a class="btn btn--primary" href={u('/el-juego/')}>El juego</a>
       <a class="btn" href={u('/historia/')}>La historia</a>
     </div>
     <div class="hh__stores" data-in>
@@ -184,6 +191,12 @@ const clonos = [
     width: min(29vw, 47vh);
     max-width: 560px;
   }
+  /* Gluk recibe toques: 5 seguidos disparan el easter egg (en celular no hay código Konami) */
+  .hh__char--gluk [data-egg-tap] {
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
   .hh__char--gluk {
     right: 5vw;
     top: 32%;
@@ -214,6 +227,9 @@ const clonos = [
     font-size: clamp(1.05rem, 1.3vw, 1.25rem);
     line-height: 1.5;
     color: var(--ink-dim);
+  }
+  .hh__lead-short {
+    display: none;
   }
   .hh__lead strong {
     display: block;
@@ -278,35 +294,92 @@ const clonos = [
     100% { opacity: 0; translate: -50% 12px; }
   }
 
-  /* ----------------------------------------------- pantallas verticales */
+  /* ----------------------------------------------- pantallas verticales
+     Todo en una columna y sin superposiciones: logos arriba, los dos personajes
+     juntos en el medio y abajo la frase y los botones. .hh__center pasa a
+     "display: contents" para que sus hijos se ordenen en la grilla del hero. */
   @media (max-aspect-ratio: 4/5) {
     .hh {
-      place-items: start center;
-      padding: calc(84px + 3vh) 5vw 0;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        'studio studio'
+        'logo logo'
+        'juanito gluk'
+        'lead lead'
+        'cta cta';
+      align-content: center;
+      justify-items: center;
+      row-gap: clamp(0.8rem, 3vh, 1.8rem);
+      padding: calc(76px + 1vh) 4vw 3vh;
     }
     .hh__center {
-      width: 100%;
-      gap: 0.9rem;
+      display: contents;
     }
-    .hh__text,
+    .hh__studio {
+      grid-area: studio;
+      margin: 0;
+    }
+    .hh__studio :global(.ge img) {
+      width: 110px !important;
+    }
+    .hh__logo {
+      grid-area: logo;
+      width: min(88vw, 460px);
+    }
+    .hh__char {
+      position: relative;
+      inset: auto;
+      pointer-events: none;
+    }
+    /* los dos personajes juntos, mirándose, sin tapar nada */
+    .hh__char--juanito {
+      grid-area: juanito;
+      justify-self: end;
+      align-self: end;
+      width: min(42vw, 34vh);
+      margin-right: -4vw;
+    }
+    .hh__char--gluk {
+      grid-area: gluk;
+      justify-self: start;
+      align-self: center;
+      width: min(46vw, 36vh);
+      margin-left: -2vw;
+    }
+    .hh__lead-full {
+      display: none;
+    }
+    .hh__lead-short {
+      display: block;
+    }
+    .hh__lead {
+      grid-area: lead;
+      margin: 0;
+      font-size: 1rem;
+    }
+    .hh__lead strong {
+      margin: 0;
+    }
+    .hh__cta {
+      grid-area: cta;
+      margin: 0;
+    }
+    .hh__cta .btn {
+      font-size: 0.9rem;
+      padding: 0.75em 1.15em;
+    }
     .hh__stores,
     .hh__scroll {
       display: none;
     }
     .hh__orbits {
-      top: 22%;
-      width: 140vw;
+      top: 34%;
+      width: 130vw;
     }
-    .hh__char--juanito {
-      width: 62vw;
-      left: -6vw;
-      bottom: -6vh;
-    }
-    .hh__char--gluk {
-      width: 48vw;
-      right: -2vw;
-      top: auto;
-      bottom: 14vh;
+    /* menos clonocélulas en celular */
+    .hh__clono:nth-child(n + 5),
+    .hh__clono:nth-child(2) {
+      display: none; /* la 2 caía sobre "PRESENTA" */
     }
   }
 

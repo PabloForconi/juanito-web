@@ -1,6 +1,7 @@
 [
   {
     "id": "clarin-boom-retro",
+    "portada": "archivo/eventos/bit-bang-fest-2/05.jpg",
     "titulo": "Boom retro: los jóvenes que recuperan el espíritu de los fichines",
     "medio": "Clarín",
     "fecha": "2017-05-06",
@@ -13,6 +14,7 @@
   },
   {
     "id": "infobae-nostalgia-ochentosa",
+    "portada": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
     "titulo": "\"Juanito Arcade Mayhem\": nostalgia ochentosa en un videojuego argentino",
     "medio": "Infobae",
     "fecha": "2017-07-17",
@@ -25,6 +27,7 @@
   },
   {
     "id": "lanacion-revisitar-clasicos",
+    "portada": "hero/full.png",
     "titulo": "Juanito Arcade Mayhem, un videojuego argentino para revisitar a los clásicos",
     "medio": "La Nación",
     "fecha": "2017-08-03",
@@ -111,6 +114,7 @@
     "idioma": "es",
     "tipo": "entrevista",
     "url": "https://www.revistameta.com.ar/games-joaquin-ibarlucia-de-juanito-arcade-mayhem/",
+    "caida": true,
     "resumen": "Entrevista al codirector y programador del juego sobre el desarrollo, el estudio y lo que significa sacar un indie argentino en Steam."
   },
   {
@@ -126,6 +130,7 @@
   },
   {
     "id": "ign-es-analisis",
+    "portada": "prensa/portadas/steam-clonojefe.jpg",
     "titulo": "Juanito Arcade Mayhem, análisis para PC",
     "medio": "IGN España",
     "fecha": "2017-10-11",
@@ -133,7 +138,7 @@
     "idioma": "es",
     "tipo": "review",
     "puntaje": "7/10",
-    "url": "http://es.ign.com/juanito-arcade-mayhem-pc/124334/review/juanito-arcade-mayhem-analisis-para-pc",
+    "url": "https://es.ign.com/juanito-arcade-mayhem/124334/juanito-arcade-mayhem-analisis-para-pc",
     "resumen": "IGN España le pone un 7 sobre 10 a la versión de PC: un indie argentino que mezcla Pang con bullet hell y un desfile de homenajes arcade.",
     "destacada": true
   },
@@ -147,6 +152,7 @@
     "tipo": "review",
     "puntaje": "70/100",
     "url": "http://meristation.as.com/pc/juanito-arcade-mayhem/analisis-juego/2234592",
+    "caida": true,
     "resumen": "El histórico sitio español lo analiza y le da 70 sobre 100, una de las dos críticas que registra Metacritic."
   },
   {
@@ -212,18 +218,19 @@
     "pais": "Argentina",
     "idioma": "es",
     "tipo": "nota",
-    "url": "https://www.neoteo.com/blog/juanito-arcade-mayhem-un-adorable-homenaje-a-los-clasicos-de-arcade",
+    "url": "https://www.neoteo.com/es/juanito-arcade-mayhem-un-adorable-homenaje-a-los-clasicos-de-arcade",
     "resumen": "Nota que lo definía como un homenaje adorable a los arcades. Hoy el link da 404 y no encontramos copia en el Internet Archive."
   },
   {
     "id": "siliconera-animated-looks",
+    "portada": "prensa/portadas/steam-kungfu.jpg",
     "titulo": "Juanito Arcade Mayhem Offers Animated Looks At Classic Games",
     "medio": "Siliconera",
     "fecha": "2017-08-05",
     "pais": "Estados Unidos",
     "idioma": "en",
     "tipo": "nota",
-    "url": "https://www.siliconera.com/?p=648409",
+    "url": "https://www.siliconera.com/juanito-arcade-mayhem-offers-animated-looks-classic-games/",
     "resumen": "El sitio yanqui especializado en rarezas presenta el juego como una relectura animada de los clásicos. Steam la usa como cita en su ficha.",
     "destacada": true
   },
@@ -251,6 +258,7 @@
   },
   {
     "id": "pocketgamer-review",
+    "portada": "prensa/portadas/steam-tetris.jpg",
     "titulo": "Juanito Arcade Mayhem review - A nostalgic shooter that's definitely not stuck in the past",
     "medio": "Pocket Gamer",
     "fecha": "2018-08-07",
@@ -258,7 +266,7 @@
     "idioma": "en",
     "tipo": "review",
     "puntaje": "4/5",
-    "url": "https://www.pocketgamer.com/juanito-arcade-mayhem/juanito-arcade-mayhem-review-a-nostalgic-shooter-thats-definitely-not-stuck-in-t/",
+    "url": "https://www.pocketgamer.com/juanito-arcade-mayhem/review/",
     "resumen": "Cuatro estrellas para la versión móvil: encantadora y graciosa, con niveles que siempre suman una vuelta nueva. Lo único que molesta: los botones táctiles, muy pegados al borde.",
     "destacada": true
   },
@@ -271,7 +279,7 @@
     "idioma": "fa",
     "tipo": "review",
     "puntaje": "8/10",
-    "url": "https://www.zoomg.ir/game-review/296544-arcade-mayhem-juanito-review",
+    "url": "https://www.zoomg.ir/game-review/296544-arcade-mayhem-juanito-review/",
     "resumen": "Sí, Juanito llegó a Irán: reseña en persa con un 8 sobre 10. Probablemente la nota más exótica de toda la colección."
   },
   {
@@ -281,7 +289,7 @@
     "fecha": "2020-07-29",
     "idioma": "en",
     "tipo": "review",
-    "url": "http://plannedallalong.blogspot.com/2020/07/quick-review-juanito-arcade-mayhem.html",
+    "url": "https://plannedallalong.blogspot.com/2020/07/quick-review-juanito-arcade-mayhem.html",
     "resumen": "Reseña breve en un blog en inglés, tres años después del lanzamiento: prueba de que Juanito seguía encontrando jugadores nuevos."
   }
 ]

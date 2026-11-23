@@ -3,3 +3,5 @@ Se usan en las fichas de personajes de /el-juego/. Mostrar ambas con la misma es
 
 `mundos/`: chips de los mundos tal como están en el juego (lienzo uniforme de 546×516), entregados por el dueño.
 Reemplazan a los recortes de `juego/mundos/chip-*.png`, que quedaban a distinta escala.
+
+`ost-portada.png`: portada del Original Soundtrack (versión mejorada que entregó el dueño), usada en /musica/.

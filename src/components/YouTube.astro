@@ -63,60 +63,58 @@ const { id, title } = Astro.props;
       filter: brightness(0.75);
     }
   }
-  /* botón estilo YouTube con los verdes del logo pintado:
+  /* botón circular con los verdes del logo pintado:
      fondo = degradé de las letras: verde claro arriba (#c5ea1f) a verde de la base (#0bd57b)
-     triángulo = azul del contorno (#004470), para que contraste con el degradé
-     borde = amarillo de "ARCADE MAYHEM" (#f8d000) */
+     triángulo = azul del contorno (#004470)
+     semitransparente en reposo; opaco (y un poco más grande) con el cursor encima */
   .yt__play {
     position: absolute;
     left: 50%;
     top: 50%;
     display: grid;
     place-items: center;
-    width: 68px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     translate: -50% -50%;
-    border-radius: 14px;
+    border-radius: 50%;
     background: linear-gradient(180deg, #c5ea1f, #0bd57b);
-    border: 3px solid #f8d000;
     box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
-    transition: scale 0.3s var(--ease-out), background 0.2s;
+    opacity: 0.7;
+    transition: opacity 0.25s, scale 0.3s var(--ease-out), box-shadow 0.3s;
   }
   .yt__play svg {
-    width: 30px;
-    height: 30px;
-    margin-left: 3px;
+    width: 28px;
+    height: 28px;
+    margin-left: 4px; /* centrado óptico del triángulo */
     fill: #004470;
   }
   /* el botón crece con el tamaño del video */
   @container (width >= 520px) {
     .yt__play {
       width: 80px;
-      height: 56px;
-      border-radius: 16px;
+      height: 80px;
     }
     .yt__play svg {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
+      margin-left: 5px;
     }
   }
   @container (width >= 900px) {
     .yt__play {
-      width: 100px;
-      height: 70px;
-      border-radius: 20px;
-      border-width: 4px;
+      width: 104px;
+      height: 104px;
     }
     .yt__play svg {
-      width: 46px;
-      height: 46px;
-      margin-left: 4px;
+      width: 44px;
+      height: 44px;
+      margin-left: 6px;
     }
   }
   .yt:hover .yt__play,
   .yt__btn:focus-visible .yt__play {
-    scale: 1.1;
-    filter: brightness(1.08);
+    opacity: 1;
+    scale: 1.08;
     box-shadow: 0 8px 24px rgb(0 0 0 / 0.4), 0 0 30px rgb(197 234 31 / 0.4);
   }
   /* :global porque el iframe se crea por JS y no lleva el atributo de scope de Astro */
@@ -147,17 +145,59 @@ const { id, title } = Astro.props;
 </style>
 
 <script>
+  // Con un solo clic el video arranca: en lugar de un iframe con autoplay=1 (que
+  // algunos navegadores bloquean y obligan a un segundo clic), usamos la API de
+  // YouTube y llamamos a playVideo() apenas el reproductor está listo. Si el
+  // navegador no deja arrancar con sonido, arranca silenciado (se activa con un clic).
+  type YTPlayer = { playVideo(): void; mute(): void; getPlayerState(): number };
+  type YTNamespace = { Player: new (el: HTMLElement, opts: unknown) => YTPlayer };
+  const w = window as unknown as { YT?: YTNamespace; onYouTubeIframeAPIReady?: () => void };
+
+  let apiReady: Promise<YTNamespace> | null = null;
+  const loadApi = () =>
+    (apiReady ??= new Promise((resolve) => {
+      if (w.YT?.Player) return resolve(w.YT);
+      const prev = w.onYouTubeIframeAPIReady;
+      w.onYouTubeIframeAPIReady = () => {
+        prev?.();
+        resolve(w.YT!);
+      };
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.append(tag);
+    }));
+
   document.querySelectorAll<HTMLElement>('[data-yt]').forEach((box) => {
-    box.querySelector('button')!.addEventListener(
+    const btn = box.querySelector('button')!;
+    // precarga la API al acercarse al video (hover/foco), así el clic responde rápido
+    btn.addEventListener('pointerenter', loadApi, { once: true });
+    btn.addEventListener('focus', loadApi, { once: true });
+    btn.addEventListener(
       'click',
-      () => {
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1&rel=0&playsinline=1`;
-        iframe.title = box.dataset.title ?? 'Video';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-        iframe.allowFullscreen = true;
-        box.replaceChildren(iframe);
-        iframe.focus();
+      async () => {
+        btn.disabled = true;
+        const YT = await loadApi();
+        const mount = document.createElement('div');
+        box.replaceChildren(mount);
+        new YT.Player(mount, {
+          host: 'https://www.youtube-nocookie.com',
+          videoId: box.dataset.yt,
+          playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+          events: {
+            onReady: (e: { target: YTPlayer }) => {
+              e.target.playVideo();
+              // si a los 800 ms ni arrancó ni está cargando (autoplay bloqueado), arranca sin sonido
+              setTimeout(() => {
+                const st = e.target.getPlayerState(); // -1 sin iniciar, 5 en pausa inicial
+                if (st === -1 || st === 5) {
+                  e.target.mute();
+                  e.target.playVideo();
+                }
+              }, 800);
+            },
+          },
+        });
+        box.querySelector('iframe')?.setAttribute('title', box.dataset.title ?? 'Video');
       },
       { once: true },
     );

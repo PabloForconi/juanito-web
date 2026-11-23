@@ -51,6 +51,14 @@ export interface Nota {
   archivo?: string; // copia en web.archive.org si la original cayó
   resumen: string; // resumen propio, máx. ~30 palabras (no copiar texto)
   destacada?: boolean;
+  caida?: boolean; // el link original ya no existe: la nota no se muestra
+  portada?: string; // imagen propia (ruta en src/assets) para las destacadas
+}
+
+/** Medios de prensa: logo en blanco (src/assets/prensa/logos). Sin logo se muestra el nombre. */
+export interface Medio {
+  nombre: string;
+  logo?: string;
 }
 
 export interface Video {
@@ -143,4 +151,27 @@ export interface PostTaringa {
   url: string; // archivo en web.archive.org
   resumen: string;
   stats?: string; // "761 puntos · 13.170 visitas · 336 comentarios"
+}
+
+/** Banda sonora (página Música). Cada tema es un video de YouTube del canal del estudio. */
+export interface Tema {
+  n: number;
+  titulo: string;
+  youtubeId: string;
+  duracion: string; // "m:ss"
+}
+export interface Disco {
+  titulo: string;
+  autor: string;
+  portada: string; // ruta en src/assets
+  steam: string;
+  precio?: string;
+  temas: Tema[];
+}
+
+/** Récords del gabinete arcade (Historia). El ranking ordena por tiempo sobrevivido. */
+export interface Records {
+  nota: string;
+  tabla: { ini: string; tiempo: string; puntaje: number; nuevo?: boolean }[];
+  fotos: { img: string; titulo: string; fecha: string }[];
 }

@@ -28,7 +28,7 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
 ---
 
 <Base title="Galería" description="Arte, afiches, merch, el gabinete arcade y el fan art de Juanito Arcade Mayhem.">
-  <PageHeader eyebrow="Galería" title='Arte, afiches <span class="hl">y fan art</span>' lead="Tocá cualquier imagen para verla grande. Con las flechas del teclado pasás a la siguiente.">
+  <PageHeader eyebrow="Galería" title='Arte, afiches <span class="hl">y fan art</span>' lead="Afiches, concept art, fondos, el gabinete arcade, merch y los dibujos que hizo la comunidad.">
     <nav class="jump" aria-label="Categorías">
       {presentes.map((c) => <a href={`#${c.id}`}>{c.titulo}</a>)}
       {artbook.length > 0 && <a href="#artbook">Artbook</a>}
@@ -50,7 +50,6 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
               items={galeria
                 .filter((g) => g.categoria === c.id)
                 .map((g) => ({ img: g.img, caption: g.titulo, sub: [fecha(g.fecha), g.descripcion].filter(Boolean).join(' · ') || undefined }))}
-              ratio={c.id === 'afiche' ? '3/4' : '4/3'}
             />
           </div>
         </div>
@@ -81,7 +80,7 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
           </div>
         </div>
         <div class="container gap">
-          <Gallery group="artbook" items={artbook.slice(1).map((g) => ({ img: g.img, caption: g.titulo }))} ratio="auto" fit="contain" />
+          <Gallery group="artbook" items={artbook.slice(1).map((g) => ({ img: g.img, caption: g.titulo }))} />
         </div>
       </section>
     )
@@ -100,7 +99,6 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
         <Gallery
           group="fanart"
           min="200px"
-          ratio="1"
           items={fanart.map((f) => ({ img: f.img, caption: f.autor, sub: [f.titulo, f.origen].filter(Boolean).join(' · ') || undefined }))}
         />
       </div>

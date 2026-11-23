@@ -16,6 +16,7 @@ export const NAV: NavItem[] = [
 
 /** Secundarias (menú "Más" y footer). */
 export const NAV_MORE: NavItem[] = [
+  { href: u('/musica/'), label: 'Música' },
   { href: u('/juego-de-mesa/'), label: 'Juego de mesa' },
   { href: u('/pirateria/'), label: 'Salón de la piratería' },
   { href: u('/creditos/'), label: 'Créditos' },

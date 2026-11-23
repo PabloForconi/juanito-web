@@ -79,34 +79,6 @@
     "nota": "Speed paint de Leo Cirius: el fondo del mundo de Donkey Kong, de galpón vacío a mono gigante."
   },
   {
-    "id": "ost-main-theme",
-    "titulo": "Juanito Arcade Mayhem OST – Main Theme",
-    "canal": "Game Ever Studio",
-    "fecha": "2018-01",
-    "youtubeId": "s9Z50Lzgaag",
-    "categoria": "musica",
-    "nota": "El tema principal, de Mariano Guerino."
-  },
-  {
-    "id": "ost-blockits",
-    "titulo": "Juanito Arcade Mayhem OST – Blockits",
-    "canal": "Game Ever Studio",
-    "fecha": "2018",
-    "youtubeId": "bEVMUtICJg0",
-    "categoria": "musica",
-    "vistas": 12000,
-    "nota": "El tema del mundo Tetris, el más escuchado del soundtrack. Sí, el mismo nombre que el juego de mesa."
-  },
-  {
-    "id": "ost-pill-man",
-    "titulo": "Juanito Arcade Mayhem OST – Pill-Man",
-    "canal": "Game Ever Studio",
-    "fecha": "2018",
-    "youtubeId": "lHn_kUP1N5Y",
-    "categoria": "musica",
-    "nota": "El tema más largo del disco (más de cinco minutos) para el mundo parodia de Pac-Man."
-  },
-  {
     "id": "teaser-3d-arcade-life",
     "titulo": "Teaser 3D \"Arcade Life\" (primer corte)",
     "canal": "Game Ever Studio",
@@ -120,7 +92,7 @@
     "canal": "Game Ever Studio",
     "fecha": "2011-04",
     "categoria": "animacion",
-    "nota": "Inédito. 57 segundos de storyboard animado en lápiz azul: la casa, Gluk en su platillo y Juanito. El único rastro en video de la película que iba a ser."
+    "nota": "Inédito. 57 segundos de storyboard animado en lápiz azul: la casa, Gluk en su platillo y Juanito. El único rastro en video de la versión animada que quedó en el camino."
   },
   {
     "id": "intro-comic-2017",
@@ -144,7 +116,7 @@
     "canal": "Game Ever Studio",
     "fecha": "2011-04",
     "categoria": "animacion",
-    "nota": "Inédito. 15 segundos de logo animado del proyecto de película, cuando Juanito todavía tenía nombre de película clase B."
+    "nota": "Inédito. 15 segundos de logo animado de los primeros tiempos, cuando Juanito todavía tenía nombre de película clase B."
   },
   {
     "id": "halloween-2025",

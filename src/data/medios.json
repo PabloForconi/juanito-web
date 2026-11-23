@@ -1,0 +1,21 @@
+[
+  { "nombre": "Clarín", "logo": "prensa/logos/clarin.png" },
+  { "nombre": "Infobae", "logo": "prensa/logos/infobae.png" },
+  { "nombre": "La Nación", "logo": "prensa/logos/la-nacion.png" },
+  { "nombre": "IGN España", "logo": "prensa/logos/ign.png" },
+  { "nombre": "Pocket Gamer", "logo": "prensa/logos/pocket-gamer.png" },
+  { "nombre": "Siliconera", "logo": "prensa/logos/siliconera.png" },
+  { "nombre": "El Universal", "logo": "prensa/logos/el-universal.png" },
+  { "nombre": "NeoTeo", "logo": "prensa/logos/neoteo.png" },
+  { "nombre": "TouchTapPlay", "logo": "prensa/logos/touchtapplay.png" },
+  { "nombre": "Cultura Geek", "logo": "prensa/logos/cultura-geek.png" },
+  { "nombre": "Tecnovortex", "logo": "prensa/logos/tecnovortex.png" },
+  { "nombre": "Irrompibles", "logo": "prensa/logos/irrompibles.png" },
+  { "nombre": "Game It", "logo": "prensa/logos/game-it.png" },
+  { "nombre": "Locos x los Juegos", "logo": "prensa/logos/locos-x-los-juegos.png" },
+  { "nombre": "Gamer con Mate", "logo": "prensa/logos/gamer-con-mate.png" },
+  { "nombre": "Press Over", "logo": "prensa/logos/press-over.png" },
+  { "nombre": "MiArcade", "logo": "prensa/logos/miarcade.png" },
+  { "nombre": "Zoomg", "logo": "prensa/logos/zoomg.png" },
+  { "nombre": "Planned All Along" }
+]
