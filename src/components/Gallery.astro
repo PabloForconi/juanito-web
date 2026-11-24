@@ -18,8 +18,14 @@ interface Props {
   group: string;
   min?: string; // ancho mínimo de columna
   grilla?: boolean; // grilla en filas (orden de lectura) en vez de mosaico en columnas; para piezas de igual forma
+  columnas?: number; // con grilla: cantidad fija de columnas (ej. 2 = 50% cada una)
+  pie?: boolean; // epígrafe siempre debajo de la imagen (no encima al pasar el mouse)
+  celular1?: boolean; // en el celular, una imagen debajo de la otra (para piezas apaisadas)
 }
-const { items, group, min = '220px', grilla = false } = Astro.props;
+const { items, group, min = '220px', grilla = false, columnas, pie = false, celular1 = false } = Astro.props;
+// ancho de cada miniatura para elegir la resolución: con columnas fijas es la fracción del contenedor
+// (en el celular las columnas fijas pasan a una sola, a todo el ancho)
+const tam = columnas ? `(max-width: 600px) 100vw, ${Math.round(1200 / columnas)}px` : `(max-width: 600px) 50vw, ${min}`;
 
 const resolved = await Promise.all(
   items.map(async (it) => {
@@ -30,12 +36,17 @@ const resolved = await Promise.all(
 );
 ---
 
-<ul class:list={['gal', grilla && 'gal--grilla']} style={`--min:${min}`}>
+<ul
+  class:list={['gal', grilla && 'gal--grilla', columnas && 'gal--cols', pie && 'gal--pie', celular1 && 'gal--c1']}
+  style={`--min:${min}${columnas ? `;--cols:${columnas}` : ''}`}
+>
   {
     resolved.map((it) => (
       <li data-reveal>
         <a href={it.big} data-lightbox={group} data-caption={it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
-          <Image src={it.src} alt={it.caption} widths={[320, 480, 720]} sizes={`(max-width: 600px) 50vw, ${min}`} loading="lazy" />
+          <span class="gal__img">
+            <Image src={it.src} alt={it.caption} widths={columnas ? [480, 720, 1200] : [320, 480, 720]} sizes={tam} loading="lazy" />
+          </span>
           <span class="gal__cap">
             <b>{it.caption}</b>
             {it.sub && <small>{it.sub}</small>}
@@ -69,6 +80,17 @@ const resolved = await Promise.all(
   .gal--grilla li {
     margin: 0;
   }
+  .gal.gal--cols {
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  }
+  /* epígrafe debajo: la imagen se ve limpia y el nombre siempre está a la vista */
+  .gal--pie .gal__cap {
+    position: static;
+    padding: 0.55rem 0.7rem 0.65rem;
+    background: none;
+    translate: 0 0;
+    opacity: 1;
+  }
   .gal a {
     position: relative;
     display: block;
@@ -78,6 +100,11 @@ const resolved = await Promise.all(
     background: var(--surface);
     color: var(--ink);
     text-decoration: none;
+  }
+  /* marco propio de la imagen: el zoom al pasar el mouse queda adentro y no invade el epígrafe */
+  .gal__img {
+    display: block;
+    overflow: hidden;
   }
   .gal img {
     width: 100%;
@@ -131,6 +158,13 @@ const resolved = await Promise.all(
     .gal {
       column-width: auto;
       column-count: 2;
+    }
+    .gal.gal--cols,
+    .gal.gal--grilla.gal--c1 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .gal.gal--c1:not(.gal--grilla) {
+      column-count: 1;
     }
   }
 </style>

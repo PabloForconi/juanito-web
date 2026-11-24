@@ -3,19 +3,22 @@
     "texto": "This is how Pang Adventures should have been done!",
     "autor": "psydex",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/"
+    "url": "https://store.steampowered.com/app/617440/",
+    "destacada": true
   },
   {
     "texto": "anyone older than 30 should buy this game",
     "autor": "Zgubidan",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/"
+    "url": "https://store.steampowered.com/app/617440/",
+    "destacada": true
   },
   {
     "texto": "para pasar el rato entre amigos y cervezas!",
     "autor": "Hacha Dorada",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/"
+    "url": "https://store.steampowered.com/app/617440/",
+    "destacada": true
   },
   {
     "texto": "0/10, no hay ningun sanguche de milanga en los pick-ups.",
@@ -73,16 +76,19 @@
   {
     "texto": "Hazlo por mí Juanito, por Taringa",
     "autor": "estebanpiedra89",
-    "fuente": "Comentario en Taringa!"
+    "fuente": "Comentario en Taringa!",
+    "destacada": true
   },
   {
     "texto": "no es robo si le decís 'homenaje'",
     "autor": "LaRvA_7J",
-    "fuente": "Comentario en Taringa!"
+    "fuente": "Comentario en Taringa!",
+    "destacada": true
   },
   {
     "texto": "EL MEJOR JUEGO QUE SE HIZO EN ARGENTINA",
     "autor": "Usuario de Taringa!",
-    "fuente": "Comentario en Taringa!"
+    "fuente": "Comentario en Taringa!",
+    "destacada": true
   }
 ]

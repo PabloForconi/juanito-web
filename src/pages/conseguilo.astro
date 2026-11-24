@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import StoreBadges from '../components/StoreBadges.astro';
 import tiendasData from '../data/tiendas.json';
+import citasData from '../data/citas.json';
+import Comentarios from '../components/Comentarios.astro';
+import type { Cita } from '../data/types';
 
 interface Tienda {
   nombre: string;
@@ -12,6 +15,8 @@ interface Tienda {
   nota?: string;
 }
 const tiendas = tiendasData as Tienda[];
+// tres reseñas de Steam destacadas, como empujón antes de comprar
+const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 'Reseña de Steam');
 ---
 
 <Base title="Conseguilo" description="Dónde jugar Juanito Arcade Mayhem: Steam, App Store y Google Play.">
@@ -45,9 +50,30 @@ const tiendas = tiendasData as Tienda[];
       <p class="muted nota" data-reveal>Los precios pueden variar según la región y las ofertas de cada tienda.</p>
     </div>
   </section>
+
+  {
+    resenas.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <div data-reveal>
+            <p class="eyebrow">Reseñas de Steam</p>
+            <h2 class="h2">
+              Lo que dicen <span class="hl">los jugadores</span>
+            </h2>
+          </div>
+          <div class="resenas">
+            <Comentarios items={resenas} />
+          </div>
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
+  .resenas {
+    margin-top: 1.6rem;
+  }
   .badges {
     margin-top: 1.8rem;
   }

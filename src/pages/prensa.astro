@@ -10,7 +10,10 @@ import prensaData from '../data/prensa.json';
 import radioData from '../data/radio.json';
 import videosData from '../data/videos.json';
 import taringaData from '../data/taringa.json';
-import { medios, logoDe } from '../lib/medios';
+import { logoDe } from '../lib/medios';
+import citasData from '../data/citas.json';
+import Comentarios from '../components/Comentarios.astro';
+import type { Cita } from '../data/types';
 import type { Nota, Radio, Video, PostTaringa } from '../data/types';
 
 // Las notas con el link caído no se muestran.
@@ -21,13 +24,13 @@ const radios = (radioData as Radio[]).slice().sort(byFecha);
 const tele = (videosData as Video[]).filter((v) => v.categoria === 'entrevista').sort(byFecha);
 const taringa = (taringaData as PostTaringa[]).slice().sort(byFecha);
 
-// Franja "Salió en": un logo por medio, en el orden de medios.json
-const salioEn = medios.filter((m) => notas.some((n) => n.medio === m.nombre));
 // Logo de Taringa (el de 2018, la época de los posts)
 const logoTaringa = maybeAsset('prensa/logos/taringa.png');
 
 const tipo: Record<Nota['tipo'], string> = { nota: 'Nota', review: 'Reseña', entrevista: 'Entrevista', noticia: 'Noticia' };
 const link = (n: Nota) => n.archivo ?? n.url;
+// comentarios destacados de Taringa (los mismos de la marquesina, para leer tranquilo)
+const comentariosTaringa = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 'Comentario en Taringa!');
 ---
 
 <Base title="Prensa" description="Notas, reseñas, entrevistas de radio y TV sobre Juanito Arcade Mayhem.">
@@ -40,28 +43,6 @@ const link = (n: Nota) => n.archivo ?? n.url;
       <a href="#notas">Notas</a><a href="#radio">Radio</a><a href="#tv">TV y entrevistas</a><a href="#taringa">Taringa</a>
     </nav>
   </PageHeader>
-
-  <section class="salio" aria-label="Medios que hablaron de Juanito">
-    <div class="container">
-      <p class="salio__t">Salió en</p>
-      <ul class="salio__list">
-        {
-          salioEn.map((m) => {
-            const l = logoDe(m.nombre);
-            return (
-              <li>
-                {l ? (
-                  <Image src={l.img} alt={m.nombre} height={l.h * 2} style={`height:${l.h}px`} />
-                ) : (
-                  <span class="medio-txt">{m.nombre}</span>
-                )}
-              </li>
-            );
-          })
-        }
-      </ul>
-    </div>
-  </section>
 
   <section class="section" id="notas">
     <div class="container">
@@ -215,11 +196,23 @@ const link = (n: Nota) => n.archivo ?? n.url;
           ))
         }
       </ul>
+      {comentariosTaringa.length > 0 && (
+        <div class="tcoms">
+          <h3 class="h3" data-reveal>Lo que comentaban</h3>
+          <Comentarios items={comentariosTaringa} />
+        </div>
+      )}
     </div>
   </section>
 </Base>
 
 <style>
+  .tcoms {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .tcoms .h3 {
+    margin: 0 0 1rem;
+  }
   .jump {
     display: flex;
     flex-wrap: wrap;
@@ -289,44 +282,6 @@ const link = (n: Nota) => n.archivo ?? n.url;
     display: block;
   }
 
-  /* Franja "Salió en" */
-  .salio {
-    padding: 0.5rem 0 1rem;
-  }
-  .salio + .section {
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
-  }
-  .salio__t {
-    margin: 0 0 1rem;
-    font-family: var(--font-ui);
-    font-weight: 700;
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-  .salio__list {
-    list-style: none;
-    margin: 0;
-    padding: 1.4rem 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.4rem 2.4rem;
-    border-block: 1px solid var(--line);
-  }
-  .salio__list li {
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .salio__list li:hover {
-    opacity: 1;
-  }
-  .medio-txt {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    color: var(--ink);
-  }
   .nota-d__meta {
     display: flex;
     flex-wrap: wrap;

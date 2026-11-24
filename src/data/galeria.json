@@ -268,56 +268,66 @@
     "descripcion": "Gluk y Juanito con guitarra, en estética synthwave."
   },
   {
-    "img": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
-    "titulo": "Homenaje a Volver al Futuro",
-    "categoria": "fondos"
-  },
-  {
-    "img": "archivo/galeria/fondos/wallpaper-tiburon.jpg",
-    "titulo": "Homenaje a Tiburón",
-    "categoria": "fondos"
-  },
-  {
-    "img": "archivo/galeria/fondos/wallpaper-et.jpg",
-    "titulo": "Homenaje a E.T.",
-    "categoria": "fondos"
-  },
-  {
-    "img": "archivo/galeria/fondos/wallpaper-ghost.jpg",
-    "titulo": "Homenaje a Ghost",
-    "categoria": "fondos",
-    "descripcion": "Juanito y Gluk en la escena del torno."
-  },
-  {
-    "img": "archivo/galeria/fondos/wallpaper-babality.jpg",
-    "titulo": "Babality",
-    "categoria": "fondos"
-  },
-  {
     "img": "archivo/galeria/fondos/wallpaper-donkey-kong.jpg",
     "titulo": "Homenaje a Donkey Kong",
-    "categoria": "fondos"
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-kung-fu-master.jpg",
     "titulo": "Homenaje a Kung Fu Master",
-    "categoria": "fondos"
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-snow-bros.jpg",
     "titulo": "Homenaje a Snow Bros",
-    "categoria": "fondos"
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-wonder-boy.jpg",
     "titulo": "Homenaje a Wonder Boy",
-    "categoria": "fondos"
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-zombies.jpg",
     "titulo": "Zombies Walked with Juanito",
     "categoria": "fondos",
-    "descripcion": "Homenaje a Zombies Ate My Neighbors."
+    "descripcion": "Homenaje a Zombies Ate My Neighbors.",
+    "serie": "fondos-videojuegos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-babality.jpg",
+    "titulo": "Babality",
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
+    "titulo": "Homenaje a Volver al Futuro",
+    "categoria": "fondos",
+    "serie": "fondos-peliculas"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-tiburon.jpg",
+    "titulo": "Homenaje a Tiburón",
+    "categoria": "fondos",
+    "serie": "fondos-peliculas"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-et.jpg",
+    "titulo": "Homenaje a E.T.",
+    "categoria": "fondos",
+    "serie": "fondos-peliculas"
+  },
+  {
+    "img": "archivo/galeria/fondos/wallpaper-ghost.jpg",
+    "titulo": "Homenaje a Ghost",
+    "categoria": "fondos",
+    "descripcion": "Juanito y Gluk en la escena del torno.",
+    "serie": "fondos-peliculas"
   },
   {
     "img": "archivo/galeria/historia/web-coming-soon-2014.jpg",

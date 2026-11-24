@@ -8,9 +8,8 @@
 interface Props {
   id: string;
   cuenta: string;
-  url: string;
 }
-const { id, cuenta, url } = Astro.props;
+const { id, cuenta } = Astro.props;
 ---
 
 <div class="tt">
@@ -22,7 +21,6 @@ const { id, cuenta, url } = Astro.props;
     allowfullscreen></iframe>
 </div>
 <slot />
-<a class="tt__link" href={url} target="_blank" rel="noopener">Ver en TikTok ↗</a>
 
 <style>
   .tt {
@@ -40,15 +38,5 @@ const { id, cuenta, url } = Astro.props;
     width: 100%;
     height: 100%;
     border: 0;
-  }
-  .tt__link {
-    display: inline-block;
-    margin-top: 0.5rem;
-    font-family: var(--font-ui);
-    font-size: 0.85rem;
-    color: var(--ink-dim);
-  }
-  .tt__link:hover {
-    color: var(--ink);
   }
 </style>

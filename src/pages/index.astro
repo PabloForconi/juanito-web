@@ -16,14 +16,14 @@ import { medios, logoDe } from '../lib/medios';
 import type { Evento } from '../data/types';
 
 /**
- * Home simple y de impacto: hero → citas → trailer → mosaico del archivo → CTA.
+ * Home simple y de impacto: hero → citas (adorno) → trailer → logos de prensa → mosaico del archivo → CTA.
  * El detalle vive en cada sección; acá solo se invita a entrar.
  */
-// Franja de logos de prensa: los medios de más peso que tienen logo
+// «Hablaron de Juanito»: los 4 medios de más peso que tienen logo (orden de medios.json), en grande
 const logosPrensa = medios
   .filter((m) => m.logo)
-  .slice(0, 7)
-  .map((m) => ({ nombre: m.nombre, logo: logoDe(m.nombre, 0.9)! }));
+  .slice(0, 4)
+  .map((m) => ({ nombre: m.nombre, logo: logoDe(m.nombre, 1.35)! }));
 
 const eventos = (eventosData as Evento[]).filter((e) => !e.oculto);
 
@@ -107,24 +107,6 @@ const tiles = [
 
     <Marquee />
 
-    <!-- Medios que hablaron del juego -->
-    <section class="press" aria-labelledby="press-t">
-      <div class="container">
-        <a class="press__link" href={u('/prensa/')}>
-          <p class="press__t" id="press-t">Hablaron de Juanito</p>
-          <ul class="press__list">
-            {
-              logosPrensa.map((m) => (
-                <li>
-                  <Image src={m.logo.img} alt={m.nombre} height={m.logo.h * 2} style={`height:${m.logo.h}px`} />
-                </li>
-              ))
-            }
-          </ul>
-        </a>
-      </div>
-    </section>
-
     <!-- Trailer -->
     <section class="section">
       <div class="container">
@@ -135,6 +117,28 @@ const tiles = [
         <div class="trailer" data-reveal>
           <YouTube id="t8SUKgoI3QU" title="Juanito Arcade Mayhem · Steam Gameplay Trailer" />
         </div>
+      </div>
+    </section>
+
+    <!-- Hablaron de Juanito: los medios de más peso -->
+    <section class="section dijeron" aria-labelledby="dijeron-t">
+      <div class="container">
+        <div class="head" data-reveal>
+          <p class="eyebrow">Prensa</p>
+          <h2 class="h-display" id="dijeron-t">Hablaron de <span class="hl">Juanito</span></h2>
+        </div>
+        <ul class="dijeron__logos" data-reveal>
+          {
+            logosPrensa.map((m) => (
+              <li>
+                <Image src={m.logo.img} alt={m.nombre} height={m.logo.h * 2} style={`height:${m.logo.h}px`} />
+              </li>
+            ))
+          }
+        </ul>
+        <p class="dijeron__mas" data-reveal>
+          <a class="btn btn--sm" href={u('/prensa/')}>Ver toda la prensa →</a>
+        </p>
       </div>
     </section>
 
@@ -195,54 +199,38 @@ const tiles = [
 </Base>
 
 <style>
-  /* Franja de logos de prensa */
-  .press {
-    padding: clamp(1.8rem, 4vw, 2.8rem) 0 0;
-  }
-  .press__link {
-    display: grid;
-    justify-items: center;
-    gap: 1.2rem;
-    color: inherit;
-    text-decoration: none;
-  }
-  .press__t {
-    margin: 0;
-    font-family: var(--font-ui);
-    font-weight: 700;
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    transition: color 0.2s;
-  }
-  .press__list {
+  /* Lo que dijeron: logos grandes y parejos (4 en fila; 2×2 en el celular) */
+  .dijeron__logos {
     list-style: none;
-    margin: 0;
+    margin: clamp(1.8rem, 4vw, 2.6rem) 0 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     align-items: center;
-    gap: 1.2rem clamp(1.6rem, 3.5vw, 3rem);
+    gap: 1.6rem 2rem;
   }
-  .press__list img {
+  .dijeron__logos li {
+    display: grid;
+    place-items: center;
+  }
+  .dijeron__logos img {
     display: block;
     width: auto;
     max-width: 100%;
-    opacity: 0.55;
+    opacity: 0.75;
     transition: opacity 0.25s;
   }
+  .dijeron__logos li:hover img {
+    opacity: 1;
+  }
+  .dijeron__mas {
+    margin: clamp(1.6rem, 3vw, 2.2rem) 0 0;
+    text-align: center;
+  }
   @media (max-width: 600px) {
-    .press__list li:nth-child(n + 7) {
-      display: none;
+    .dijeron__logos {
+      grid-template-columns: 1fr 1fr;
     }
-  }
-  .press__link:hover .press__t {
-    color: var(--lime);
-  }
-  .press__link:hover img {
-    opacity: 0.9;
   }
   .head {
     margin-bottom: clamp(1.8rem, 4vw, 3rem);

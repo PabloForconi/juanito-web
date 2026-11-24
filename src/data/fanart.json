@@ -121,7 +121,7 @@
   {
     "img": "archivo/fanart/megawacky-max.jpg",
     "autor": "Megawacky Max",
-    "titulo": "Huyendo de un Metroid",
+    "titulo": "Huyendo de una larva",
     "fecha": "2017-07",
     "origen": "Concurso Fan-Art 2017"
   },
@@ -133,16 +133,9 @@
     "origen": "Concurso Fan-Art 2017"
   },
   {
-    "img": "archivo/fanart/juan-camilo-salamanca-1.jpg",
+    "img": "archivo/fanart/juan-camilo-salamanca.jpg",
     "autor": "Juan Camilo Salamanca",
     "titulo": "Juanito 3D sobre el arcade",
-    "fecha": "2017-07",
-    "origen": "Concurso Fan-Art 2017"
-  },
-  {
-    "img": "archivo/fanart/juan-camilo-salamanca-2.jpg",
-    "autor": "Juan Camilo Salamanca",
-    "titulo": "Juanito 3D en el espacio",
     "fecha": "2017-07",
     "origen": "Concurso Fan-Art 2017"
   },
@@ -218,15 +211,15 @@
   },
   {
     "img": "archivo/fanart/aleksander-alek-youkovibch-1.jpg",
-    "autor": "Aleksander «Alek» Youkovibch (6 años)",
-    "titulo": "Dibujo de Alek 1",
+    "autor": "Aleksander «Alek» Youkovibch",
+    "titulo": "Juanito contra el Clonojefe",
     "fecha": "2018-04",
     "mini": true
   },
   {
     "img": "archivo/fanart/aleksander-alek-youkovibch-2.jpg",
-    "autor": "Aleksander «Alek» Youkovibch (6 años)",
-    "titulo": "Dibujo de Alek 2",
+    "autor": "Aleksander «Alek» Youkovibch",
+    "titulo": "Juanito y Gluk en modo cooperativo",
     "fecha": "2018-04",
     "mini": true
   }

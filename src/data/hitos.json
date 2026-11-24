@@ -45,7 +45,8 @@
     "fecha": "2014-03",
     "titulo": "La web \"Coming soon\"",
     "texto": "Una landing negra con un gabinete arcade solitario en niebla verde: \"COMING SOON / PRÓXIMAMENTE / EM BREVE\". La web 2014 en todo su esplendor.",
-    "categoria": "desarrollo"
+    "categoria": "desarrollo",
+    "img": "archivo/galeria/historia/web-coming-soon-2014.jpg"
   },
   {
     "fecha": "2014-04",
@@ -115,20 +116,27 @@
     "fecha": "2016-11",
     "titulo": "Test Fest y el giro a PC",
     "texto": "Sesión de testeo con público (\"¡Gracias por ser parte del Testing de Juanito!\"), EVA 2016 y primera entrevista en radio. Hacia diciembre, el foco pasa a la versión de PC.",
-    "categoria": "desarrollo"
+    "categoria": "desarrollo",
+    "img": "archivo/galeria/historia/visita-crack-radiolexia.jpg",
+    "evento": {
+      "slug": "test-fest-2016",
+      "n": 2
+    }
   },
   {
     "fecha": "2017-03-06",
     "titulo": "Steam Greenlight y Taringa!",
     "texto": "Arranca la campaña de Greenlight y Joaquín Ibarlucía la cuenta en Taringa!: \"un juego que hice para Steam!\". El post supera las 13.000 visitas.",
     "categoria": "comunidad",
-    "link": "http://web.archive.org/web/20181115214148/https://www.taringa.net/posts/juegos/19801005/Juanito-Arcade-Mayhem-un-juego-que-hice-para-Steam.html"
+    "link": "http://web.archive.org/web/20181115214148/https://www.taringa.net/posts/juegos/19801005/Juanito-Arcade-Mayhem-un-juego-que-hice-para-Steam.html",
+    "img": "archivo/galeria/historia/greenlight-dia-1.jpg"
   },
   {
     "fecha": "2017-03-10",
     "titulo": "1.000 votos \"Sí\" en 4 días",
     "texto": "Al cuarto día, Greenlight marcaba 1.000 votos a favor (66 %) y el juego iba al 61 % del camino al Top 100. Según el estudio, lo aprobaron en 10 días.",
-    "categoria": "lanzamiento"
+    "categoria": "lanzamiento",
+    "img": "archivo/galeria/historia/greenlight-dia-4.jpg"
   },
   {
     "fecha": "2017-05-06",
@@ -218,8 +226,11 @@
   {
     "fecha": "2018-08-10",
     "titulo": "Juanito cumple su primer añito",
-    "texto": "Fiesta en Belgrano, de 23:30 a 5 de la mañana, para festejar el primer aniversario del lanzamiento.",
-    "categoria": "comunidad"
+    "texto": "Fiesta privada para festejar el primer aniversario del lanzamiento.",
+    "categoria": "comunidad",
+    "evento": {
+      "slug": "primer-aniversario-2018"
+    }
   },
   {
     "fecha": "2019-12-18",
@@ -230,7 +241,7 @@
   {
     "fecha": "2020-01-30",
     "titulo": "Fama internacional (pirata)",
-    "texto": "Juanito aparece crackeado en sitios de medio mundo, con sinopsis que inventan \"a bipolar alien manipulator named Gluck\". Si te piratean, llegaste.",
+    "texto": "Juanito aparece crackeado en sitios de medio mundo. Si te piratean, llegaste.",
     "categoria": "legado"
   },
   {

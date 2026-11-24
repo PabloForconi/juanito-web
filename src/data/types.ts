@@ -89,6 +89,9 @@ export interface Hito {
   texto: string;
   categoria: 'origen' | 'desarrollo' | 'evento' | 'lanzamiento' | 'prensa' | 'comunidad' | 'legado';
   img?: string;
+  // imagen tomada de un evento (sus nombres llevan huella y cambian al re-exportar):
+  // n = posición en [flyer, ...fotos]; 0 por defecto
+  evento?: { slug: string; n?: number };
   link?: string;
 }
 
@@ -110,6 +113,7 @@ export interface Cita {
   autor: string;
   fuente: string; // "Reseña de Steam", "Pocket Gamer"...
   url?: string;
+  destacada?: boolean; // también va en tarjeta (Steam: Conseguilo; Taringa: Prensa)
 }
 
 export interface Credito {

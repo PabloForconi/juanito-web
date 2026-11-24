@@ -103,17 +103,6 @@ const ficha: [string, string | undefined][] = [
               </li>
             ))}
           </ul>
-          {jdm.entrevista && (
-            <p class="mas" data-reveal>
-              <span>Para ver más:</span>{' '}
-              <a href={jdm.entrevista.url} target="_blank" rel="noopener">
-                {jdm.entrevista.titulo} ↗
-              </a>{' '}
-              <span class="mas__m">
-                · {jdm.entrevista.canal} · {jdm.entrevista.duracion}
-              </span>
-            </p>
-          )}
           {jdm.redes?.length > 0 && (
             <div class="redes-bloque">
               <h3 class="h3" data-reveal>En las redes</h3>
@@ -121,7 +110,7 @@ const ficha: [string, string | undefined][] = [
               <ul class="redes">
                 {jdm.redes.map((r) => (
                   <li data-reveal>
-                    <TikTok id={r.id} cuenta={r.cuenta} url={r.url}>
+                    <TikTok id={r.id} cuenta={r.cuenta}>
                       <p class="vids__t">{r.cuenta}</p>
                       {r.texto && <p class="vids__m">{r.texto}</p>}
                     </TikTok>
@@ -266,17 +255,6 @@ const ficha: [string, string | undefined][] = [
     flex-wrap: wrap;
     gap: 0.4rem;
   }
-  .mas {
-    margin: 1.2rem 0 0;
-    color: var(--ink-dim);
-  }
-  .mas a {
-    color: var(--ink);
-  }
-  .mas__m {
-    font-family: var(--font-ui);
-    font-size: 0.9rem;
-  }
   @media (max-width: 800px) {
     .jdm,
     .destacados {
@@ -298,7 +276,7 @@ const ficha: [string, string | undefined][] = [
     margin: 1.6rem 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
     gap: 1.2rem;
   }
   .vids__t {

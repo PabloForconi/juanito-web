@@ -14,6 +14,8 @@ const galeria = (galeriaData as ItemGaleria[]).filter((g) => !g.oculto);
 // Series que se muestran juntas dentro de su categoría (título y texto del bloque)
 const series: Record<string, { titulo: string; txt: string }> = {
   screens: { titulo: 'Serie «Screens»', txt: 'Capturas del juego con textos de cartel de cine, y el póster apaisado que las junta.' },
+  'fondos-videojuegos': { titulo: 'Videojuegos', txt: '' },
+  'fondos-peliculas': { titulo: 'Películas', txt: '' },
 };
 const item = (g: ItemGaleria) => ({
   img: g.img,
@@ -27,11 +29,9 @@ const miniFans = fanart.filter((f) => f.mini);
 const fanItem = (f: FanArt) => ({ img: f.img, caption: f.autor, sub: f.titulo || undefined });
 
 const cats: { id: ItemGaleria['categoria']; titulo: string; txt: string }[] = [
-  { id: 'historia', titulo: 'Del archivo', txt: 'La web «Coming soon» de 2014, las estadísticas de Greenlight y otras piezas del camino.' },
   { id: 'afiche', titulo: 'Afiches', txt: 'Pósters históricos, del afiche clásico al ASCII.' },
   { id: 'concept', titulo: 'Concept art y bocetos', txt: '' },
   { id: 'fondos', titulo: 'Fondos', txt: '' },
-  { id: 'arcade', titulo: 'El gabinete arcade', txt: 'El mueble verde que recorrió expos desde 2015, y su versión slim de 2022.' },
   { id: 'merch', titulo: 'Merch', txt: 'Pósters A3, remeras y stickers.' },
   { id: 'promo', titulo: 'Piezas de difusión', txt: 'Fechas especiales, hitos y campañas en redes.' },
 ];
@@ -40,8 +40,8 @@ const artbook = galeria.filter((g) => g.categoria === 'artbook');
 const portadaArtbook = maybeAsset(artbook[0]?.img);
 ---
 
-<Base title="Galería" description="Arte, afiches, merch, el gabinete arcade y el fan art de Juanito Arcade Mayhem.">
-  <PageHeader eyebrow="Galería" title='Arte, afiches <span class="hl">y fan art</span>' lead="Afiches, concept art, fondos, el gabinete arcade, merch y los dibujos que hizo la comunidad.">
+<Base title="Galería" description="Arte, afiches, merch y el fan art de Juanito Arcade Mayhem.">
+  <PageHeader eyebrow="Galería" title='Arte, afiches <span class="hl">y fan art</span>' lead="Afiches, concept art, fondos, merch y los dibujos que hizo la comunidad.">
     <nav class="jump" aria-label="Categorías">
       {presentes.map((c) => <a href={`#${c.id}`}>{c.titulo}</a>)}
       {artbook.length > 0 && <a href="#artbook">Artbook</a>}
@@ -57,15 +57,17 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
             <h2 class="h2">{c.titulo}</h2>
             {c.txt && <p class="lead">{c.txt}</p>}
           </div>
-          <div class="gap">
-            <Gallery group={c.id} items={galeria.filter((g) => g.categoria === c.id && !g.serie).map(item)} />
-          </div>
+          {galeria.some((g) => g.categoria === c.id && !g.serie) && (
+            <div class="gap">
+              <Gallery group={c.id} items={galeria.filter((g) => g.categoria === c.id && !g.serie).map(item)} />
+            </div>
+          )}
           {[...new Set(galeria.filter((g) => g.categoria === c.id && g.serie).map((g) => g.serie!))].map((s) => (
             <div class="serie">
               <h3 class="h3">{series[s]?.titulo ?? s}</h3>
               {series[s]?.txt && <p class="muted">{series[s].txt}</p>}
               <div class="gap">
-                <Gallery group={`${c.id}-${s}`} min="300px" grilla items={galeria.filter((g) => g.categoria === c.id && g.serie === s).map(item)} />
+                <Gallery group={`${c.id}-${s}`} min="300px" grilla celular1={c.id === 'fondos'} items={galeria.filter((g) => g.categoria === c.id && g.serie === s).map(item)} />
               </div>
             </div>
           ))}
@@ -114,7 +116,7 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
         </p>
       </div>
       <div class="gap">
-        <Gallery group="fanart" min="200px" items={concurso.map(fanItem)} />
+        <Gallery group="fanart" min="200px" pie items={concurso.map(fanItem)} />
       </div>
       {
         miniFans.length > 0 && (
@@ -122,7 +124,7 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
             <h3 class="h3">Mini fans</h3>
             <p class="muted">Alek tenía 6 años cuando nos mandó estos dibujos, en 2018.</p>
             <div class="gap">
-              <Gallery group="mini-fans" min="200px" grilla items={miniFans.map(fanItem)} />
+              <Gallery group="mini-fans" grilla columnas={2} pie items={miniFans.map(fanItem)} />
             </div>
           </div>
         )

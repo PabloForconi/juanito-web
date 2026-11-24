@@ -18,7 +18,8 @@
   "descripcion": "Tirás los dados y dibujás en tu grilla la pieza que te toca, para completar líneas y sumar más que el resto. Al final de cada ronda los tableros rotan, y un modificador te deja cambiar la pieza a cambio de puntos. Comparte nombre con Blockits, el mundo Tetris del videojuego, y es el primer Juanito que se juega con lápiz. Arranca quien haya jugado un videojuego hace menos tiempo, obvio.",
   "videos": [
     { "titulo": "Juanito Blockits: cómo se juega", "youtubeId": "NQbDQ-4r09I", "canal": "El Dragón Azul (oficial)", "duracion": "3:05" },
-    { "titulo": "Juanito Blockits: ¿qué hay en la caja?", "youtubeId": "D04xoBx5cUU", "canal": "La Board Game House", "duracion": "4:01" }
+    { "titulo": "Juanito Blockits: ¿qué hay en la caja?", "youtubeId": "D04xoBx5cUU", "canal": "La Board Game House", "duracion": "4:01" },
+    { "titulo": "Entrevista a Alejandra Pini", "youtubeId": "3Z7HPekXy5I", "canal": "Partida de Locos", "duracion": "42:10" }
   ],
   "redes": [
     {
@@ -38,11 +39,5 @@
       "texto": "Juegos familiares: te enseña a jugar Juanito Blockits."
     }
   ],
-  "editorialUrl": "https://www.eldragonazul.com.ar/juegos/juanito-blockits/",
-  "entrevista": {
-    "titulo": "Entrevista a Alejandra Pini sobre Juanito Blockits y los Premios Alfonso X",
-    "canal": "Partida de Locos",
-    "duracion": "42 min",
-    "url": "https://www.youtube.com/watch?v=3Z7HPekXy5I"
-  }
+  "editorialUrl": "https://www.eldragonazul.com.ar/juegos/juanito-blockits/"
 }
