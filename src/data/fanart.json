@@ -220,12 +220,14 @@
     "img": "archivo/fanart/aleksander-alek-youkovibch-1.jpg",
     "autor": "Aleksander «Alek» Youkovibch (6 años)",
     "titulo": "Dibujo de Alek 1",
-    "fecha": "2018-04"
+    "fecha": "2018-04",
+    "mini": true
   },
   {
     "img": "archivo/fanart/aleksander-alek-youkovibch-2.jpg",
     "autor": "Aleksander «Alek» Youkovibch (6 años)",
     "titulo": "Dibujo de Alek 2",
-    "fecha": "2018-04"
+    "fecha": "2018-04",
+    "mini": true
   }
 ]

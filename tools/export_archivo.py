@@ -14,6 +14,7 @@ curadas de abajo (selección manual de las mejores fotos/piezas).
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -79,10 +80,13 @@ def fit(img: Image.Image, max_side: int) -> Image.Image:
 
 
 def export_image(srcrel: str | Path, outrel: str, max_side: int = 1600, crop=None,
-                 fmt: str | None = None, quality: int = 85) -> str:
+                 fmt: str | None = None, quality: int = 85, huella: bool = False) -> str:
     """Exporta srcrel (relativo a SRC) a src/assets/<outrel sin extensión>.<jpg|png>.
     fmt=None: PNG si tiene transparencia real, JPG si no. Devuelve la ruta relativa
-    a src/assets/ (con extensión) para los JSON."""
+    a src/assets/ (con extensión) para los JSON.
+    huella=True agrega al nombre 8 caracteres del hash del contenido (04-3fa9c1d2.jpg):
+    si la imagen cambia, cambia la URL y ningún navegador muestra la versión vieja
+    (el servidor de desarrollo de Astro cachea /_image por un año)."""
     path = srcrel if isinstance(srcrel, Path) else src(srcrel)
     img = open_image(path)
     if crop:
@@ -113,6 +117,11 @@ def export_image(srcrel: str | Path, outrel: str, max_side: int = 1600, crop=Non
         clean = Image.new(img.mode, img.size)
         clean.paste(img)
         clean.save(out, "PNG", optimize=True)
+    if huella:
+        h = hashlib.sha1(out.read_bytes()).hexdigest()[:8]
+        final = out.with_name(f"{out.stem}-{h}{out.suffix}")
+        out.replace(final)
+        out = final
     rel = out.relative_to(ASSETS).as_posix()
     print(f"  -> {rel}  {img.size}")
     return rel
@@ -304,6 +313,10 @@ FANART = [
 PIXEL_ART = {"Pablo Sanchez.jpg"}  # se agranda x4 sin suavizar
 
 
+# Dibujos de chicos: van en su propio bloque ("Mini fans") en la galería
+MINI_FANS = {"Aleksander Youkovibch 1.jpg", "Aleksander Youkovibch 2.jpg"}
+
+
 def export_fanart() -> None:
     print("fanart")
     clean_dir(OUT / "fanart")
@@ -327,6 +340,8 @@ def export_fanart() -> None:
         item = {"img": img_rel, "autor": autor, "titulo": titulo, "fecha": fecha}
         if origen:
             item["origen"] = origen
+        if rel in MINI_FANS:
+            item["mini"] = True
         data.append(item)
     write_json("fanart.json", data)
 
@@ -336,54 +351,59 @@ def export_fanart() -> None:
 # los nombres de carpeta DD-MM a veces están mal; mandan el flyer o el EXIF.
 
 EV = "Difusion/Eventos"
+# Piezas que el dueño rehízo o adaptó y pasó aparte (no están en E:)
+ORIG = ROOT / "tools" / "originales"
 
 
 def _f(folder: str, *names: str) -> list[str]:
     return [f"Fotos/{folder}/{n}" for n in names]
 
 
+IMG_EXT = {".jpg", ".jpeg", ".png", ".webp"}
+
+
+def _natural(s: str):
+    return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", s)]
+
+
+def _sueltas(folder: str, excluir: tuple[str, ...] = ()) -> list[str]:
+    """Selección del dueño: las fotos sueltas de Fotos/<folder>. Las subcarpetas
+    (por ejemplo "No/") no se publican. Un archivo llamado "cover.*" va primero:
+    es la portada de la tarjeta cuando el evento no tiene flyer (si tiene, queda
+    como primera foto del álbum). `excluir`: sueltas que el dueño pidió sacar
+    (E: es solo lectura para el exportador, así que no se pueden mover a No/)."""
+    d = SRC / "Fotos" / folder
+    files = [p.name for p in d.iterdir()
+             if p.is_file() and p.suffix.lower() in IMG_EXT and p.name not in excluir]
+    files.sort(key=lambda n: (not n.lower().startswith("cover."), _natural(n)))
+    return _f(folder, *files)
+
+
 EVENTOS = [
     dict(slug="meet-the-game-2014", nombre="Meet The Game", fecha="2014-05-10",
          lugar="Fusion Bar, Florida 328, CABA",
          descripcion="Primera edición de la expo de videojuegos argentinos de Gamedia. Juanito se pudo jugar en tablets y en una notebook con joystick.",
-         flyer=f"{EV}/Meet The Game 2014/MTG_v1.jpg",
-         fotos=_f("2014/12-05 - Meet The Game 1",
-                  "10012429_306532722834621_456629290714981961_n.jpg",
-                  "10150652_594892517276814_2602317165178704200_n.jpg",
-                  "10255300_628818837205060_8954522881990099111_n.jpg",
-                  "10268631_628818677205076_8688942921046479836_n.jpg",
-                  "10295668_628818817205062_7844479874289573237_n.jpg",
-                  "10313945_732867516764796_514037534471582437_n.jpg",
-                  "10363705_306531822834711_8905054621357419814_n.jpg",
-                  "HD-bm_1_2014-04-20_2159_C0006.mov_snapshot_00.01_2014.05.11_16.53.34.png")),
+         flyer=ORIG / "eventos" / "meet-the-game-2014-flyer.jpg",  # versión cuadrada del dueño (antes: MTG_v1.jpg)
+         fotos=_sueltas("2014/12-05 - Meet The Game 1")),
     dict(slug="toronjapalooza-2014", nombre="Toronjapalooza", fecha="2014-07-26",
          lugar="Espacio Cultural Chacra de los Remedios, Parque Avellaneda, CABA",
-         descripcion="«Evento cultural nerd» con demo de Juanito en tablet y la foto grupal del equipo.",
-         flyer=f"{EV}/Toronjapalooza 2014/Afiche_Toronjapalooza.png",
-         fotos=_f("2014/06-08 - Toronjapalooza",
-                  "10380554_637349923031073_2031308100007212385_o.jpg",
-                  "10560454_776754645709416_5152388013681577822_o.jpg",
-                  "10570433_733336666711942_1433516386313728670_n.jpg",
-                  "10575385_1908042972668014_936659063942071000_o.jpg")),
-    dict(slug="eva-2014", nombre="EVA 2014", fecha="2014-11",
-         lugar="CABA",
-         descripcion="Exposición de Videojuegos Argentina: stand de Game Ever en el Espacio Indie, con tablets, notebook y joystick, tarjetas y banner.",
-         fotos=_f("2014/08-11 - EVA",
-                  "10252004_10204881543139465_5563615516421514918_n.jpg",
-                  "10406670_10204881544899509_2652617373329300688_n.jpg",
-                  "10629477_728846130525652_4439548329714532151_o.jpg",
-                  "10659084_728845923859006_1641256708013490881_o.jpg",
-                  "Yiyo/ge eva 2.jpg", "Yiyo/ge eva 4.jpg", "Yiyo/ge eva 6.jpg", "Yiyo/ge eva 8.jpg")),
+         descripcion="«Evento cultural nerd» con demo de Juanito en tablet.",
+         flyer=ORIG / "eventos" / "toronjapalooza-2014-flyer.jpg",  # versión cuadrada del dueño (antes: Afiche_Toronjapalooza.png)
+         fotos=_sueltas("2014/06-08 - Toronjapalooza")),
+    dict(slug="eva-2014", nombre="EVA 2014", fecha="2014-11-07",  # 7 y 8 de noviembre (Neoteo)
+         lugar="Espacio Gaumont, CABA",
+         descripcion="Exposición de Videojuegos Argentina: stand de Game Ever en el Espacio Indie.",
+         fotos=_sueltas("2014/08-11 - EVA"),
+         # tarjeta: recorte cuadrado de cover.png (la tablet), según la referencia del dueño
+         portada_crop=(472, 184, 1222, 934)),
     dict(slug="meet-the-game-2", nombre="Meet The Game 2", fecha="2014-11-16",
          lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
-         descripcion="Segunda edición de la expo de Gamedia. Juanito jugable en monitor y un trofeo con forma de cartucho de Famicom.",
+         descripcion="Segunda edición de la expo de Gamedia. Juanito se jugó en PC, con premio para el mejor puntaje: un trofeo con forma de cartucho de Famicom.",
          flyer=f"{EV}/Meet The Game 2 2015/MTG_2_v1.png",
-         fotos=_f("2014/08-08 - Meet The Game 2",
-                  "juanito mtg 2.jpg", "juanito mtg 3.jpg", "juanito mtg 4.jpg", "juanito mtg 6.jpg",
-                  "juanito mtg 7.jpg", "juanito mtg 8.jpg", "juanito mtg 9.jpg")),
+         fotos=_sueltas("2014/08-08 - Meet The Game 2")),
     dict(slug="feria-del-libro-2015", nombre="Feria Internacional del Libro de Buenos Aires", fecha="2015-04-23",
-         lugar="La Rural, Pabellón Azul, stand 225 (Genesis Comic Store)",
-         descripcion="Del 23 de abril al 11 de mayo, el gabinete arcade de Juanito estuvo en el stand de la comiquería, rodeado de peluches: «Vení a jugar».",
+         lugar="La Rural, Pabellón Azul, stand 225",
+         descripcion="Del 23 de abril al 11 de mayo, el gabinete arcade de Juanito se pudo jugar en plena feria, entre libros, cómics y peluches.",
          flyer=f"{EV}/Feria Libro 2015/Feria_Juanito.png",
          fotos=_f("2015/24-04 - Feria del Libro",
                   "11041732_716213611823091_1367413272972892951_n.jpg",
@@ -391,70 +411,62 @@ EVENTOS = [
                   "11164148_10205201903179798_909209003_n.jpg",
                   "11185728_10205201907179898_2103408271_n.jpg",
                   "Juanito.jpg")),
-    dict(slug="tecnopolis-2015", nombre="Tecnópolis 2015: Ar.Cade", fecha="2015-07",
+    dict(slug="tecnopolis-2015", nombre="Tecnópolis 2015: Ar.Cade", fecha="2015-07-20",  # fotos del 20/07; la muestra siguió hasta nov.
          lugar="Tecnópolis, Villa Martelli",
          descripcion="Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul.",
-         fotos=_f("2015/20-07 - Tecnopolis", "01.jpg", "03.jpg", "05.jpg", "06.jpg", "08.jpg", "09.jpg", "10.jpg", "13.jpg")),
+         fotos=_f("2015/20-07 - Tecnopolis", "01.jpg", "03.jpg", "05.jpg", "06.jpg", "08.jpg", "09.jpg", "10.jpg", "13.jpg"),
+         # tarjeta: cover cuadrado del dueño (recorte de 01.jpg); el álbum muestra la captura entera
+         portada_img=ORIG / "eventos" / "tecnopolis-2015-cover.jpg"),
     dict(slug="meet-the-devs-2015", nombre="Meet The Devs: Extended Edition", fecha="2015-08-15",
-         lugar="Centro Cultural General San Martín, CABA",
-         descripcion="Evento de Gamedia con el gabinete arcade de Juanito y su standee junto a Donkey.",
+         lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
+         descripcion="Evento de Gamedia con el gabinete arcade de Juanito.",
          flyer=f"{EV}/Meet The Devs Extended 2015/Meet_Devs_Ext_v1.jpg",
-         fotos=_f("2015/16-08 - Meet The Devs Extended Edition",
-                  "20150815_161451.jpg", "20150815_161540.jpg", "20150815_162324.jpg", "20150815_162428.jpg",
-                  "20150815_175020.jpg", "Gamedia_01.jpg", "Gamedia_02.jpg", "IMG_20150815_183200.jpg")),
+         fotos=_sueltas("2015/16-08 - Meet The Devs Extended Edition")),
     dict(slug="mica-2015", nombre="MICA 2015", fecha="2015-09-06",
          lugar="CABA",
          descripcion="Mercado de Industrias Culturales Argentinas: Juanito en el espacio «Videojuegos Argentinos».",
-         fotos=_f("2015/02-09 - MICA",
-                  "10446216_2088153121323664_6026390329369197108_o.jpg",
-                  "11992220_10207178683412642_1932823513_n.jpg",
-                  "DSCN0453.JPG", "DSCN0454.JPG", "DSCN0456.JPG", "DSCN0457.JPG")),
-    dict(slug="bit-bang-fest-2", nombre="Bit Bang Fest, edición 2", fecha="2015-09-12",
-         descripcion="Festival de videojuegos con conferencias, testeo, juegos de mesa y competencias. Hubo multitud alrededor del arcade de Juanito.",
-         fotos=_f("2015/15-09 - Bit Bang Fest Edicion 2",
-                  "Yiyo_Flauros_01.jpg",
-                  "11222975_827080464058017_181041837833398322_o.jpg",
-                  "12009771_827081867391210_2378451958775084744_n.jpg",
-                  "12036853_827077554058308_4263086535140773479_n.jpg",
-                  "DaVinci_01.jpg", "Jupitron_03.jpg", "Marisol_Estevez_02.jpg", "Marisol_Estevez_05.jpg")),
+         fotos=_sueltas("2015/02-09 - MICA"),
+         # tarjeta: cuadrado de cover.JPG con la pantalla del juego y la chica que juega
+         portada_crop=(1525, 413, 3988, 2876)),
+    dict(slug="bit-bang-fest-2", nombre="Bit Bang Fest 2", fecha="2015-09-12",  # segunda edición (Culturageek, 02/09/2015)
+         lugar="Escuela Da Vinci, Av. Corrientes 2049, CABA",
+         descripcion="El festival de la Escuela Da Vinci: juegos indie argentinos para probar y votar, charlas, juegos de mesa y rol. Y una multitud alrededor del arcade de Juanito.",
+         fotos=_sueltas("2015/15-09 - Bit Bang Fest Edicion 2"),
+         # tarjeta: cuadrado de cover.jpg (vertical): marquesina, pantalla y la mano en los controles
+         portada_crop=(0, 55, 640, 695)),
     dict(slug="animacity-2015", nombre="Animacity 2015", fecha="2015-10-04",
-         descripcion="El gabinete estrenó vinilo nuevo, con Juanito, Donkey y la grilla neón.",
-         fotos=_f("2015/04-10 - Animacity",
-                  "03.jpg", "IMG_20151004_152020.jpg", "IMG_20151004_160807.jpg", "Jupitron_01.jpg",
-                  "Marcelo_03.jpg", "Marcelo_06.jpg", "Marcelo_07.jpg", "PlayNoMore_06.jpg")),
-    dict(slug="eva-2015", nombre="EVA 2015", fecha="2015", orden="2015-10-31",
+         lugar="Colegio San José, Bartolomé Mitre 2455, CABA",
+         descripcion="Entre cosplayers y fans del animé, el gabinete de Juanito no se quedó solo ni un minuto.",
+         fotos=_sueltas("2015/04-10 - Animacity"),
+         # tarjeta: recorte cuadrado de cover.png (versión verde), con foco en el gabinete y el que juega
+         portada_crop=(342, 205, 1122, 985)),
+    dict(slug="eva-2015", nombre="EVA 2015", fecha="2015-11-06",  # 6 y 7 de noviembre (Culturageek)
+         lugar="Espacio Gaumont, CABA",
          descripcion="Flyer «Mini Arcade» preparado para la Exposición de Videojuegos Argentina 2015.",
-         flyer=f"{EV}/Eva 2015/Mini_Arcade_v1.png", fotos=[]),
-    dict(slug="muere-monstruo-muere-2015", nombre="Muere Monstruo Muere: Arcade Demons Night", fecha="2015-10-30",
+         flyer=ORIG / "eventos" / "eva-2015-flyer.jpg", fotos=[]),  # versión cuadrada del dueño (antes: Mini_Arcade_v1.png)
+    dict(slug="muere-monstruo-muere-2015", nombre="Muere Monstruo Muere", fecha="2015-10-30",
          lugar="Teatro El Mandril, Humberto 1° 2758, San Cristóbal",
          descripcion="Fiesta con bandas (Nave, Jupitron, Shitty) y arcades, con Juanito en pantalla.",
          flyer=f"{EV}/Muere Monstruo Muere 2015/Muere_Monstruo_Muere_v1.png",
-         fotos=_f("2015/30-10 - Muere Monstruo Muere",
-                  "02.jpg", "05.jpg", "06.jpg", "08.jpg", "10.jpg", "11.jpg",
-                  "11012028_846566438776086_4635195684037619547_n.jpg",
-                  "12191527_846566355442761_6538782601808470472_n.jpg")),
+         fotos=_sueltas("2015/30-10 - Muere Monstruo Muere")),
     dict(slug="meet-the-game-3", nombre="Meet The Game 3: Rise of the Devs", fecha="2015-11-14",
-         lugar="Centro Cultural General San Martín, CABA",
+         lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
          descripcion="Tercera edición de la expo de Gamedia, con el arcade de Juanito junto a otros juegos argentinos.",
          flyer=f"{EV}/Meet The Game 2015/Meet_Devs_Game_2015.png",
-         fotos=_f("2015/20-11 - Meet The Game 3",
-                  "20151114_162225.jpg", "20151114_162323.jpg", "DSC_1722.JPG", "DSC_1725.JPG",
-                  "DSC_1732.JPG", "DSC_1733.JPG", "DSC_1737.JPG", "Gamedia_01.jpg")),
-    dict(slug="muere-monstruo-muere-1-ano", nombre="Muere Monstruo Muere: cumple del primer año", fecha="2015-11-27",
+         fotos=_sueltas("2015/20-11 - Meet The Game 3")),
+    dict(slug="muere-monstruo-muere-1-ano", nombre="Muere Monstruo Muere: cumple 1 año", fecha="2015-11-27",
          lugar="Teatro El Mandril, San Cristóbal",
          descripcion="«Película + arcades + banda + mucho más». En la puerta se vendían los pósters de Juanito a $25.",
          flyer=f"{EV}/Muere Monstruo Muere 2015 1 Año/Muere_Monstruo_Muere_v1.png",
-         fotos=_f("2015/27-11 - Muere Monstruo Muere",
-                  "20151128_000410.jpg", "20151128_000449.jpg", "20151128_012907.jpg", "20151128_012926.jpg",
-                  "20151128_035053.jpg", "20151128_040709.jpg", "20151128_044309.jpg", "20151128_045928.jpg")),
+         fotos=_sueltas("2015/27-11 - Muere Monstruo Muere")),
     dict(slug="checkpoint-2015", nombre="Checkpoint: fiesta de fin de año", fecha="2015-12-12",
          lugar="TecnoBar, Fitz Roy 2021, Palermo",
          descripcion="Fiesta de fin de año «junto a Juanito», con flyer protagonizado por él.",
          flyer=f"{EV}/Checkpoint 2015/Checkpoint_2015_v1.png", fotos=[]),
     dict(slug="geek-out-fest-2", nombre="Geek Out! Fest 2.0", fecha="2016-04-30",
-         lugar="Centro Cultural San Martín, CABA",
+         lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
          descripcion="«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek.",
-         flyer=f"{EV}/Geek Out 2016/Mini_Arcade_v1.png",
+         flyer=ORIG / "eventos" / "geek-out-fest-2-flyer.jpg",  # versión cuadrada del dueño (antes: Geek Out 2016/Mini_Arcade_v1.png)
          fotos=_f("2016/30-04 - Geek Out Fest",
                   "13090416_10206618021554524_1099661509_n.jpg",
                   "13091603_10206618029434721_274299374_o.jpg",
@@ -465,41 +477,33 @@ EVENTOS = [
     dict(slug="meet-the-devs-2016", nombre="Meet The Devs Extended 2016", fecha="2016-05-21",
          lugar="CABA",
          descripcion="Charlas de videojuegos, realidad virtual, juegos indie y arcades.",
-         fotos=_f("2016/21-05 - Meet The Devs",
-                  "604bd320-5100-459a-b989-19dc0dd36dbb.jpg", "20160521_165158.jpg", "20160521_180409.jpg",
-                  "20160521_181627.jpg", "75977855-63c6-4b6d-a478-ef140cbfe2c5.jpg")),
-    dict(slug="nave-100", nombre="Nave 100", fecha="2016-06-11",
-         descripcion="El arcade de Juanito en una noche con bandas en vivo y murales.",
-         fotos=_f("2016/15-06 - Nave 100",
-                  "20160611_184858.jpg", "20160611_184910.jpg", "20160611_184922.jpg",
-                  "20160611_184935.jpg", "20160611_185551.jpg", "20160611_205653.jpg")),
+         fotos=_sueltas("2016/21-05 - Meet The Devs"),
+         # tarjeta: cuadrado de cover.png con la pantalla, la mano en el botón y la cara de la que juega
+         portada_crop=(420, 0, 1410, 990)),
+    dict(slug="nave-100", nombre="NAVE Arcade Tour #100", fecha="2016-06-11",  # festival Let It VJ (posts de Argentron)
+         lugar="Club Cultural Matienzo, Pringles 1249, CABA",
+         descripcion="Cien fechas del arcade itinerante NAVE, de Videogamo, se festejaron en el Matienzo durante el festival Let It VJ. Y Juanito no se lo quiso perder.",
+         fotos=_sueltas("2016/15-06 - Nave 100"),
+         # tarjeta: cuadrado de cover.jpg (foto nocturna con luz violeta): marquesina, pantalla y el que juega
+         portada_crop=(270, 0, 953, 683)),
     dict(slug="fichinait-2016", nombre="Fichinait", fecha="2016-08-13",
-         lugar="Nicasio Oroño 2480, CABA",
+         lugar="La Comunidad del Sótano, Nicasio Oroño 2480, CABA",
          descripcion="Fiesta gamer de La Comunidad del Sótano con Tumba, Argentron Arcade, The Black Heart, Metadron, Nave y Juanito, entre otros.",
          flyer=f"{EV}/Fichinait 2016/13886244_1448803045136629_7787626712625036484_n.jpg",
          fotos=_f("2016/16-08 - Fichinait", "20160814_015230.jpg", "20160814_025030.jpg")),
     dict(slug="fiesta-pow-1", nombre="Fiesta Pow 1", fecha="2016-11-04",
          descripcion="El arcade de Juanito en una fiesta, con grupos jugando hasta tarde.",
-         fotos=_f("2016/04-11 - Fiesta Pow 1",
-                  "14753303_1077649192334475_6258867156937548262_o.jpg",
-                  "14753319_1077648865667841_4366280068369394587_o.jpg",
-                  "14855971_1077645945668133_5972951922032092582_o.jpg",
-                  "14876624_1077651729000888_5582720293090154791_o.jpg",
-                  "14884688_1077648582334536_6233378757329794728_o.jpg",
-                  "14940163_1077653135667414_2408876551470612729_o.jpg",
-                  "14940248_1077652825667445_5728427128907845786_o.jpg",
-                  "14956460_1077648885667839_605138013893109158_n.jpg")),
-    dict(slug="eva-2016", nombre="EVA 2016", fecha="2016-11-05",
-         lugar="CABA",
-         descripcion="El arcade con la nueva grilla de neón y mucho público en la Exposición de Videojuegos Argentina.",
-         fotos=_f("2016/08-11 - EVA",
-                  "Juaquin/IMG_20161105_174617588.jpg", "Juaquin/IMG_20161105_175103464_HDR.jpg",
-                  "Juaquin/IMG_20161105_175122035.jpg", "Juaquin/IMG_20161105_181523661.jpg",
-                  "Marisol/14939522_1233302590064483_7811079525936636613_o.jpg",
-                  "Marisol/14963183_1233305360064206_5789180045100913921_n.jpg",
-                  "Marisol/14991459_1233301746731234_3550766460333122881_o.jpg",
-                  "Marisol/14991479_1233302523397823_6933091448920139606_o.jpg")),
-    dict(slug="test-fest-2016", nombre="Juanito Test Fest", fecha="2016-11",
+         fotos=_sueltas("2016/04-11 - Fiesta Pow 1"),
+         # tarjeta: cuadrado de cover.jpg con el que juega, la marquesina y la pantalla encendida
+         portada_crop=(323, 0, 1403, 1080)),
+    dict(slug="eva-2016", nombre="EVA 2016", fecha="2016-11-04",  # 4 y 5 de noviembre (Culturageek)
+         lugar="C3, Centro Cultural de la Ciencia, Godoy Cruz 2270, CABA",
+         descripcion="El gabinete de Juanito volvió a la Exposición de Videojuegos Argentina, con mucho público y la tabla de récords en pantalla.",
+         fotos=_sueltas("2016/08-11 - EVA"),
+         # tarjeta: cuadrado de cover.png con la pantalla del ranking y la cara del jugador reflejada
+         portada_crop=(106, 279, 913, 1086)),
+    dict(slug="test-fest-2016", nombre="Juanito Test Fest", fecha="2016-11-15",  # fotos de cámara del 15/11; tarjetas impresas el 14/11
+         oculto=True,  # oculto hasta tener más información (pedido del dueño)
          descripcion="Sesión de testeo abierta del juego. Cada tester se llevaba una tarjeta: «¡Gracias por ser parte del Testing de Juanito!».",
          flyer="Difusion/Facebook/Eventos/Test Fest/juanito_test_fest_banner_v2.jpg",
          fotos=["Difusion/Facebook/Eventos/Test Fest/juanito_test_fest_banner_v1.jpg",
@@ -508,54 +512,61 @@ EVENTOS = [
          lugar="Teatro El Mandril, San Cristóbal",
          descripcion="Segundo aniversario de la fiesta, con flyer protagonizado por Juanito: «Película + arcades + feria».",
          flyer=f"{EV}/11-16 - Muere Monstrue Muere/11-16_Muere_Monstruo_Muere_v1.jpg",
-         fotos=_f("2016/11-11 - Muere Monstruo Muere",
-                  "14976532_10211371156856908_5446097163606181619_o.jpg",
-                  "14991224_10211370745886634_9022220797331376223_o.jpg",
-                  "15016423_10211371029253718_4932361613404971816_o.jpg",
-                  "15025336_10211371028813707_2720834721500661503_o.jpg",
-                  "15025629_10211370831208767_7353108571100849392_o.jpg",
-                  "15036428_10211370655764381_4354700074293562145_n.jpg",
-                  "15037134_10211371027613677_2361396998039120398_n.jpg",
-                  "15068417_10211371915115864_2493635484865268387_o.jpg")),
+         fotos=_sueltas("2016/11-11 - Muere Monstruo Muere")),
     dict(slug="geek-out-fest-3", nombre="Geek Out! Fest 3.0", fecha="2017-05-06",
-         lugar="Centro Cultural San Martín, CABA",
+         lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
          descripcion="El arcade de Juanito, muy jugado por chicos, y una mesa de juegos argentinos junto a JuegosArgentinos.org.",
-         fotos=_f("2017/06-MAY - Geek Out Fest 3.0",
-                  "01-16.jpg", "01-17.jpg", "01-6.jpg", "IMG_20170506_170556950.jpg",
-                  "IMG_20170506_182206279.jpg", "IMG_20170506_182352374.jpg",
-                  "Juegos Argentinos/18319393_1356727984415420_3327864515240167482_o.jpg",
-                  "Juegos Argentinos/18358960_1356727387748813_8459114177774647996_o.jpg")),
+         fotos=_sueltas("2017/06-MAY - Geek Out Fest 3.0"),
+         # tarjeta: cuadrado de cover.jpg centrado en el juego (marquesina y pantalla) y la chica que juega
+         portada_crop=(884, 624, 2600, 2340)),
     dict(slug="fichinait-2", nombre="Fichinait Vol. 2", fecha="2017-05-06",
+         lugar="La Comunidad del Sótano, Nicasio Oroño 2480, CABA",
          descripcion="Segunda fiesta Fichinait: arcades hasta la madrugada y un récord de 50:18 minutos en Juanito.",
-         fotos=_f("2017/06-MAY - Fichinait Vol.2",
-                  "18339475_1347792951941630_952365903_o.jpg", "18360710_1347792945274964_1973210895_n.jpg",
-                  "20170507_003923.jpg", "20170507_012323.jpg", "IMG-20170507-WA0005.jpeg",
-                  "IMG-20170507-WA0007.jpeg", "IMG-20170507-WA0012.jpeg", "IMG_20170507_020949074.jpg")),
+         fotos=_sueltas("2017/06-MAY - Fichinait Vol.2",
+                        excluir=("20170507_012318.jpg",)),  # casi igual a 20170507_012323.jpg
+         # tarjeta: cuadrado de cover.jpeg con la pantalla (puntaje y combo) y las manos en los controles
+         portada_crop=(890, 0, 2730, 1840)),
     dict(slug="triple-fest-2017", nombre="Triple Fest", fecha="2017-08",
+         oculto=True,  # oculto hasta tener más información (pedido del dueño)
          descripcion="Banner compartido de Juanito con Fidel (Dungeon Rescue) y Bildo, otros juegos argentinos.",
          flyer="Difusion/Facebook/Eventos/Triple Fest/juanito_test_fest_banner_v1.jpg", fotos=[]),
     dict(slug="random-tandil-2017", nombre="Random: Convención de Freaks, Volumen II", fecha="2017-08-19",
+         oculto=True,  # oculto hasta tener más información (pedido del dueño)
          lugar="Altos de Unión, Quintana 450, Tandil",
          descripcion="Convención auspiciada por el Municipio de Tandil, con el salón lleno.",
          flyer="Fotos/2017/19-AGO - Random (Tandil)/20451593_1862004497450620_404895491845680858_o.jpg",
          fotos=_f("2017/19-AGO - Random (Tandil)", "20989196_1872293159755087_6741567074557061669_o.jpg")),
     dict(slug="geek-out-fest-4", nombre="Geek Out! Fest 4.0", fecha="2018-04-28",
          lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
-         descripcion="Sede argentina del International Tabletop Day, junto a JuegosArgentinos.org. Juanito invitaba: «¡Vení a jugar!».",
-         flyer=f"{EV}/Geek Out! Fest 4.0/GeekOutFest4.jpg",
-         fotos=[f"{EV}/Geek Out! Fest 4.0/Geek-Out-Fest-4.jpg"]),
+         descripcion="Sede argentina del International Tabletop Day, junto a JuegosArgentinos.org.",
+         flyer=ORIG / "eventos" / "geek-out-fest-4-flyer.jpg",  # versión cuadrada del dueño del flyer oficial (GeekOutFest4.jpg)
+         # Geek-Out-Fest-4.jpg ("Sábado 30 de abril") no es de esta edición: el 30/04/2018 fue lunes
+         fotos=[]),
     dict(slug="arcade-evento-2018", nombre="ARCADE Evento", fecha="2018", orden="2018-07",
-         fotos=_f("2018/ARCADE Evento",
-                  "37400879_10214224947231673_2045354041575211008_n.jpg",
-                  "37404763_10214224947391677_9024487606208954368_n.jpg",
-                  "37417899_10214224946951666_8625516884218871808_n.jpg",
-                  "37550509_10214224960752011_5782732345152897024_n.jpg",
-                  "37564181_10214224947151671_1378555975119667200_n.jpg",
-                  "37567629_10214224960672009_1728724869215944704_n.jpg")),
+         pedir_datos=True,  # no se sabe qué evento fue ni dónde: se piden datos (texto en la tarjeta)
+         fotos=_sueltas("2018/ARCADE Evento"),
+         # tarjeta: cuadrado de cover.jpg con el gabinete, el jugador y el mural de fondo
+         portada_crop=(60, 190, 660, 790)),
     dict(slug="primer-aniversario-2018", nombre="Juanito cumple su primer añito", fecha="2018-08-10",
+         oculto=True,  # oculto por ahora (pedido del dueño)
          lugar="Zapiola 2450, Belgrano, CABA",
          descripcion="Fiesta por el primer aniversario del lanzamiento en Steam.",
          flyer="Difusion/Facebook/Varios/primer_anio_v1.jpg", fotos=[]),
+    # Sin fotos todavía. Fuente: indiehoy.com/agenda/fichinait-vol-3-fiesta-videojuegos-la-comunidad-del-sotano
+    # (anuncia "Juanito Arcade" entre las máquinas)
+    dict(slug="fichinait-3", nombre="Fichinait Vol. 3", fecha="2017-10-07",
+         lugar="La Comunidad del Sótano, Nicasio Oroño 2480, CABA",
+         descripcion="Tercera fiesta Fichinait: Juanito volvió al Sótano, esta vez junto a NAVE y Super Proyecto Isaac.",
+         flyer=ORIG / "eventos" / "fichinait-3-flyer.jpg",  # flyer oficial, tomado de la nota de IndieHoy (380 px)
+         fotos=[]),
+    # Sin fotos todavía. Fuente: davinci.edu.ar/eventos/detalle/bit-bang-fest-videojuegos-2018
+    # (Juanito figura en la sección "Arcades")
+    dict(slug="bit-bang-fest-2018", nombre="Bit Bang Fest 2018", fecha="2018-08-25",
+         lugar="Escuela Da Vinci, Av. Corrientes 2037, CABA",
+         descripcion="Juanito volvió al festival de la Escuela Da Vinci como uno de sus arcades, con un año en Steam y recién salido en celulares.",
+         # key art de la edición (nota de Culturageek, 08/2018), versión cuadrada del dueño
+         flyer=ORIG / "eventos" / "bit-bang-fest-2018-flyer.jpg",
+         fotos=[]),
 ]
 
 # recortes especiales: la hoja A4 de Test Fest tiene 4 tarjetas iguales; queda una.
@@ -575,14 +586,28 @@ def export_eventos() -> None:
             item["lugar"] = e["lugar"]
         if e.get("descripcion"):
             item["descripcion"] = e["descripcion"]
+        if e.get("oculto"):
+            item["oculto"] = True
+        if e.get("pedir_datos"):
+            item["pedirDatos"] = True
         if e.get("flyer"):
             item["flyer"] = export_image(e["flyer"], f"archivo/eventos/{e['slug']}/flyer", 1600, fmt="jpg",
-                                         crop=EV_CROP.get(e["flyer"]))
+                                         crop=EV_CROP.get(e["flyer"]), huella=True)
         fotos = []
         for i, f in enumerate(e["fotos"], 1):
             fotos.append(export_image(f, f"archivo/eventos/{e['slug']}/{i:02d}", 1600, fmt="jpg",
-                                      crop=EV_CROP.get(f)))
+                                      crop=EV_CROP.get(f), huella=True))
         item["fotos"] = fotos
+        # recorte para la tarjeta, sacado de la primera imagen (flyer o cover); el álbum
+        # sigue mostrando la imagen entera, así la foto no se repite
+        if e.get("portada_crop"):
+            primera = e.get("flyer") or e["fotos"][0]
+            item["portada"] = export_image(primera, f"archivo/eventos/{e['slug']}/portada", 1200, fmt="jpg",
+                                           crop=e["portada_crop"], quality=88, huella=True)
+        # o una portada armada aparte por el dueño (solo para la tarjeta, no entra al álbum)
+        elif e.get("portada_img"):
+            item["portada"] = export_image(e["portada_img"], f"archivo/eventos/{e['slug']}/portada", 1200,
+                                           fmt="jpg", quality=88, huella=True)
         data.append(item)
     write_json("eventos.json", data)
 
@@ -615,9 +640,10 @@ GALERIA = [
     # --- afiches históricos (2012-2014) y pósters
     ("Difusion/Posters/Retro/juanito_poster_vintage_01.jpg", "retro-dubi-juanito-gluk",
      "Dubi · Juanito · Gluk", "afiche", "2012",
-     "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».", {}),
+     "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».",
+     {"oculto": True}),  # fuera de la galería (pedido del dueño); la home lo usa en la tarjeta de Historia
     ("Difusion/Posters/Retro/Poster_v2.jpg", "retro-poster-v2",
-     "Póster retro", "afiche", None, "Variante vintage del afiche, con Juanito, Gluk y el gorila.", {}),
+     "Póster retro", "afiche", None, "Variante vintage del afiche, con Juanito, Gluk y el gorila.", {"oculto": True}),
     ("Difusion/Posters/Logo/logo_cielo_v1.jpg", "logo-en-el-cielo",
      "Logo en el cielo", "afiche", "2012-05-28",
      "El logo original: «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».", {}),
@@ -628,21 +654,21 @@ GALERIA = [
      "Póster ASCII: el informe alienígena que localiza al «sujeto» Juanito.", {}),
     ("Difusion/Posters/Incaa/Poster_Incaa_v1.jpg", "incaa-clonocelulas",
      "Juanito vs. las Clonocélulas Mutantes del Espacio Exterior", "afiche", "2014",
-     "Póster preparado para la presentación del proyecto al INCAA.", {}),
+     "Póster preparado para la presentación del proyecto al INCAA.", {"oculto": True}),
     ("Difusion/Posters/Screens/Screens-Landscape-01.jpg", "screens-01",
-     "Screens 1", "afiche", None, "Serie «Screens»: capturas del juego con textos de cartel de cine.", {}),
+     "Screens 1", "afiche", None, None, {"serie": "screens"}),
     ("Difusion/Posters/Screens/Screens-Landscape-02.jpg", "screens-02",
-     "Screens 2", "afiche", None, None, {}),
+     "Screens 2", "afiche", None, None, {"serie": "screens"}),
     ("Difusion/Posters/Screens/Screens-Landscape-04.jpg", "screens-04",
-     "Screens 3", "afiche", None, None, {}),
+     "Screens 3", "afiche", None, None, {"serie": "screens"}),
     ("Difusion/Posters/Screens/Screens-Landscape-05jpg.jpg", "screens-05",
-     "Screens 4", "afiche", None, None, {}),
+     "Screens 4", "afiche", None, None, {"serie": "screens"}),
+    ("Difusion/Posters/Varios/Poster_Landscape_v1.jpg", "poster-landscape",
+     "Póster apaisado", "afiche", None, None, {"serie": "screens"}),
     ("Difusion/Posters/Varios/Poster_v3.2.png", "poster-v3",
      "Póster con cita de prensa", "afiche", None, None, {"max": 2000}),
     ("Difusion/Posters/Varios/juanito_poster_limpio_01.jpg", "poster-limpio",
      "Juanito vs. las Clonocélulas (arte limpio)", "afiche", None, None, {}),
-    ("Difusion/Posters/Varios/Poster_Landscape_v1.jpg", "poster-landscape",
-     "Póster apaisado", "afiche", None, None, {}),
 
     # --- merch
     ("Difusion/Merch/Super A3/Poster_Generico_SA.png", "poster-super-a3-generico",
@@ -797,6 +823,10 @@ def export_galeria() -> None:
             item["fecha"] = fecha
         if desc:
             item["descripcion"] = desc
+        if opt.get("serie"):
+            item["serie"] = opt["serie"]
+        if opt.get("oculto"):
+            item["oculto"] = True
         data.append(item)
     write_json("galeria.json", data)
 

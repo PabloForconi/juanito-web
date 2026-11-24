@@ -46,6 +46,11 @@
     object-fit: contain;
     border-radius: 12px;
     box-shadow: 0 40px 100px -30px rgb(0 0 0 / 0.9);
+    transition: opacity 0.2s;
+  }
+  .lb img.is-cargando {
+    opacity: 0;
+    transition: none;
   }
   .lb figcaption {
     font-family: var(--font-ui);
@@ -105,20 +110,39 @@
     const show = (i: number) => {
       idx = (i + group.length) % group.length;
       const a = group[idx];
-      img.src = a.href;
+      // la foto anterior no se muestra mientras carga la nueva: queda invisible hasta el load
+      if (img.getAttribute('src') !== a.href) {
+        img.classList.add('is-cargando');
+        img.removeAttribute('src');
+        img.src = a.href;
+      }
       img.alt = a.dataset.caption ?? '';
-      cap.textContent = a.dataset.caption ?? '';
+      // con varias fotos, el contador avisa que hay más ("2 / 8")
+      cap.textContent = (a.dataset.caption ?? '') + (group.length > 1 ? ` · ${idx + 1} / ${group.length}` : '');
       dlg.querySelectorAll<HTMLElement>('.lb__prev, .lb__next').forEach((b) => (b.hidden = group.length < 2));
     };
 
-    document.addEventListener('click', (e) => {
-      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-lightbox]');
-      if (!a) return;
-      e.preventDefault();
-      group = [...document.querySelectorAll<HTMLAnchorElement>(`a[data-lightbox="${a.dataset.lightbox}"]`)].filter(
-        (x) => x.offsetParent !== null,
+    const listo = () => img.classList.remove('is-cargando');
+    img.addEventListener('load', listo);
+    img.addEventListener('error', listo);
+
+    // Grupo = los links visibles con ese nombre (los que un filtro escondió no cuentan)
+    // más los ocultos a propósito con data-lb-extra (fotos de un álbum sin miniatura).
+    const grupo = (nombre: string) =>
+      [...document.querySelectorAll<HTMLAnchorElement>(`a[data-lightbox="${nombre}"]`)].filter(
+        (x) => x.offsetParent !== null || x.hasAttribute('data-lb-extra'),
       );
-      show(group.indexOf(a));
+
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      // botón que abre un álbum desde la primera foto: <button data-lb-open="grupo">
+      const abre = t.closest<HTMLElement>('[data-lb-open]');
+      const a = abre ? null : t.closest<HTMLAnchorElement>('a[data-lightbox]');
+      if (!abre && !a) return;
+      e.preventDefault();
+      group = grupo(abre ? abre.dataset.lbOpen! : a!.dataset.lightbox!);
+      if (!group.length) return;
+      show(a ? group.indexOf(a) : 0);
       dlg.showModal();
     });
     dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());

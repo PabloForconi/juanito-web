@@ -11,7 +11,7 @@ import recordsData from '../data/records.json';
 import type { Hito, Evento, Records } from '../data/types';
 
 const hitos = (hitosData as Hito[]).slice().sort(byFecha);
-const eventos = (eventosData as Evento[]).slice().sort(byFecha);
+const eventos = (eventosData as Evento[]).filter((e) => !e.oculto).sort(byFecha);
 
 // Hitos agrupados por año
 const porAnio = new Map<string, Hito[]>();
@@ -30,7 +30,9 @@ const evs = await Promise.all(
         return (await getImage({ src, width: Math.min(src.width, 1800), format: 'webp', quality: 85 })).src;
       }),
     );
-    return { ...e, cover: imgs[0] ? asset(imgs[0]) : undefined, big, count: imgs.length };
+    // la tarjeta usa el recorte "portada" si lo hay; el álbum arranca igual por la imagen entera
+    const coverPath = e.portada ?? imgs[0];
+    return { ...e, cover: coverPath ? asset(coverPath) : undefined, big, count: imgs.length };
   }),
 );
 // Récords del gabinete: fotos en grande para el lightbox
@@ -60,7 +62,7 @@ const cat: Record<Hito['categoria'], string> = {
   <PageHeader
     eyebrow="Historia"
     title='Un fichín <span class="hl">con alma de dibujo animado</span>'
-    lead="Juanito nació en 2011 como un videojuego que también podía convertirse en dibujo animado. Por entonces se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, llegó a Steam. Esta es la línea de tiempo."
+    lead="Juanito nació en 2011 como un videojuego que también podía convertirse en dibujo animado. Por entonces se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, llegó a Steam. Esta es su línea de tiempo."
   >
     <nav class="years" aria-label="Años">
       {[...porAnio.keys()].map((y) => <a href={`#y${y}`}>{y}</a>)}
@@ -108,8 +110,7 @@ const cat: Record<Hito['categoria'], string> = {
         <p class="eyebrow">Expos y eventos</p>
         <h2 class="h2">El gabinete <span class="hl">salió de gira</span></h2>
         <p class="lead">
-          Entre 2014 y 2018 Juanito estuvo en {eventos.length} eventos: ferias, festivales, fiestas y convenciones. Desde 2015, casi
-          siempre con su propio gabinete arcade verde.
+          Entre 2014 y 2018 Juanito estuvo en {eventos.length} eventos: ferias, festivales, fiestas y convenciones.
         </p>
       </div>
       {
@@ -128,18 +129,23 @@ const cat: Record<Hito['categoria'], string> = {
                         </a>
                       )}
                       {e.big.slice(1).map((b, i) => (
-                        <a href={b} data-lightbox={e.slug} data-caption={`${e.nombre} · ${fecha(e.fecha)}`} hidden aria-hidden="true" tabindex="-1">
+                        <a href={b} data-lightbox={e.slug} data-caption={`${e.nombre} · ${fecha(e.fecha)}`} hidden aria-hidden="true" tabindex="-1" data-lb-extra>
                           foto {i + 2}
                         </a>
                       ))}
                       <div class="ev__body">
                         <p class="ev__meta">
                           <time datetime={e.fecha}>{fecha(e.fecha)}</time>
-                          {e.count > 1 && <span class="ev__count">{e.count} fotos</span>}
+                          {e.count > 1 && (
+                            <button type="button" class="ev__count" data-lb-open={e.slug} aria-label={`Ver las ${e.count} fotos de ${e.nombre}`}>
+                              {e.count} fotos
+                            </button>
+                          )}
                         </p>
                         <h4 class="h3">{e.nombre}</h4>
                         {e.lugar && <p class="ev__lugar">{e.lugar}</p>}
                         {e.descripcion && <p class="ev__desc">{e.descripcion}</p>}
+                        {e.pedirDatos && <p class="ev__aporte">¿Estuviste en este evento? Mandanos info por nuestras redes.</p>}
                       </div>
                     </article>
                   </li>
@@ -313,10 +319,15 @@ const cat: Record<Hito['categoria'], string> = {
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-    align-items: start;
     gap: 1rem;
   }
+  /* Grilla pareja: en cada fila las tarjetas se estiran a la altura de la más alta
+     (las de texto corto quedan con espacio libre abajo) */
+  .evs > li {
+    display: flex;
+  }
   .ev {
+    flex: 1;
     overflow: hidden;
   }
   .ev__cover {
@@ -342,6 +353,20 @@ const cat: Record<Hito['categoria'], string> = {
     padding: 0.2rem 0.5rem;
     background: var(--surface);
     border: 1px solid var(--green-neon);
+    color: var(--lime);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .ev__count:hover,
+  .ev__count:focus-visible {
+    background: rgb(44 224 108 / 0.15);
+  }
+  /* pedido de datos para eventos con información incompleta */
+  .ev__aporte {
+    margin: 0.7rem 0 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.85rem;
     color: var(--lime);
   }
   .ev__body {

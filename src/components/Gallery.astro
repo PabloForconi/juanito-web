@@ -17,8 +17,9 @@ interface Props {
   items: Item[];
   group: string;
   min?: string; // ancho mínimo de columna
+  grilla?: boolean; // grilla en filas (orden de lectura) en vez de mosaico en columnas; para piezas de igual forma
 }
-const { items, group, min = '220px' } = Astro.props;
+const { items, group, min = '220px', grilla = false } = Astro.props;
 
 const resolved = await Promise.all(
   items.map(async (it) => {
@@ -29,7 +30,7 @@ const resolved = await Promise.all(
 );
 ---
 
-<ul class="gal" style={`--min:${min}`}>
+<ul class:list={['gal', grilla && 'gal--grilla']} style={`--min:${min}`}>
   {
     resolved.map((it) => (
       <li data-reveal>
@@ -57,6 +58,16 @@ const resolved = await Promise.all(
   .gal li {
     break-inside: avoid;
     margin-bottom: var(--gap);
+  }
+  .gal.gal--grilla {
+    columns: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100% / 2 - var(--gap), var(--min)), 1fr));
+    gap: var(--gap);
+    align-items: start;
+  }
+  .gal--grilla li {
+    margin: 0;
   }
   .gal a {
     position: relative;

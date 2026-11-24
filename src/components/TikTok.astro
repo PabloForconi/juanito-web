@@ -1,0 +1,54 @@
+---
+/**
+ * Video vertical de TikTok con el reproductor oficial. Sin autoplay, el
+ * reproductor ya muestra la portada del video (TikTok no da una miniatura
+ * usable por fuera de él). Se carga en diferido (loading="lazy"): el iframe,
+ * que es pesado y trae cookies, recién se pide cuando se acerca a la pantalla.
+ */
+interface Props {
+  id: string;
+  cuenta: string;
+  url: string;
+}
+const { id, cuenta, url } = Astro.props;
+---
+
+<div class="tt">
+  <iframe
+    src={`https://www.tiktok.com/player/v1/${id}?rel=0&music_info=0&description=0`}
+    title={`Video de ${cuenta} en TikTok`}
+    loading="lazy"
+    allow="encrypted-media; fullscreen; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+<slot />
+<a class="tt__link" href={url} target="_blank" rel="noopener">Ver en TikTok ↗</a>
+
+<style>
+  .tt {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000;
+  }
+  .tt iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .tt__link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+  }
+  .tt__link:hover {
+    color: var(--ink);
+  }
+</style>

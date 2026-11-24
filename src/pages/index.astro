@@ -10,9 +10,10 @@ import { asset } from '../lib/assets';
 import prensa from '../data/prensa.json';
 import radio from '../data/radio.json';
 import videos from '../data/videos.json';
-import eventos from '../data/eventos.json';
+import eventosData from '../data/eventos.json';
 import fanart from '../data/fanart.json';
 import { medios, logoDe } from '../lib/medios';
+import type { Evento } from '../data/types';
 
 /**
  * Home simple y de impacto: hero → citas → trailer → mosaico del archivo → CTA.
@@ -23,6 +24,8 @@ const logosPrensa = medios
   .filter((m) => m.logo)
   .slice(0, 7)
   .map((m) => ({ nombre: m.nombre, logo: logoDe(m.nombre, 0.9)! }));
+
+const eventos = (eventosData as Evento[]).filter((e) => !e.oculto);
 
 const tiles = [
   {
@@ -73,7 +76,8 @@ const tiles = [
     eyebrow: 'Expos',
     title: `${eventos.length} eventos`,
     text: 'El gabinete salió de gira.',
-    img: 'archivo/eventos/geek-out-fest-2/01.jpg',
+    // primera foto de Geek Out! Fest 2.0 (los nombres llevan una huella del contenido: se buscan en los datos)
+    img: eventos.find((e) => e.slug === 'geek-out-fest-2')!.fotos[0],
   },
   {
     area: 'mesa',

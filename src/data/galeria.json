@@ -4,13 +4,15 @@
     "titulo": "Dubi · Juanito · Gluk",
     "categoria": "afiche",
     "fecha": "2012",
-    "descripcion": "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior»."
+    "descripcion": "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/afiche/retro-poster-v2.jpg",
     "titulo": "Póster retro",
     "categoria": "afiche",
-    "descripcion": "Variante vintage del afiche, con Juanito, Gluk y el gorila."
+    "descripcion": "Variante vintage del afiche, con Juanito, Gluk y el gorila.",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/afiche/logo-en-el-cielo.jpg",
@@ -38,28 +40,38 @@
     "titulo": "Juanito vs. las Clonocélulas Mutantes del Espacio Exterior",
     "categoria": "afiche",
     "fecha": "2014",
-    "descripcion": "Póster preparado para la presentación del proyecto al INCAA."
+    "descripcion": "Póster preparado para la presentación del proyecto al INCAA.",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/afiche/screens-01.jpg",
     "titulo": "Screens 1",
     "categoria": "afiche",
-    "descripcion": "Serie «Screens»: capturas del juego con textos de cartel de cine."
+    "serie": "screens"
   },
   {
     "img": "archivo/galeria/afiche/screens-02.jpg",
     "titulo": "Screens 2",
-    "categoria": "afiche"
+    "categoria": "afiche",
+    "serie": "screens"
   },
   {
     "img": "archivo/galeria/afiche/screens-04.jpg",
     "titulo": "Screens 3",
-    "categoria": "afiche"
+    "categoria": "afiche",
+    "serie": "screens"
   },
   {
     "img": "archivo/galeria/afiche/screens-05.jpg",
     "titulo": "Screens 4",
-    "categoria": "afiche"
+    "categoria": "afiche",
+    "serie": "screens"
+  },
+  {
+    "img": "archivo/galeria/afiche/poster-landscape.jpg",
+    "titulo": "Póster apaisado",
+    "categoria": "afiche",
+    "serie": "screens"
   },
   {
     "img": "archivo/galeria/afiche/poster-v3.jpg",
@@ -69,11 +81,6 @@
   {
     "img": "archivo/galeria/afiche/poster-limpio.jpg",
     "titulo": "Juanito vs. las Clonocélulas (arte limpio)",
-    "categoria": "afiche"
-  },
-  {
-    "img": "archivo/galeria/afiche/poster-landscape.jpg",
-    "titulo": "Póster apaisado",
     "categoria": "afiche"
   },
   {

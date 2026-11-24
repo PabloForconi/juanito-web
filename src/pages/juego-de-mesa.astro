@@ -2,10 +2,14 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { maybeAsset } from '../lib/assets';
+import YouTube from '../components/YouTube.astro';
+import TikTok from '../components/TikTok.astro';
+import { asset } from '../lib/assets';
 import jdm from '../data/juego-de-mesa.json';
 
-const chip = maybeAsset('juego/mundos/chip-tetris.png');
+const caja = asset('juego-de-mesa/caja-blockits.jpg');
+const logoEditorial = asset('juego-de-mesa/logo-dragon-azul.png');
+// 9 datos: llenan una grilla de 3×3 sin huecos (en el celular, 2 columnas)
 const ficha: [string, string | undefined][] = [
   ['Diseño', jdm.diseno],
   ['Ilustración', jdm.ilustracion],
@@ -15,6 +19,7 @@ const ficha: [string, string | undefined][] = [
   ['Jugadores', jdm.jugadores],
   ['Duración', jdm.duracion],
   ['Edad', jdm.edad],
+  ['Mecánica', jdm.mecanica],
 ];
 ---
 
@@ -23,11 +28,8 @@ const ficha: [string, string | undefined][] = [
 
   <section class="section">
     <div class="container jdm">
-      <div class="jdm__art" data-reveal aria-hidden="true">
-        {chip && <Image src={chip} alt="" widths={[300, 500]} sizes="300px" />}
-        <div class="jdm__tetro">
-          {Array.from({ length: 12 }, (_, i) => <span style={`--i:${i}`} />)}
-        </div>
+      <div class="jdm__art" data-reveal>
+        <Image src={caja} alt={`La caja de ${jdm.nombre} sobre una mesa`} widths={[480, 800, 1200]} sizes="(max-width: 800px) 100vw, 480px" />
       </div>
       <div data-reveal>
         <dl class="ficha">
@@ -42,33 +44,96 @@ const ficha: [string, string | undefined][] = [
               ))
           }
         </dl>
-        <h2 class="h3 mt">Cómo se juega</h2>
-        <p>{jdm.mecanica}</p>
-        {
-          jdm.licencias?.length > 0 && (
-            <>
-              <h2 class="h3 mt">Licencias</h2>
-              <ul class="lic">
-                {jdm.licencias.map((l: string) => (
-                  <li class="chip">{l}</li>
-                ))}
-              </ul>
-            </>
-          )
-        }
-        {jdm.premios && <p class="premio">🏆 {jdm.premios}</p>}
-        <div class="links">
-          {
-            jdm.links.map((l: { titulo: string; url: string }) => (
-              <a class="btn btn--sm" href={l.url} target="_blank" rel="noopener">
-                {l.titulo} ↗
-              </a>
-            ))
-          }
-        </div>
+        <a class="editorial" href={jdm.editorialUrl} target="_blank" rel="noopener">
+          <span class="editorial__logo">
+            <Image src={logoEditorial} alt="" widths={[120, 240]} sizes="120px" />
+          </span>
+          <span class="editorial__txt">
+            <small>Editorial oficial y original</small>
+            <strong>Ver el juego en El Dragón Azul ↗</strong>
+          </span>
+        </a>
       </div>
     </div>
+
+    <div class="container destacados">
+      {
+        jdm.premios && (
+          <div class="card destacado destacado--premio" data-reveal>
+            <p class="eyebrow-sm">🏆 Premio</p>
+            <p>{jdm.premios}</p>
+          </div>
+        )
+      }
+      {
+        jdm.licencias?.length > 0 && (
+          <div class="card destacado" data-reveal>
+            <p class="eyebrow-sm">En otros países</p>
+            {jdm.internacional && <p>{jdm.internacional}</p>}
+            <ul class="lic">
+              {jdm.licencias.map((l: string) => (
+                <li class="chip">{l}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
   </section>
+
+  {
+    jdm.videos?.length > 0 && (
+      <section class="section" id="videos">
+        <div class="container">
+          <div data-reveal>
+            <p class="eyebrow">Videos</p>
+            <h2 class="h2">
+              Miralo <span class="hl">en la mesa</span>
+            </h2>
+          </div>
+          <ul class="vids">
+            {jdm.videos.map((v: { titulo: string; youtubeId: string; canal: string; duracion?: string }) => (
+              <li data-reveal>
+                <YouTube id={v.youtubeId} title={v.titulo} />
+                <p class="vids__t">{v.titulo}</p>
+                <p class="vids__m">
+                  {v.canal}
+                  {v.duracion && <> · {v.duracion}</>}
+                </p>
+              </li>
+            ))}
+          </ul>
+          {jdm.entrevista && (
+            <p class="mas" data-reveal>
+              <span>Para ver más:</span>{' '}
+              <a href={jdm.entrevista.url} target="_blank" rel="noopener">
+                {jdm.entrevista.titulo} ↗
+              </a>{' '}
+              <span class="mas__m">
+                · {jdm.entrevista.canal} · {jdm.entrevista.duracion}
+              </span>
+            </p>
+          )}
+          {jdm.redes?.length > 0 && (
+            <div class="redes-bloque">
+              <h3 class="h3" data-reveal>En las redes</h3>
+              <p class="muted" data-reveal>Gente que lo enseña y lo juega en TikTok.</p>
+              <ul class="redes">
+                {jdm.redes.map((r) => (
+                  <li data-reveal>
+                    <TikTok id={r.id} cuenta={r.cuenta} url={r.url}>
+                      <p class="vids__t">{r.cuenta}</p>
+                      {r.texto && <p class="vids__m">{r.texto}</p>}
+                    </TikTok>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
@@ -76,45 +141,25 @@ const ficha: [string, string | undefined][] = [
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: clamp(2rem, 6vw, 5rem);
-    align-items: start;
+    align-items: center;
   }
   .jdm__art {
-    position: relative;
-    display: grid;
-    place-items: center;
-    padding: 2rem;
+    max-width: 480px;
+    margin-inline: auto;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: radial-gradient(circle, rgb(255 255 255 / 0.07), transparent 70%);
-    min-height: 360px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgb(0 0 0 / 0.45);
   }
   .jdm__art img {
-    position: relative;
-    z-index: 1;
-    width: min(300px, 80%);
+    display: block;
+    width: 100%;
     height: auto;
-    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
-  }
-  .jdm__tetro {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    padding: 1rem;
-    opacity: 0.3;
-  }
-  .jdm__tetro span {
-    background: hsl(calc(90 + var(--i) * 25) 80% 50%);
-    animation: blink 3s calc(var(--i) * 0.25s) ease-in-out infinite;
-  }
-  @keyframes blink {
-    50% { opacity: 0.2; }
   }
   .ficha {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.6rem;
   }
   .ficha div {
@@ -135,36 +180,168 @@ const ficha: [string, string | undefined][] = [
     margin: 0.2rem 0 0;
     font-family: var(--font-heading);
   }
-  .mt {
-    margin-top: 1.8rem;
+  /* Link a la editorial: logo sobre fondo claro (es azul y no se lee sobre negro) */
+  .editorial {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.9rem;
+    padding: 0.7rem 1.1rem 0.7rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.25s;
+  }
+  .editorial:hover,
+  .editorial:focus-visible {
+    border-color: var(--green-neon);
+  }
+  .editorial__logo {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 108px;
+    height: 64px;
+    padding: 0.4rem 0.6rem;
+    border-radius: calc(var(--radius-sm) - 4px);
+    background: #fff;
+  }
+  .editorial__logo img {
+    width: 100%;
+    height: auto;
+  }
+  .editorial__txt {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .editorial__txt small {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .editorial__txt strong {
+    font-family: var(--font-heading);
+    font-weight: 400;
+  }
+
+  .destacados {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .destacado {
+    padding: 1.4rem 1.5rem;
+  }
+  .destacado p {
+    margin: 0;
+  }
+  .destacado p + p {
+    margin-top: 0.5rem;
+  }
+  .destacado--premio {
+    border-color: rgb(208 236 18 / 0.45);
+  }
+  .eyebrow-sm {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-neon);
+  }
+  .destacado--premio .eyebrow-sm {
+    color: var(--lime);
   }
   .lic {
     list-style: none;
-    margin: 0.6rem 0 0;
+    margin: 0.9rem 0 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
-  .premio {
-    margin-top: 1.4rem;
-    font-family: var(--font-heading);
-    color: var(--lime);
+  .mas {
+    margin: 1.2rem 0 0;
+    color: var(--ink-dim);
   }
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 1.6rem;
+  .mas a {
+    color: var(--ink);
+  }
+  .mas__m {
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
   }
   @media (max-width: 800px) {
-    .jdm {
-      grid-template-columns: 1fr;
+    .jdm,
+    .destacados {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .jdm__tetro span {
-      animation: none;
+  /* En pantallas medianas y chicas la ficha va en 2 columnas (en 3 se cortan los nombres) */
+  @media (max-width: 1100px) and (min-width: 801px), (max-width: 520px) {
+    .ficha {
+      grid-template-columns: 1fr 1fr;
+    }
+    /* 9 datos en 2 columnas: el último (Mecánica) ocupa la fila entera */
+    .ficha div:last-child {
+      grid-column: span 2;
+    }
+  }
+  .vids {
+    list-style: none;
+    margin: 1.6rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    gap: 1.2rem;
+  }
+  .vids__t {
+    margin: 0.6rem 0 0;
+    font-family: var(--font-heading);
+  }
+  .vids__m {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-ui);
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+  }
+  .redes-bloque {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .redes-bloque .h3,
+  .redes-bloque p {
+    margin: 0;
+  }
+  .redes-bloque p {
+    margin-top: 0.35rem;
+  }
+  .redes {
+    list-style: none;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 300px));
+    gap: 1.2rem;
+  }
+  /* en pantallas angostas la fila se desplaza de costado */
+  @media (max-width: 800px) {
+    .redes {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: min(72vw, 280px);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+    }
+    .redes li {
+      scroll-snap-align: start;
     }
   }
 </style>

@@ -100,6 +100,9 @@ export interface Evento {
   descripcion?: string;
   flyer?: string; // img
   fotos: string[]; // img
+  portada?: string; // img: recorte para la tarjeta (el álbum muestra la imagen entera)
+  oculto?: boolean; // se exporta pero no se muestra (falta información)
+  pedirDatos?: boolean; // muestra «¿Estuviste en este evento? Mandanos info por nuestras redes.»
 }
 
 export interface Cita {
@@ -121,6 +124,7 @@ export interface FanArt {
   fecha?: string;
   origen?: string; // "Concurso Fan-Art 2017", "DeviantArt"...
   url?: string;
+  mini?: boolean; // dibujo de un chico o una chica: va en el bloque "Mini fans"
 }
 
 export interface ItemGaleria {
@@ -129,6 +133,8 @@ export interface ItemGaleria {
   categoria: 'concept' | 'afiche' | 'merch' | 'arcade' | 'artbook' | 'promo' | 'fondos' | 'historia';
   fecha?: string;
   descripcion?: string;
+  serie?: string; // las piezas de una misma serie se muestran juntas, en su propio bloque
+  oculto?: boolean; // se exporta (lo usa otra página) pero no se muestra en la galería
 }
 
 export interface CapturaPirata {

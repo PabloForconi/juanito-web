@@ -10,12 +10,25 @@ import galeriaData from '../data/galeria.json';
 import fanartData from '../data/fanart.json';
 import type { ItemGaleria, FanArt } from '../data/types';
 
-const galeria = galeriaData as ItemGaleria[];
+const galeria = (galeriaData as ItemGaleria[]).filter((g) => !g.oculto);
+// Series que se muestran juntas dentro de su categoría (título y texto del bloque)
+const series: Record<string, { titulo: string; txt: string }> = {
+  screens: { titulo: 'Serie «Screens»', txt: 'Capturas del juego con textos de cartel de cine, y el póster apaisado que las junta.' },
+};
+const item = (g: ItemGaleria) => ({
+  img: g.img,
+  caption: g.titulo,
+  sub: [fecha(g.fecha), g.descripcion].filter(Boolean).join(' · ') || undefined,
+});
 const fanart = fanartData as FanArt[];
+const concurso = fanart.filter((f) => !f.mini);
+const miniFans = fanart.filter((f) => f.mini);
+// El origen ("Concurso Fan-Art 2017") ya lo dice el título de cada bloque: en la ficha va solo autor y título
+const fanItem = (f: FanArt) => ({ img: f.img, caption: f.autor, sub: f.titulo || undefined });
 
 const cats: { id: ItemGaleria['categoria']; titulo: string; txt: string }[] = [
   { id: 'historia', titulo: 'Del archivo', txt: 'La web «Coming soon» de 2014, las estadísticas de Greenlight y otras piezas del camino.' },
-  { id: 'afiche', titulo: 'Afiches', txt: 'Pósters históricos, del retro de cine clase B al ASCII.' },
+  { id: 'afiche', titulo: 'Afiches', txt: 'Pósters históricos, del afiche clásico al ASCII.' },
   { id: 'concept', titulo: 'Concept art y bocetos', txt: '' },
   { id: 'fondos', titulo: 'Fondos', txt: '' },
   { id: 'arcade', titulo: 'El gabinete arcade', txt: 'El mueble verde que recorrió expos desde 2015, y su versión slim de 2022.' },
@@ -45,13 +58,17 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
             {c.txt && <p class="lead">{c.txt}</p>}
           </div>
           <div class="gap">
-            <Gallery
-              group={c.id}
-              items={galeria
-                .filter((g) => g.categoria === c.id)
-                .map((g) => ({ img: g.img, caption: g.titulo, sub: [fecha(g.fecha), g.descripcion].filter(Boolean).join(' · ') || undefined }))}
-            />
+            <Gallery group={c.id} items={galeria.filter((g) => g.categoria === c.id && !g.serie).map(item)} />
           </div>
+          {[...new Set(galeria.filter((g) => g.categoria === c.id && g.serie).map((g) => g.serie!))].map((s) => (
+            <div class="serie">
+              <h3 class="h3">{series[s]?.titulo ?? s}</h3>
+              {series[s]?.txt && <p class="muted">{series[s].txt}</p>}
+              <div class="gap">
+                <Gallery group={`${c.id}-${s}`} min="300px" grilla items={galeria.filter((g) => g.categoria === c.id && g.serie === s).map(item)} />
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     ))
@@ -92,16 +109,24 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
         <p class="eyebrow">Fan art</p>
         <h2 class="h2">La comunidad <span class="hl">lo dibujó</span></h2>
         <p class="lead">
-          {fanart.length} dibujos, casi todos del Concurso Fan-Art de 2017. Gracias a cada persona que se tomó el trabajo de dibujar a Juanito.
+          {concurso.length} increíbles dibujos para el Concurso Fan-Art de 2017.<br />
+          Gracias a cada persona que se tomó el tiempo de enviar su versión de Juanito.
         </p>
       </div>
       <div class="gap">
-        <Gallery
-          group="fanart"
-          min="200px"
-          items={fanart.map((f) => ({ img: f.img, caption: f.autor, sub: [f.titulo, f.origen].filter(Boolean).join(' · ') || undefined }))}
-        />
+        <Gallery group="fanart" min="200px" items={concurso.map(fanItem)} />
       </div>
+      {
+        miniFans.length > 0 && (
+          <div class="serie" id="mini-fans">
+            <h3 class="h3">Mini fans</h3>
+            <p class="muted">Alek tenía 6 años cuando nos mandó estos dibujos, en 2018.</p>
+            <div class="gap">
+              <Gallery group="mini-fans" min="200px" grilla items={miniFans.map(fanItem)} />
+            </div>
+          </div>
+        )
+      }
     </div>
   </section>
   <Lightbox />
@@ -136,6 +161,16 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
   }
   .gap {
     margin-top: 1.5rem;
+  }
+  .serie {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .serie .h3,
+  .serie p {
+    margin: 0;
+  }
+  .serie p {
+    margin-top: 0.35rem;
   }
   .artbook {
     display: grid;
