@@ -18,7 +18,7 @@ const porAnio = new Map<string, Hito[]>();
 // imágenes del hito (propia y/o de un evento, aunque esté oculto): miniatura y versión grande para el visor
 const todosEventos = eventosData as Evento[];
 const imgsDeHito = (h: Hito): string[] => {
-  const lista = h.img ? [h.img] : [];
+  const lista = h.img ? [h.img].flat() : [];
   if (h.evento) {
     const e = todosEventos.find((x) => x.slug === h.evento!.slug);
     const delEvento = e ? ([e.flyer, ...e.fotos].filter(Boolean) as string[]) : [];
@@ -120,14 +120,18 @@ const cat: Record<Hito['categoria'], string> = {
                         <div class="tl__imgs">
                           {imgs.map((img) => (
                             <a class="tl__img" href={img.big} data-lightbox={`hito-${h.fecha}`} data-caption={`${h.titulo} · ${fecha(h.fecha)}`}>
-                              <Image src={img.src} alt={h.titulo} widths={[320, 640]} sizes="320px" />
+                              <Image src={img.src} alt={h.titulo} widths={[200, 400]} sizes="(max-width: 700px) 110px, 96px" />
                               <span class="tl__zoom" aria-hidden="true">⤢</span>
                             </a>
                           ))}
                         </div>
                       )}
                       {h.link && (
-                        <a class="tl__link" href={h.link}>
+                        <a
+                          class="tl__link"
+                          href={h.link}
+                          {...(/^https?:\/\//.test(h.link) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        >
                           Ver más →
                         </a>
                       )}
@@ -203,6 +207,7 @@ const cat: Record<Hito['categoria'], string> = {
         <p class="lead">El gabinete guardaba un ranking histórico: gana el que más tiempo sobrevive. MAP fue el rey de la tabla hasta que apareció EMI.</p>
       </div>
       <div class="hs" data-reveal>
+        <div class="hs__izq">
         <div class="hs__screen">
           <p class="hs__title">High scores</p>
           <ol class="hs__list">
@@ -217,22 +222,29 @@ const cat: Record<Hito['categoria'], string> = {
               ))
             }
           </ol>
-          <p class="hs__foot">Tiempo sobrevivido · Puntaje</p>
+        </div>
+        <p class="hs__nota">{records.nota}</p>
         </div>
         <ul class="hs__fotos">
           {
             recFotos.map((f) => (
               <li>
                 <a href={f.big} data-lightbox="records" data-caption={`${f.titulo} · ${fecha(f.fecha)}`}>
-                  <Image src={f.src} alt={f.titulo} widths={[320, 560]} sizes="(max-width: 900px) 30vw, 220px" />
+                  <Image
+                    src={f.src}
+                    alt={f.titulo}
+                    widths={[320, 560, 800]}
+                    sizes="(max-width: 900px) 45vw, 260px"
+                    style={[f.foco && `--foco:${f.foco}`, f.zoom && `--zoom:${f.zoom}`].filter(Boolean).join(';') || undefined}
+                  />
                 </a>
                 <p>{f.titulo}</p>
+                {f.pie && <p class="hs__pie">{f.pie}</p>}
               </li>
             ))
           }
         </ul>
       </div>
-      <p class="hs__nota">{records.nota}</p>
     </div>
   </section>
   <Lightbox />
@@ -337,7 +349,8 @@ const cat: Record<Hito['categoria'], string> = {
   .tl__img {
     position: relative;
     display: block;
-    width: min(320px, 100%);
+    width: 96px;
+    aspect-ratio: 1;
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
@@ -346,7 +359,8 @@ const cat: Record<Hito['categoria'], string> = {
   .tl__img img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     transition: scale 0.4s;
   }
   .tl__img:hover {
@@ -357,16 +371,16 @@ const cat: Record<Hito['categoria'], string> = {
   }
   .tl__zoom {
     position: absolute;
-    right: 0.45rem;
-    bottom: 0.45rem;
+    right: 0.3rem;
+    bottom: 0.3rem;
     display: grid;
     place-items: center;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.4rem;
+    height: 1.4rem;
     border-radius: 50%;
     background: rgb(3 7 10 / 0.7);
     color: var(--ink);
-    font-size: 0.95rem;
+    font-size: 0.75rem;
   }
   .tl__link {
     display: inline-block;
@@ -468,10 +482,18 @@ const cat: Record<Hito['categoria'], string> = {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     gap: clamp(1rem, 3vw, 2rem);
-    align-items: start;
     margin-top: 2rem;
   }
+  /* la pantalla se estira hasta el alto de las fotos, y la nota queda pegada abajo */
+  .hs__izq {
+    display: flex;
+    flex-direction: column;
+  }
   .hs__screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: clamp(1.4rem, 3.5vw, 2.4rem) clamp(1.1rem, 3.5vw, 2.6rem);
     border-radius: 22px;
     border: 2px solid #1a2a3a;
@@ -523,16 +545,6 @@ const cat: Record<Hito['categoria'], string> = {
   .hs__row.is-top .hs__pos {
     color: var(--lime);
   }
-  .hs__foot {
-    margin: 1.2rem 0 0;
-    text-align: center;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
   /* fotos de prueba: la vertical (EMI) ocupa dos filas, las otras dos al costado */
   .hs__fotos {
     list-style: none;
@@ -541,21 +553,35 @@ const cat: Record<Hito['categoria'], string> = {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
-    align-items: start;
   }
+  /* la de EMI (vertical) ocupa las dos filas y se estira hasta el alto de las otras dos */
   .hs__fotos li:first-child {
     grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .hs__fotos li:first-child a {
+    flex: 1;
+    min-height: 0;
   }
   .hs__fotos a {
     display: block;
     overflow: hidden;
     border-radius: var(--radius-sm);
     border: 1px solid var(--line);
+    aspect-ratio: 4 / 3;
+  }
+  .hs__fotos li:first-child a {
+    aspect-ratio: auto;
   }
   .hs__fotos img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--foco, 50% 50%);
+    scale: var(--zoom, 1);
+    transform-origin: var(--foco, 50% 50%);
     transition: filter 0.3s;
   }
   .hs__fotos a:hover img {
@@ -568,8 +594,16 @@ const cat: Record<Hito['categoria'], string> = {
     font-size: 0.85rem;
     color: var(--ink-dim);
   }
+  .hs__fotos .hs__pie {
+    margin-top: 0.1rem;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+  }
   .hs__nota {
-    margin: 1.2rem 0 0;
+    margin: 0.9rem 0 0;
+    text-align: center;
     max-width: 52rem;
     font-size: 0.85rem;
     color: var(--ink-faint);
@@ -588,6 +622,9 @@ const cat: Record<Hito['categoria'], string> = {
     }
     .tl__y {
       position: static;
+    }
+    .tl__img {
+      width: 110px;
     }
   }
 </style>

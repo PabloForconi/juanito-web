@@ -4,35 +4,40 @@
     "plataforma": "Steam (Windows)",
     "url": "https://store.steampowered.com/app/617440/",
     "precio": "USD 5,79",
-    "nota": "El juego completo: más de 80 niveles, 8 mundos, co-op local y 81 logros. También hay un paquete \"Commercial License\" a USD 9,99."
+    "nota": "El juego completo: más de 80 niveles, 8 mundos, co-op local y 81 logros. También hay un paquete \"Commercial License\" a USD 9,99.",
+    "img": "archivo/galeria/promo/steam-capsula.jpg"
   },
   {
     "nombre": "Juanito Arcade Mayhem – Soundtrack",
     "plataforma": "Steam (DLC)",
     "url": "https://store.steampowered.com/app/684240/",
     "precio": "USD 2,99",
-    "nota": "Los 13 temas chiptune de Mariano Guerino."
+    "nota": "La banda sonora original de Mariano Guerino: todo el ritmo de la invasión clonocelular, con temas extra que solo están en el álbum completo.",
+    "img": "archivo/galeria/promo/dlc-original-soundtrack.jpg"
   },
   {
     "nombre": "Juanito Arcade Mayhem – Artbook",
     "plataforma": "Steam (DLC)",
     "url": "https://store.steampowered.com/app/684241/",
     "precio": "USD 1,99",
-    "nota": "El arte del juego: personajes, clonocélulas y mundos."
+    "nota": "Detrás de escena: inspiraciones, bocetos y concept art, desde que Juanito protagonizaba su propia película animada hasta que se volvió personaje de videojuego.",
+    "img": "archivo/galeria/promo/dlc-the-art-book.jpg"
   },
   {
     "nombre": "Juanito Arcade Mayhem – The Animation",
     "plataforma": "Steam (DLC)",
     "url": "https://store.steampowered.com/app/684290/",
     "precio": "USD 0,99",
-    "nota": "El costado animado de Juanito: el videojuego que también quería ser dibujo animado."
+    "nota": "Un video con material de archivo: animaciones, trailers y escenas de los años en que Juanito también se pensaba como dibujo animado.",
+    "img": "archivo/galeria/promo/dlc-the-animation.jpg"
   },
   {
     "nombre": "Juanito Arcade Mayhem – The Art Edition",
     "plataforma": "Steam (bundle)",
     "url": "https://store.steampowered.com/app/617440/",
     "precio": "USD 10,58",
-    "nota": "Juego más los tres DLC. Se compra desde la página del juego en Steam."
+    "nota": "Juego más los tres DLC. Se compra desde la página del juego en Steam.",
+    "img": "archivo/galeria/promo/dlc-the-art-edition.jpg"
   },
   {
     "nombre": "Arcade Mayhem Shooter",

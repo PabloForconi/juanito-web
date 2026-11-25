@@ -62,7 +62,7 @@
     "nombre": "Meet The Game 2",
     "fecha": "2014-11-16",
     "lugar": "Centro Cultural San Martín, Sarmiento 1551, CABA",
-    "descripcion": "Segunda edición de la expo de Gamedia. Juanito se jugó en PC, con premio para el mejor puntaje: un trofeo con forma de cartucho de Famicom.",
+    "descripcion": "Segunda edición de la expo de Gamedia. Juanito se jugó en PC, con premio para el mejor puntaje: un trofeo con forma de cartucho de Famicom. Ahí Pablo Forconi le habló a Nivel Xtremo, cuando el juego todavía se llamaba «Juanito Game».",
     "flyer": "archivo/eventos/meet-the-game-2/flyer-3df27112.jpg",
     "fotos": [
       "archivo/eventos/meet-the-game-2/01-3d43b3f0.jpg",
@@ -96,16 +96,17 @@
     "nombre": "Tecnópolis 2015: Ar.Cade",
     "fecha": "2015-07-20",
     "lugar": "Tecnópolis, Villa Martelli",
-    "descripcion": "Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul.",
+    "descripcion": "Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul. Chicos haciendo fila para salvar los clásicos.",
     "fotos": [
-      "archivo/eventos/tecnopolis-2015/01-440c817d.jpg",
-      "archivo/eventos/tecnopolis-2015/02-848a5e04.jpg",
-      "archivo/eventos/tecnopolis-2015/03-f0b01585.jpg",
-      "archivo/eventos/tecnopolis-2015/04-9453f86e.jpg",
-      "archivo/eventos/tecnopolis-2015/05-66a426b7.jpg",
-      "archivo/eventos/tecnopolis-2015/06-8a5e7c8e.jpg",
-      "archivo/eventos/tecnopolis-2015/07-f40fbf1a.jpg",
-      "archivo/eventos/tecnopolis-2015/08-77405493.jpg"
+      "archivo/eventos/tecnopolis-2015/01-0f6bafc8.jpg",
+      "archivo/eventos/tecnopolis-2015/02-440c817d.jpg",
+      "archivo/eventos/tecnopolis-2015/03-848a5e04.jpg",
+      "archivo/eventos/tecnopolis-2015/04-f0b01585.jpg",
+      "archivo/eventos/tecnopolis-2015/05-9453f86e.jpg",
+      "archivo/eventos/tecnopolis-2015/06-66a426b7.jpg",
+      "archivo/eventos/tecnopolis-2015/07-8a5e7c8e.jpg",
+      "archivo/eventos/tecnopolis-2015/08-f40fbf1a.jpg",
+      "archivo/eventos/tecnopolis-2015/09-77405493.jpg"
     ],
     "portada": "archivo/eventos/tecnopolis-2015/portada-d27a3278.jpg"
   },
@@ -302,7 +303,7 @@
     "nombre": "Geek Out! Fest 2.0",
     "fecha": "2016-04-30",
     "lugar": "Centro Cultural San Martín, Sarmiento 1551, CABA",
-    "descripcion": "«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek.",
+    "descripcion": "«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek. Dato de color: entre los sponsors figuraba El Dragón Azul, la editorial que seis años después haría el juego de mesa.",
     "flyer": "archivo/eventos/geek-out-fest-2/flyer-6fc4a260.jpg",
     "fotos": [
       "archivo/eventos/geek-out-fest-2/01-919c23ec.jpg",

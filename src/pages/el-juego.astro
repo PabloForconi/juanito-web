@@ -6,12 +6,11 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Lightbox from '../components/Lightbox.astro';
 import WorldCarousel from '../components/WorldCarousel.astro';
-import { maybeAsset } from '../lib/assets';
+import { asset, maybeAsset } from '../lib/assets';
 import mundosData from '../data/mundos.json';
 import personajesData from '../data/personajes.json';
 import enemigosData from '../data/enemigos.json';
 import type { Mundo, Personaje, Enemigo } from '../data/types';
-import keyart from '../assets/hero/full.png';
 
 const mundos = mundosData as Mundo[];
 const personajes = (personajesData as Personaje[]).filter((p) => !p.oculto);
@@ -43,7 +42,7 @@ const datos = [
   <section class="section--tight">
     <div class="container">
       <figure class="keyart" data-reveal>
-        <Image src={keyart} alt="Key art: Juanito y Gluk enfrentan a las clonocélulas" widths={[800, 1280, 1920, 2560]} sizes="(max-width: 1200px) 100vw, 1200px" />
+        <Image src={asset('archivo/home/portada-el-juego.jpg')} alt="Juanito y Gluk, armas en mano, entre clonocélulas" widths={[800, 1280, 1600]} sizes="(max-width: 1200px) 100vw, 1200px" />
       </figure>
       <ul class="datos" data-reveal>
         {
@@ -173,9 +172,9 @@ const datos = [
         <p class="eyebrow">Modos y detalles</p>
         <h2 class="h2">Para jugar <span class="hl">de a uno o de a dos</span></h2>
         <ul class="modos__list">
-          <li><b>Historia:</b> 8 mundos, de 1 a 3 estrellas por nivel, un "Nivel X" final en cada mundo y un nivel secreto.</li>
+          <li><b>Historia:</b> 8 mundos de 9 niveles, cada uno con un "Nivel X" donde espera su jefe final. Y al final, un último mundo con el ultra mega jefe final. De 1 a 3 estrellas por nivel.</li>
           <li><b>Supervivencia:</b> oleadas infinitas y rankings globales.</li>
-          <li><b>Co-op local:</b> el jugador 2 maneja a Gluk (desde la versión 2.0, también en Historia).</li>
+          <li><b>Co-op local:</b> el jugador 2 maneja a Gluk.</li>
           <li><b>Anti-logros:</b> sí, hay logros por perder.</li>
           <li><b>Pijamas:</b> de Halloween, de Navidad, "Dragon Fighter" y uno sospechosamente parecido a cierto fontanero italiano.</li>
           <li><b>Ítems argentinos:</b> alfajores, choripanes y empanadas dan puntos. Milanesas no hay, y hubo reclamos.</li>

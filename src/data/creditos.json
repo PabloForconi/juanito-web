@@ -1,109 +1,102 @@
 [
+  {"rol": "Dirección", "nombres": ["Joaquín Ibarlucía", "Pablo Forconi"]},
+  {"rol": "Producción", "nombres": ["Pablo Forconi"]},
+  {"rol": "Lead Game Designer", "nombres": ["Joaquín Ibarlucía"]},
+  {"rol": "Dirección de arte", "nombres": ["Diego Forconi"]},
+  {"rol": "Dirección de programación", "nombres": ["Joaquín Ibarlucía"]},
+  {"rol": "Lead Animators", "nombres": ["Facundo Friquet", "Diego Forconi"]},
+  {"rol": "Diseño de personajes y concept art", "nombres": ["Gabriel Rodríguez"]},
+  {"rol": "Lead Backgrounds Artist", "nombres": ["Lucas Bustos"]},
+  {"rol": "Lead Tech Artist", "nombres": ["Leonardo Cirius"]},
+  {"rol": "Lead Artists", "nombres": ["Gabriel Rodríguez", "Diego Forconi", "Lucas Bustos", "Facundo Friquet", "Leonardo Cirius"]},
+  {"rol": "Logo de «Juanito Arcade Mayhem»", "nombres": ["Scuzzo"]},
+  {"rol": "Motion graphics", "nombres": ["Pablo Forconi"]},
+  {"rol": "Edición de video", "nombres": ["Micaela Lara"]},
+  {"rol": "Scripting de niveles", "nombres": ["Alejandro Pro", "Juan Lomanto", "Joaquín Ibarlucía"]},
+  {"rol": "Música original", "nombres": ["Mariano Guerino"]},
+  {"rol": "Efectos de sonido", "nombres": ["Toni Leys", "Guillermo Bruno", "Mauro Aramburu", "Felipe De Francisco"]},
+  {"rol": "Programación adicional", "nombres": ["Leonardo Fernández Esteberena"]},
+  {"rol": "Prensa y marketing", "nombres": ["Alejandro Pro", "Juan Lomanto"]},
+  {"rol": "Localización", "nombres": ["Tomás Ibarlucía · francés", "Sofía Gómez Lorenzón · italiano", "Antón Egorouchkine · ruso", "Fenrir / Ruffles · portugués", "Project Gutenberg · chino"]},
   {
-    "rol": "Dirección",
+    "rol": "Playtesters",
+    "compacto": true,
     "nombres": [
-      "Pablo Forconi",
-      "Joaquín Ibarlucía"
+      "Leonardo Fernández Esteberena",
+      "Sofía Gómez Lorenzón",
+      "Julián Gómez Lorenzón",
+      "Christian Fernando Perucchi",
+      "Leandro Emmanuel Carranza",
+      "Micaela Lara",
+      "Martín «Shezo» Bargas",
+      "Fernando Almada",
+      "Aldana Ortiz",
+      "Federico Abrigo",
+      "Mariano Lo Prete",
+      "María Sol Domínguez",
+      "Juan Joel Pinto",
+      "Noelia Vanina",
+      "Luli Vigliano",
+      "Vale Zumzum",
+      "Adrián Novell",
+      "Witty Winter",
+      "Sebastián Santos",
+      "Laura Córdoba",
+      "Gustavo Sobrero",
+      "Matías Sánchez",
+      "Martín Farías",
+      "Melody Rose",
+      "Franco Scarfó",
+      "Blas Ingiulla",
+      "Luis Monrocle",
+      "Leandro Bargas",
+      "Matías Andrés",
+      "Paloma Balestrini",
+      "Alejandro Moiron Campos",
+      "Santiago «Morton» Figueroa",
+      "Facundo «Cufa» Fernández",
+      "Durgan Nallar",
+      "Cecilia Barat",
+      "Pablo Leotta"
     ]
   },
+  {"rol": "Hecho con", "compacto": true, "nombres": ["Adobe AIR", "Starling Framework", "Citrus Engine", "Feathers", "TexturePacker", "FlashDevelop"]},
+  {"rol": "Publicado por", "nombres": ["Game Ever Publishing"]},
   {
-    "rol": "Producción",
+    "rol": "Agradecimientos especiales",
+    "compacto": true,
     "nombres": [
-      "Pablo Forconi"
-    ]
-  },
-  {
-    "rol": "Lead Game Designer",
-    "nombres": [
-      "Joaquín Ibarlucía"
-    ]
-  },
-  {
-    "rol": "Lead Programmer",
-    "nombres": [
-      "Joaquín Ibarlucía"
-    ]
-  },
-  {
-    "rol": "Programación adicional",
-    "nombres": [
-      "Leonardo Fernández Esteberena"
-    ]
-  },
-  {
-    "rol": "Dirección de arte",
-    "nombres": [
-      "Diego Forconi"
-    ]
-  },
-  {
-    "rol": "Lead Animators",
-    "nombres": [
-      "Facundo Friquet",
-      "Diego Forconi"
-    ]
-  },
-  {
-    "rol": "Diseño de personajes y concept art",
-    "nombres": [
-      "Gabriel Rodríguez"
-    ]
-  },
-  {
-    "rol": "Lead Backgrounds",
-    "nombres": [
-      "Lucas Bustos"
-    ]
-  },
-  {
-    "rol": "Lead Tech Artist",
-    "nombres": [
-      "Leonardo Cirius"
-    ]
-  },
-  {
-    "rol": "Logo",
-    "nombres": [
-      "Scuzzo"
-    ]
-  },
-  {
-    "rol": "Música",
-    "nombres": [
-      "Mariano Guerino"
-    ]
-  },
-  {
-    "rol": "Efectos de sonido",
-    "nombres": [
-      "Guillermo Bruno",
-      "Toni Leys",
-      "Mauro Aramburu"
-    ]
-  },
-  {
-    "rol": "Voces",
-    "nombres": [
-      "Felipe de Francisco"
-    ]
-  },
-  {
-    "rol": "Edición de video",
-    "nombres": [
-      "Micaela Lara"
-    ]
-  },
-  {
-    "rol": "Prensa y difusión",
-    "nombres": [
-      "Juan Lomanto",
-      "Alejandro Pro"
-    ]
-  },
-  {
-    "rol": "Agradecimientos",
-    "nombres": [
-      "ADVA y el programa \"Mi Primer Videojuego Publicado\"",
+      "Roque Rey Ordoñez",
+      "Kurara Himura",
+      "Hernán Sáez",
+      "Máximo Balestrini",
+      "Martín Cao",
+      "Andrés Chilkowski",
+      "Lucas Wall",
+      "Martín Wain",
+      "César Guarinoni",
+      "Andrés Soechting",
+      "Facundo Hermida",
+      "Rodrigo González",
+      "Hernán Glossman",
+      "Santiago Totino",
+      "Ignacio Godoy",
+      "Mario Mentasti",
+      "Yiyo Flauros",
+      "Marcos Poca",
+      "José Martínez Garay",
+      "Martín Darío Charruff Fadiga",
+      "Agustín «Tembac» Pérez Fernández",
+      "Florencia «Luna» Orsetti",
+      "Gianfranco Camerota",
+      "Sebastián Gioseffi",
+      "",
+      "ADVA",
+      "MPVP (Mi Primer Videojuego Publicado)",
+      "FUNDAV",
+      "NAVE",
+      "La Comunidad del Sótano",
+      "Muere Monstruo Muere",
       "La comunidad de Taringa!",
       "Los artistas del Concurso Fan-Art 2017",
       "El Dragón Azul y Alejandra Pini",

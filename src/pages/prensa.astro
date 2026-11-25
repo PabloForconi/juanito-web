@@ -172,7 +172,11 @@ const comentariosTaringa = (citasData as Cita[]).filter((c) => c.destacada && c.
   <section class="section" id="taringa">
     <div class="container">
       <div data-reveal>
-        <p class="eyebrow">Taringa!</p>
+        {logoTaringa ? (
+          <Image class="taringa__logo" src={logoTaringa} alt="Taringa!" height={72} style="height:36px" />
+        ) : (
+          <p class="eyebrow">Taringa!</p>
+        )}
         <h2 class="h2">La comunidad <span class="hl">que empujó</span></h2>
         <p class="lead">
           Joaquín Ibarlucía (@Jacowaco4) contó el desarrollo en Taringa, la comunidad argentina que ya no existe. Los posts sobrevivieron
@@ -184,13 +188,14 @@ const comentariosTaringa = (citasData as Cita[]).filter((c) => c.destacada && c.
           taringa.map((t) => (
             <li data-reveal>
               <a class="card card--hover tpost" href={t.url} target="_blank" rel="noopener">
-                <p class="tpost__top">
-                  {logoTaringa && <Image src={logoTaringa} alt="Taringa!" height={30} style="height:15px" />}
-                  <time datetime={t.fecha}>{fecha(t.fecha)}</time>
-                </p>
+                <time class="tpost__fecha" datetime={t.fecha}>{fecha(t.fecha)}</time>
                 <h3 class="h3">{t.titulo}</h3>
                 <p class="muted">{t.resumen}</p>
-                {t.stats && <p class="tpost__stats">{t.stats}</p>}
+                {t.stats && (
+                  <p class="tpost__stats">
+                    {t.stats.split(' · ').map((x, i) => <span class={i === 0 ? 'chip chip--lime' : 'chip'}>{x}</span>)}
+                  </p>
+                )}
               </a>
             </li>
           ))
@@ -207,6 +212,11 @@ const comentariosTaringa = (citasData as Cita[]).filter((c) => c.destacada && c.
 </Base>
 
 <style>
+  .taringa__logo {
+    display: block;
+    width: auto;
+    margin-bottom: 1rem;
+  }
   .tcoms {
     margin-top: clamp(2rem, 4vw, 3rem);
   }
@@ -407,35 +417,31 @@ const comentariosTaringa = (citasData as Cita[]).filter((c) => c.destacada && c.
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
     gap: 1rem;
   }
+  /* mismo formato que las tarjetas de notas: vidrio, fecha arriba y los números en chips abajo */
   .tpost {
     display: grid;
-    gap: 0.4rem;
-    padding: 1.2rem;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.5rem;
+    padding: 1.2rem 1.3rem 1.3rem;
     height: 100%;
-    border-left: 4px solid #1f6fbf;
+    color: var(--ink);
+    text-decoration: none;
   }
   .tpost p,
   .tpost h3 {
     margin: 0;
   }
-  .tpost__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.6rem;
-    margin-bottom: 0.3rem !important;
-  }
-  .tpost__top img {
-    width: auto;
-    display: block;
-    opacity: 0.85;
-  }
-  .tpost time,
-  .tpost__stats {
+  .tpost__fecha {
     font-family: var(--font-ui);
     font-weight: 700;
     font-size: 0.85rem;
     color: var(--green-neon);
+  }
+  .tpost__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem !important;
   }
 
   @media (max-width: 800px) {

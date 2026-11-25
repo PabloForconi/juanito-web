@@ -9,33 +9,48 @@ const creditos = creditosData as Credito[];
 ---
 
 <Base title="Créditos" description="El equipo que hizo Juanito Arcade Mayhem.">
-  <PageHeader eyebrow="Créditos" title='Los que lo <span class="hl">hicieron</span>' lead="Unas veinte personas, cinco años de desarrollo y una cantidad de café que no conviene calcular.">
-    <div class="studio"><GameEverCredit size="lg" /></div>
-  </PageHeader>
+  <PageHeader eyebrow="Créditos" title='Los que lo <span class="hl">hicieron</span>' lead="Unas veinte personas, cinco años de desarrollo y una cantidad de café que no conviene calcular." />
 
   <section class="section">
     <div class="container">
       <dl class="cred">
+        <div class="cred__studio" data-reveal>
+          <dt>Creado por</dt>
+          <dd><GameEverCredit size="lg" label="" stacked /></dd>
+        </div>
         {
           creditos.map((c) => (
-            <div data-reveal>
+            <div class:list={[c.compacto && 'cred--compacto']} data-reveal>
               <dt>{c.rol}</dt>
-              {c.nombres.map((n) => (
-                <dd>{n}</dd>
-              ))}
+              {c.nombres.map((n) => (n ? <dd>{n}</dd> : <dd class="corte" aria-hidden="true" />))}
             </div>
           ))
         }
       </dl>
-      <p class="fin" data-reveal>GAME OVER? <span class="hl">NO. CONTINUE ▮</span></p>
+      <p class="fin" data-reveal><span>NEVER GAME OVER.</span> <span class="hl">ALWAYS CONTINUE ▮</span></p>
     </div>
   </section>
 </Base>
 
+<script>
+  // En las listas corridas, el punto separador solo va entre dos nombres del mismo renglón:
+  // al último de cada renglón se le saca, para que no quede colgando a la derecha.
+  const marcar = () => {
+    document.querySelectorAll('.cred--compacto').forEach((lista) => {
+      const dds = [...lista.querySelectorAll<HTMLElement>('dd:not(.corte)')];
+      dds.forEach((dd) => dd.classList.remove('fin-linea'));
+      dds.forEach((dd, i) => {
+        const sig = dds[i + 1];
+        if (sig && sig.offsetTop > dd.offsetTop + 2) dd.classList.add('fin-linea');
+      });
+    });
+  };
+  marcar();
+  document.fonts?.ready.then(marcar);
+  new ResizeObserver(marcar).observe(document.querySelector('.cred')!);
+</script>
+
 <style>
-  .studio {
-    margin-top: 2rem;
-  }
   .cred {
     margin: 0 auto;
     max-width: 760px;
@@ -58,11 +73,47 @@ const creditos = creditosData as Credito[];
     font-weight: 400;
     font-size: clamp(1.15rem, 2vw, 1.5rem);
   }
+  .cred__studio dd {
+    margin-top: 0.6rem;
+  }
+  /* acá el logo va solo, sin texto debajo: se centra la imagen entera (con la flecha), sin la corrección óptica de la variante apilada */
+  .cred__studio :global(.ge img) {
+    translate: none;
+  }
+  /* listas largas: nombres corridos, más chicos, separados por un punto */
+  .cred--compacto dd {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(0.98rem, 1.5vw, 1.1rem);
+    line-height: 1.9;
+    color: var(--ink-dim);
+    white-space: nowrap;
+  }
+  /* un nombre vacío en el JSON fuerza un renglón nuevo (por ejemplo, antes de las instituciones) */
+  .cred--compacto dd.corte {
+    display: block;
+    height: 0;
+  }
+  .cred--compacto dd:not(:last-child):not(.corte)::after {
+    content: '·';
+    margin: 0 0.45em;
+    color: var(--green-neon);
+    opacity: 0.6;
+  }
+  /* el último de cada renglón (lo marca el script): el punto se oculta pero guarda su lugar, así el corte no cambia */
+  .cred--compacto dd.fin-linea::after {
+    visibility: hidden;
+  }
   .fin {
     margin-top: 5rem;
     text-align: center;
     font-family: var(--font-display);
     font-weight: 900;
     font-size: clamp(1.2rem, 3vw, 2rem);
+  }
+  /* cada mitad de la frase queda entera: en el celular, una por renglón */
+  .fin span {
+    white-space: nowrap;
   }
 </style>

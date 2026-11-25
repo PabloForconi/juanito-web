@@ -15,7 +15,7 @@ const widths = { sm: 72, md: 104, lg: 150 };
 const w = widths[size];
 ---
 
-<a class:list={['ge', `ge--${size}`, stacked && 'ge--stacked', byline && 'ge--byline']} href="https://game-ever.github.io/gameever-web/es/" target="_blank" rel="noopener" aria-label={after ? `Game Ever Studio ${after}` : `${label} Game Ever Studio`}>
+<a class:list={['ge', `ge--${size}`, stacked && 'ge--stacked', byline && 'ge--byline']} href="https://game-ever.github.io/gameever-web/es/" target="_blank" rel="noopener" aria-label={after ? `Game Ever Studio ${after}` : `${label} Game Ever Studio`.trim()}>
   {!after && label && <span class="ge__label">{label}</span>}
   <Image src={ge} alt="Game Ever" widths={[w, w * 2]} sizes={`${w}px`} style={byline ? undefined : `width:${w}px`} />
   {after && (

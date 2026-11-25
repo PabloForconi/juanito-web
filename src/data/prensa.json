@@ -1,7 +1,7 @@
 [
   {
     "id": "clarin-boom-retro",
-    "portada": "archivo/eventos/bit-bang-fest-2/11-6f82560a.jpg",
+    "portada": "prensa/notas/clarin-boom-retro.jpg",
     "titulo": "Boom retro: los jóvenes que recuperan el espíritu de los fichines",
     "medio": "Clarín",
     "fecha": "2017-05-06",
@@ -14,7 +14,7 @@
   },
   {
     "id": "infobae-nostalgia-ochentosa",
-    "portada": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
+    "portada": "prensa/notas/infobae-nostalgia-ochentosa.jpg",
     "titulo": "\"Juanito Arcade Mayhem\": nostalgia ochentosa en un videojuego argentino",
     "medio": "Infobae",
     "fecha": "2017-07-17",
@@ -27,7 +27,7 @@
   },
   {
     "id": "lanacion-revisitar-clasicos",
-    "portada": "hero/full.png",
+    "portada": "prensa/notas/lanacion-revisitar-clasicos.jpg",
     "titulo": "Juanito Arcade Mayhem, un videojuego argentino para revisitar a los clásicos",
     "medio": "La Nación",
     "fecha": "2017-08-03",
@@ -130,7 +130,7 @@
   },
   {
     "id": "ign-es-analisis",
-    "portada": "prensa/portadas/steam-clonojefe.jpg",
+    "portada": "prensa/notas/ign-es-analisis.jpg",
     "titulo": "Juanito Arcade Mayhem, análisis para PC",
     "medio": "IGN España",
     "fecha": "2017-10-11",
@@ -223,7 +223,7 @@
   },
   {
     "id": "siliconera-animated-looks",
-    "portada": "prensa/portadas/steam-kungfu.jpg",
+    "portada": "prensa/notas/siliconera-animated-looks.jpg",
     "titulo": "Juanito Arcade Mayhem Offers Animated Looks At Classic Games",
     "medio": "Siliconera",
     "fecha": "2017-08-05",
@@ -258,7 +258,7 @@
   },
   {
     "id": "pocketgamer-review",
-    "portada": "prensa/portadas/steam-tetris.jpg",
+    "portada": "prensa/notas/pocketgamer-review.jpg",
     "titulo": "Juanito Arcade Mayhem review - A nostalgic shooter that's definitely not stuck in the past",
     "medio": "Pocket Gamer",
     "fecha": "2018-08-07",

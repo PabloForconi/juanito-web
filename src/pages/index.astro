@@ -7,13 +7,7 @@ import Marquee from '../components/Marquee.astro';
 import YouTube from '../components/YouTube.astro';
 import StoreBadges from '../components/StoreBadges.astro';
 import { asset } from '../lib/assets';
-import prensa from '../data/prensa.json';
-import radio from '../data/radio.json';
-import videos from '../data/videos.json';
-import eventosData from '../data/eventos.json';
-import fanart from '../data/fanart.json';
 import { medios, logoDe } from '../lib/medios';
-import type { Evento } from '../data/types';
 
 /**
  * Home simple y de impacto: hero → citas (adorno) → trailer → logos de prensa → mosaico del archivo → CTA.
@@ -25,78 +19,64 @@ const logosPrensa = medios
   .slice(0, 4)
   .map((m) => ({ nombre: m.nombre, logo: logoDe(m.nombre, 1.35)! }));
 
-const eventos = (eventosData as Evento[]).filter((e) => !e.oculto);
-
 const tiles = [
   {
     area: 'juego',
     href: u('/el-juego/'),
     eyebrow: 'El juego',
-    title: 'Ocho videojuegos infectados',
-    text: 'Juanito, Gluk, los mundos, los jefes y el bestiario de clonocélulas.',
-    img: 'hero/full.png',
+    title: 'Juanito, Gluk y las clonocélulas',
+    img: 'archivo/home/juego.jpg',
   },
   {
     area: 'historia',
     href: u('/historia/'),
     eyebrow: 'Historia',
-    title: 'Un fichín con alma de dibujo animado',
-    text: 'De 2011 a hoy, año por año.',
-    img: 'archivo/galeria/afiche/retro-dubi-juanito-gluk.jpg',
-    pos: '30% 50%',
+    title: 'Cómo se hizo',
+    img: 'archivo/home/historia.jpg',
+    pos: '50% 30%', // en el celular (16:9) se ve la pantalla del gabinete
   },
   {
     area: 'prensa',
     href: u('/prensa/'),
     eyebrow: 'Prensa',
-    big: String(prensa.filter((n) => !('caida' in n && n.caida)).length),
-    title: 'notas y reseñas',
-    text: `Más ${radio.length} audios de radio.`,
+    title: 'Lo que dijeron',
+    img: 'archivo/home/prensa.jpg',
   },
   {
     area: 'videos',
     href: u('/videos/'),
     eyebrow: 'Videos',
-    title: `${videos.length} videos`,
-    text: 'Trailers, animación y gameplays.',
-    img: 'archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg',
+    title: 'Trailers y cinemáticas',
+    img: 'archivo/home/videos.jpg',
   },
   {
     area: 'galeria',
     href: u('/galeria/'),
     eyebrow: 'Galería',
     title: 'Arte, afiches y fan art',
-    text: `${fanart.length} dibujos de la comunidad.`,
     img: 'archivo/fanart/fernando-almada.jpg',
     pos: '50% 25%',
   },
   {
     area: 'expos',
     href: u('/historia/#eventos'),
-    eyebrow: 'Expos',
-    title: `${eventos.length} eventos`,
-    text: 'El gabinete salió de gira.',
-    // primera foto de Geek Out! Fest 2.0 (los nombres llevan una huella del contenido: se buscan en los datos)
-    img: eventos.find((e) => e.slug === 'geek-out-fest-2')!.fotos[0],
+    eyebrow: 'Eventos',
+    title: 'El arcade de gira',
+    img: 'archivo/home/eventos.jpg',
   },
   {
     area: 'mesa',
     href: u('/juego-de-mesa/'),
     eyebrow: 'Juego de mesa',
     title: 'Juanito Blockits',
-    text: 'Hasta Chile y Alemania.',
-    img: 'juego/mundos/chip-tetris.png',
-    contain: true,
+    img: 'archivo/home/mesa.jpg',
   },
   {
     area: 'pirata',
     href: u('/pirateria/'),
-    eyebrow: 'Salón de la fama',
-    title: 'Los que lo piratearon',
-    text: 'Con cariño y sin links.',
-    img: 'archivo/pirateria/skidrowgamereloaded.jpg',
-    pos: '50% 40%',
-    pirate: true,
+    eyebrow: 'Piratería',
+    title: 'Los que lo regalaron',
+    img: 'archivo/home/pirateria.jpg',
   },
 ];
 ---
@@ -131,7 +111,7 @@ const tiles = [
           {
             logosPrensa.map((m) => (
               <li>
-                <Image src={m.logo.img} alt={m.nombre} height={m.logo.h * 2} style={`height:${m.logo.h}px`} />
+                <Image src={m.logo.img} alt={m.nombre} height={m.logo.h * 2} style={`--h:${m.logo.h}px`} />
               </li>
             ))
           }
@@ -151,33 +131,31 @@ const tiles = [
             <h2 class="h-display">Todo lo que <span class="hl">pasó</span></h2>
           </div>
           <p class="lead">
-            El primer juego de Game Ever Studio, hecho en Buenos Aires. Acá está todo: cómo se hizo, quién lo hizo, qué se dijo y lo que hizo la
-            comunidad.
+            La ópera prima de Game Ever Studio, hecha en Buenos Aires para el mundo. Acá vas a encontrar todo: cómo se hizo, quién lo hizo, qué
+            se dijo y lo que hizo la comunidad.
           </p>
         </div>
 
         <div class="bento">
           {
             tiles.map((t) => (
-              <a class:list={['tile', `tile--${t.area}`, !t.img && 'tile--text', t.contain && 'tile--contain']} href={t.href} data-reveal>
+              <a class:list={['tile', `tile--${t.area}`]} href={t.href} data-reveal>
                 {t.img && (
-                  <Image
-                    src={asset(t.img)}
-                    alt=""
-                    class="tile__img"
-                    widths={[480, 800, 1200]}
-                    sizes="(max-width: 800px) 100vw, 50vw"
-                    style={t.pos ? `object-position:${t.pos}` : undefined}
-                  />
+                  <span class="tile__media">
+                    <Image
+                      src={asset(t.img)}
+                      alt=""
+                      class="tile__img"
+                      widths={[480, 800, 1200]}
+                      sizes="(max-width: 800px) 100vw, 50vw"
+                      style={t.pos ? `object-position:${t.pos}` : undefined}
+                    />
+                  </span>
                 )}
-                {t.pirate && <span class="tile__flag" aria-hidden="true">☠</span>}
                 <span class="tile__body">
                   <span class="tile__eyebrow">{t.eyebrow}</span>
-                  {t.big && <span class="tile__big">{t.big}</span>}
                   <span class="tile__title">{t.title}</span>
-                  <span class="tile__text">{t.text}</span>
                 </span>
-                <span class="tile__go" aria-hidden="true">→</span>
               </a>
             ))
           }
@@ -199,7 +177,7 @@ const tiles = [
 </Base>
 
 <style>
-  /* Lo que dijeron: logos grandes y parejos (4 en fila; 2×2 en el celular) */
+  /* Lo que dijeron: logos grandes y parejos (4 en fila; en columna en el celular) */
   .dijeron__logos {
     list-style: none;
     margin: clamp(1.8rem, 4vw, 2.6rem) 0 0;
@@ -215,6 +193,7 @@ const tiles = [
   }
   .dijeron__logos img {
     display: block;
+    height: var(--h);
     width: auto;
     max-width: 100%;
     opacity: 0.75;
@@ -224,12 +203,17 @@ const tiles = [
     opacity: 1;
   }
   .dijeron__mas {
-    margin: clamp(1.6rem, 3vw, 2.2rem) 0 0;
+    margin: clamp(2.6rem, 5vw, 3.8rem) 0 0;
     text-align: center;
   }
+  /* en el celular, uno debajo del otro y más chicos */
   @media (max-width: 600px) {
     .dijeron__logos {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
+      gap: 1.7rem;
+    }
+    .dijeron__logos img {
+      height: calc(var(--h) * 0.62);
     }
   }
   .head {
@@ -256,30 +240,25 @@ const tiles = [
   }
 
   /* ----------------------------------------------------------- bento */
+  /* Cada tarjeta: la imagen arriba (recuadro redondeado) y el texto debajo, por fuera de la imagen */
   .bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: clamp(180px, 20vw, 250px);
+    grid-auto-rows: clamp(230px, 24vw, 310px);
     grid-template-areas:
       'juego juego historia prensa'
       'juego juego historia videos'
       'galeria galeria expos mesa'
       'galeria galeria pirata pirata';
-    gap: clamp(0.7rem, 1.4vw, 1rem);
+    gap: clamp(1rem, 2vw, 1.6rem) clamp(0.7rem, 1.4vw, 1rem);
   }
   .tile {
     position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    padding: clamp(1rem, 2vw, 1.5rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: linear-gradient(160deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.015));
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 0.75rem;
     color: var(--ink);
     text-decoration: none;
-    isolation: isolate;
-    transition: border-color 0.3s, transform 0.5s var(--ease-out);
   }
   .tile--juego { grid-area: juego; }
   .tile--historia { grid-area: historia; }
@@ -290,48 +269,55 @@ const tiles = [
   .tile--mesa { grid-area: mesa; }
   .tile--pirata { grid-area: pirata; }
 
+  .tile__media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-height: 0;
+    border-radius: var(--radius);
+    background: linear-gradient(160deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.015));
+    isolation: isolate;
+    transition: box-shadow 0.3s;
+  }
+  /* El borde va en una capa encima de la imagen: así tapa el filo donde se recorta la imagen
+     y la esquina redondeada se ve limpia (si el borde va en el recuadro, las dos curvas no coinciden).
+     Lima tenue en reposo; al pasar el mouse se enciende con un brillo suave.
+     Va en 2px (Chrome redondea 1.5px a 1px) con un halo muy leve: una línea de 1px en la curva se ve serruchada. */
+  .tile__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgb(208 236 18 / 0.26);
+    border-radius: inherit;
+    box-shadow: inset 0 0 6px rgb(208 236 18 / 0.18);
+    pointer-events: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
   .tile__img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2;
+    z-index: -1;
     transition: scale 0.8s var(--ease-out), filter 0.4s;
   }
-  .tile::before {
-    /* degradé para que el texto se lea sobre la imagen */
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(to top, rgb(4 8 11 / 0.92) 0%, rgb(4 8 11 / 0.35) 45%, transparent 75%);
+  .tile:hover .tile__media,
+  .tile:focus-visible .tile__media {
+    box-shadow: 0 0 22px -4px rgb(208 236 18 / 0.45);
   }
-  .tile--text::before {
-    background: radial-gradient(circle at 80% 10%, rgb(44 224 108 / 0.18), transparent 60%);
-  }
-  .tile--contain .tile__img {
-    object-fit: contain;
-    padding: 12% 20% 34%;
-    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
-  }
-  .tile--pirata .tile__img {
-    filter: grayscale(1) contrast(1.1) brightness(0.55);
-  }
-  .tile:hover {
-    border-color: rgb(255 255 255 / 0.22);
+  .tile:hover .tile__media::after,
+  .tile:focus-visible .tile__media::after {
+    border-color: var(--lime);
+    box-shadow: inset 0 0 8px rgb(208 236 18 / 0.35);
   }
   .tile:hover .tile__img {
     scale: 1.06;
   }
-  .tile--pirata:hover .tile__img {
-    filter: grayscale(0.4) brightness(0.7);
-  }
-
   .tile__body {
     display: grid;
-    gap: 0.25rem;
-    max-width: 30rem;
+    gap: 0.2rem;
+    max-width: 34rem;
   }
   .tile__eyebrow {
     font-family: var(--font-ui);
@@ -341,60 +327,11 @@ const tiles = [
     text-transform: uppercase;
     color: var(--green-neon);
   }
-  .tile__big {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(3rem, 6vw, 5rem);
-    line-height: 0.9;
-    background: var(--grad-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
   .tile__title {
     font-family: var(--font-heading);
-    font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
     line-height: 1.15;
   }
-  .tile--juego .tile__title {
-    font-family: var(--font-display);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: clamp(1.6rem, 3vw, 2.6rem);
-    line-height: 1;
-  }
-  .tile__text {
-    font-size: 0.95rem;
-    color: var(--ink-dim);
-  }
-  .tile__go {
-    position: absolute;
-    top: clamp(0.9rem, 1.6vw, 1.2rem);
-    right: clamp(0.9rem, 1.6vw, 1.2rem);
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background: rgb(4 8 11 / 0.7);
-    transition: background 0.3s, color 0.3s, rotate 0.4s var(--ease-out);
-  }
-  .tile:hover .tile__go {
-    background: var(--lime);
-    color: #06140c;
-    rotate: -45deg;
-  }
-  .tile__flag {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -60%;
-    font-size: clamp(3rem, 6vw, 5rem);
-    opacity: 0.85;
-    z-index: -1;
-  }
-
   .cta {
     text-align: center;
   }
@@ -409,13 +346,13 @@ const tiles = [
     margin-top: 2.2rem;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 980px) {
     .head--split {
       grid-template-columns: 1fr;
     }
     .bento {
       grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 200px;
+      grid-auto-rows: 250px;
       grid-template-areas:
         'juego juego'
         'historia prensa'
@@ -428,8 +365,11 @@ const tiles = [
   @media (max-width: 520px) {
     .bento {
       grid-template-columns: 1fr;
-      grid-auto-rows: 210px;
+      grid-auto-rows: auto;
       grid-template-areas: 'juego' 'historia' 'prensa' 'videos' 'galeria' 'expos' 'mesa' 'pirata';
+    }
+    .tile__media {
+      aspect-ratio: 16 / 9;
     }
   }
 </style>

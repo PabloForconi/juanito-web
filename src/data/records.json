@@ -1,5 +1,5 @@
 {
-  "nota": "Cada jugador aparece una vez, con su mejor tiempo. Reconstruido con las fotos del gabinete: el ranking histórico del 30 de marzo de 2017 y dos récords posteriores, el de MAP en Fichinait Vol. 2 (mayo de 2017) y el de EMI (junio de 2017).",
+  "nota": "Cada jugador aparece una vez, con su mejor tiempo.",
   "tabla": [
     {
       "ini": "EMI",
@@ -43,17 +43,23 @@
     {
       "img": "archivo/galeria/arcade/arcade-top-ranking.jpg",
       "titulo": "EMI: 70:49 minutos",
-      "fecha": "2017-06"
+      "fecha": "2017-06",
+      "pie": "Junio de 2017"
     },
     {
       "img": "archivo/eventos/fichinait-2/02-562016ca.jpg",
-      "titulo": "MAP: 50:18 minutos, en Fichinait Vol. 2",
-      "fecha": "2017-05-06"
+      "titulo": "MAP: 50:18 minutos",
+      "fecha": "2017-05-06",
+      "pie": "Mayo de 2017, en Fichinait Vol. 2",
+      "foco": "60% 40%"
     },
     {
       "img": "archivo/galeria/arcade/arcade-ranking-2017.jpg",
       "titulo": "El ranking del gabinete",
-      "fecha": "2017-03-30"
+      "fecha": "2017-03-30",
+      "pie": "30 de marzo de 2017",
+      "foco": "45% 35%",
+      "zoom": 1.45
     }
   ]
 }

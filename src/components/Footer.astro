@@ -17,7 +17,6 @@ const redes = [
 ---
 
 <footer class="footer">
-  <div class="footer__glow" aria-hidden="true"></div>
   <div class="container footer__grid">
     <div class="footer__brand">
       <a href={u('/')} aria-label="Inicio"><Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="220px" /></a>
@@ -55,32 +54,19 @@ const redes = [
 </footer>
 
 <style>
+  /* sin caja: el fondo de la página se funde a casi negro, sin bordes ni cortes */
   .footer {
     position: relative;
     margin-top: 6rem;
     padding: 4.5rem 0 1.5rem;
-    overflow: hidden;
   }
   .footer::before {
     content: '';
     position: absolute;
-    inset: 0 clamp(0.6rem, 2vw, 1.2rem) 0;
-    border: 1px solid var(--line);
-    border-bottom: 0;
-    border-radius: 36px 36px 0 0;
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.01));
-    z-index: -1;
-  }
-  .footer__glow {
-    position: absolute;
-    left: 50%;
-    top: -180px;
-    width: 700px;
-    height: 300px;
-    translate: -50% 0;
-    background: radial-gradient(ellipse, rgb(44 224 108 / 0.18), transparent 70%);
-    filter: blur(20px);
+    inset: -12rem 0 0;
+    background: linear-gradient(180deg, transparent, rgb(2 4 5 / 0.85) 16rem, #020405 24rem);
     pointer-events: none;
+    z-index: -1;
   }
   .footer__grid {
     display: grid;
@@ -140,9 +126,11 @@ const redes = [
     color: var(--lime);
     text-decoration: none;
     letter-spacing: 0.15em;
-    animation: blink 1.4s steps(2) infinite;
+    /* dos estados, encendido y apagado, sin paso intermedio (0,7 s cada uno) */
+    animation: blink 1.4s step-end infinite;
   }
   @keyframes blink {
+    0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
   @media (max-width: 800px) {

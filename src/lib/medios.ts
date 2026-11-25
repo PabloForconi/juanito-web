@@ -10,8 +10,9 @@ export const medios = mediosData as Medio[];
  * todos "pesen" parecido: uno muy ancho queda más bajo, uno cuadrado más alto.
  */
 export const logoDe = (nombre: string, escala = 1) => {
-  const img = maybeAsset(medios.find((m) => m.nombre === nombre)?.logo);
+  const medio = medios.find((m) => m.nombre === nombre);
+  const img = maybeAsset(medio?.logo);
   if (!img) return undefined;
-  const h = Math.min(40, Math.max(16, Math.sqrt(3000 / (img.width / img.height)))) * escala;
+  const h = Math.min(40, Math.max(16, Math.sqrt(3000 / (img.width / img.height)))) * escala * (medio?.escala ?? 1);
   return { img, h: Math.round(h) };
 };

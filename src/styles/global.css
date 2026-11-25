@@ -289,21 +289,40 @@ a {
 
 .card {
   position: relative;
-  border: 1px solid var(--line);
+  /* el borde lo dibuja ::after, encima de las imágenes (ver abajo) */
   border-radius: var(--radius);
   /* sin backdrop-filter a propósito: era lo más caro de renderizar */
   background: linear-gradient(180deg, rgb(20 32 38 / 0.72), rgb(10 18 24 / 0.72));
-  transition: border-color 0.3s, transform 0.4s var(--ease-out), box-shadow 0.4s;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+}
+/* Borde lima, igual que las tarjetas de la home: en una capa encima del contenido, así tapa el filo
+   de las imágenes recortadas y la esquina se ve limpia. Va en 2px (Chrome redondea 1.5px a 1px)
+   con un halo leve hacia adentro: una línea de 1px en la curva se ve serruchada. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgb(208 236 18 / 0.26);
+  border-radius: inherit;
+  box-shadow: inset 0 0 6px rgb(208 236 18 / 0.18);
+  pointer-events: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 a.card {
   color: inherit;
   text-decoration: none;
 }
 a.card:hover,
+a.card:focus-visible,
 .card--hover:hover {
-  border-color: rgb(44 224 108 / 0.35);
   transform: translateY(-4px);
-  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(44 224 108 / 0.08);
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8), 0 0 22px -4px rgb(208 236 18 / 0.45);
+}
+a.card:hover::after,
+a.card:focus-visible::after,
+.card--hover:hover::after {
+  border-color: var(--lime);
+  box-shadow: inset 0 0 8px rgb(208 236 18 / 0.35);
 }
 
 .grid-auto {

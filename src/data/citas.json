@@ -3,22 +3,34 @@
     "texto": "This is how Pang Adventures should have been done!",
     "autor": "psydex",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/",
-    "destacada": true
+    "url": "https://steamcommunity.com/id/psydex-/recommended/617440/",
+    "destacada": true,
+    "fecha": "2017-08-12",
+    "horas": 3.8,
+    "utiles": 42,
+    "recomienda": true
   },
   {
     "texto": "anyone older than 30 should buy this game",
     "autor": "Zgubidan",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/",
-    "destacada": true
+    "url": "https://steamcommunity.com/profiles/76561198003259808/recommended/617440/",
+    "destacada": true,
+    "fecha": "2019-01-02",
+    "horas": 13.0,
+    "utiles": 5,
+    "recomienda": true
   },
   {
     "texto": "para pasar el rato entre amigos y cervezas!",
     "autor": "Hacha Dorada",
     "fuente": "Reseña de Steam",
-    "url": "https://store.steampowered.com/app/617440/",
-    "destacada": true
+    "url": "https://steamcommunity.com/id/lea_hd/recommended/617440/",
+    "destacada": true,
+    "fecha": "2018-11-21",
+    "horas": 9.6,
+    "utiles": 7,
+    "recomienda": true
   },
   {
     "texto": "0/10, no hay ningun sanguche de milanga en los pick-ups.",

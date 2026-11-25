@@ -398,7 +398,7 @@ EVENTOS = [
          portada_crop=(472, 184, 1222, 934)),
     dict(slug="meet-the-game-2", nombre="Meet The Game 2", fecha="2014-11-16",
          lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
-         descripcion="Segunda edición de la expo de Gamedia. Juanito se jugó en PC, con premio para el mejor puntaje: un trofeo con forma de cartucho de Famicom.",
+         descripcion="Segunda edición de la expo de Gamedia. Juanito se jugó en PC, con premio para el mejor puntaje: un trofeo con forma de cartucho de Famicom. Ahí Pablo Forconi le habló a Nivel Xtremo, cuando el juego todavía se llamaba «Juanito Game».",
          flyer=f"{EV}/Meet The Game 2 2015/MTG_2_v1.png",
          fotos=_sueltas("2014/08-08 - Meet The Game 2")),
     dict(slug="feria-del-libro-2015", nombre="Feria Internacional del Libro de Buenos Aires", fecha="2015-04-23",
@@ -413,8 +413,8 @@ EVENTOS = [
                   "Juanito.jpg")),
     dict(slug="tecnopolis-2015", nombre="Tecnópolis 2015: Ar.Cade", fecha="2015-07-20",  # fotos del 20/07; la muestra siguió hasta nov.
          lugar="Tecnópolis, Villa Martelli",
-         descripcion="Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul.",
-         fotos=_f("2015/20-07 - Tecnopolis", "01.jpg", "03.jpg", "05.jpg", "06.jpg", "08.jpg", "09.jpg", "10.jpg", "13.jpg"),
+         descripcion="Juanito formó parte de Ar.Cade, el catálogo jugable de videojuegos argentinos de la sala azul. Chicos haciendo fila para salvar los clásicos.",
+         fotos=[ORIG / "eventos" / "tecnopolis-2015-equipo.jpg"] + _f("2015/20-07 - Tecnopolis", "01.jpg", "03.jpg", "05.jpg", "06.jpg", "08.jpg", "09.jpg", "10.jpg", "13.jpg"),
          # tarjeta: cover cuadrado del dueño (recorte de 01.jpg); el álbum muestra la captura entera
          portada_img=ORIG / "eventos" / "tecnopolis-2015-cover.jpg"),
     dict(slug="meet-the-devs-2015", nombre="Meet The Devs: Extended Edition", fecha="2015-08-15",
@@ -465,7 +465,7 @@ EVENTOS = [
          flyer=f"{EV}/Checkpoint 2015/Checkpoint_2015_v1.png", fotos=[]),
     dict(slug="geek-out-fest-2", nombre="Geek Out! Fest 2.0", fecha="2016-04-30",
          lugar="Centro Cultural San Martín, Sarmiento 1551, CABA",
-         descripcion="«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek.",
+         descripcion="«Vení a jugar»: el arcade de Juanito en el festival de juegos de mesa y cultura geek. Dato de color: entre los sponsors figuraba El Dragón Azul, la editorial que seis años después haría el juego de mesa.",
          flyer=ORIG / "eventos" / "geek-out-fest-2-flyer.jpg",  # versión cuadrada del dueño (antes: Geek Out 2016/Mini_Arcade_v1.png)
          fotos=_f("2016/30-04 - Geek Out Fest",
                   "13090416_10206618021554524_1099661509_n.jpg",
@@ -636,12 +636,26 @@ def _website_2014() -> Image.Image:
     return canvas
 
 
+TN_TECNO = "Prensa/Video/TN Tecno/TN Tecno Fragmento.mp4"
+
+
+def _cuadro(video: str, seg: float):
+    """Devuelve una función que saca un cuadro del video (relativo a SRC) en el segundo seg."""
+    def sacar() -> Image.Image:
+        r = subprocess.run([str(FFMPEG), "-hide_banner", "-loglevel", "error", "-ss", str(seg), "-i", str(src(video)),
+                            "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                           check=True, capture_output=True)
+        from io import BytesIO
+        return Image.open(BytesIO(r.stdout)).convert("RGB")
+    return sacar
+
+
 GALERIA = [
     # --- afiches históricos (2012-2014) y pósters
     ("Difusion/Posters/Retro/juanito_poster_vintage_01.jpg", "retro-dubi-juanito-gluk",
      "Dubi · Juanito · Gluk", "afiche", "2012",
      "Póster retro estilo cine clase B, de cuando el proyecto todavía se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».",
-     {"oculto": True}),  # fuera de la galería (pedido del dueño); la home lo usa en la tarjeta de Historia
+     {"oculto": True}),  # fuera de la galería (pedido del dueño)
     ("Difusion/Posters/Retro/Poster_v2.jpg", "retro-poster-v2",
      "Póster retro", "afiche", None, "Variante vintage del afiche, con Juanito, Gluk y el gorila.", {"oculto": True}),
     ("Difusion/Posters/Logo/logo_cielo_v1.jpg", "logo-en-el-cielo",
@@ -649,7 +663,7 @@ GALERIA = [
      "El logo original: «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior».", {}),
     ("Difusion/Posters/Clasico/poster_2.jpg", "poster-clasico",
      "Póster clásico", "afiche", "2012-12-04", "Juanito, Gluk y Dubi en la versión clásica del afiche.", {}),
-    ("Difusion/Posters/Ascii/sujeto_localizado_v1.jpg", "ascii-codename-juanito",
+    ("Difusion/Posters/Ascii/sujeto_localizado_v1b.png", "ascii-codename-juanito",  # versión del dueño (antes: sujeto_localizado_v1.jpg)
      "Subject Localized · Codename: Juanito", "afiche", "2012-12-10",
      "Póster ASCII: el informe alienígena que localiza al «sujeto» Juanito.", {}),
     ("Difusion/Posters/Incaa/Poster_Incaa_v1.jpg", "incaa-clonocelulas",
@@ -670,98 +684,123 @@ GALERIA = [
     ("Difusion/Posters/Varios/juanito_poster_limpio_01.jpg", "poster-limpio",
      "Juanito vs. las Clonocélulas (arte limpio)", "afiche", None, None, {}),
 
-    # --- merch
+    # --- pósters Super A3 (sección propia) y merch (solo remeras; el panfleto y el sticker quedan ocultos)
     ("Difusion/Merch/Super A3/Poster_Generico_SA.png", "poster-super-a3-generico",
-     "Póster Super A3: Clásico", "merch", None, None, {"max": 2000}),
+     "El clásico de clásicos", "posters", None, None, {"max": 2000}),
     ("Difusion/Merch/Super A3/Poster_Donkey_SA.png", "poster-super-a3-el-mono",
-     "Póster Super A3: El Mono", "merch", None, None, {"max": 2000}),
+     "El gorila Trevor", "posters", None, None, {"max": 2000}),
     ("Difusion/Merch/Super A3/Poster_ET_SA.png", "poster-super-a3-et-dedo",
-     "Póster Super A3: E.T. Dedo", "merch", None, None, {"max": 2000}),
+     "El dedito extraterrestre", "posters", None, None, {"max": 2000}),
     ("Difusion/Merch/Posters_Panfleto_v3.png", "panfleto-posters",
      "¡Adquiera ya! su póster de Juanito", "merch", "2015-11",
-     "Panfleto de venta: tres modelos de póster a $25 cada uno, edición limitada, «buscanos en la puerta (o por ahí)».", {"max": 2000}),
+     "Panfleto de venta: tres modelos de póster a $25 cada uno, edición limitada, «buscanos en la puerta (o por ahí)».", {"max": 2000, "oculto": True}),
     ("Difusion/Merch/Super A3/Poster_Donkey_Sticker.png", "sticker-donkey",
-     "Sticker de Donkey", "merch", "2015", None, {}),
+     "Sticker de Donkey", "merch", "2015", None, {"oculto": True}),
     ("Difusion/Merch/Remeras/Remera_Opcion_A.jpg", "remera-a",
      "Remera (opción A)", "merch", None, "Diseño de remera negra con Juanito al frente.", {}),
     ("Difusion/Merch/Remeras/Remera_Opcion_B.jpg", "remera-b",
      "Remera (opción B)", "merch", None, "Diseño de remera negra con el logo.", {}),
 
     # --- piezas promocionales
-    ("Difusion/Promocional/Dia Niño 2014/Dia_Niño_2014_v1.png", "dia-del-nino-2014",
+    (ORIG / "difusion/dia-del-nino.webp", "dia-del-nino-2014",  # versión del dueño
      "Día del Niño", "promo", "2014-08", "«Nunca te olvides de tu Juanito interior».", {}),
-    ("Difusion/Promocional/Puro Games/Pure_Games_v1.png", "puro-games",
+    (ORIG / "difusion/puro-games.webp", "puro-games",  # versión del dueño
      "Crossover con Puro Games", "promo", "2014-08", "Juanito con caricaturas de los conductores del programa Puro Games.", {}),
-    ("Difusion/Promocional/The Hum/The_Hum_SD.png", "the-hum",
+    (ORIG / "difusion/the-hum.webp", "the-hum",  # versión del dueño
      "Crossover con The Hum", "promo", "2014-08", None, {}),
-    ("Difusion/Promocional/Halloween 2014/Halloween_2014_HD.png", "halloween-2014",
+    (ORIG / "difusion/halloween-2014.webp", "halloween-2014",  # versión del dueño
      "Halloween 2014", "promo", "2014-10", None, {}),
-    ("Difusion/Promocional/Navidad 2014/Navidad_2014_HD.png", "navidad-2014",
+    (ORIG / "difusion/navidad-2014.webp", "navidad-2014",  # versión del dueño
      "Navidad 2014", "promo", "2014-12", None, {}),
-    ("Difusion/Promocional/Halloween 2015/halo.png", "halloween-2015",
-     "Halloween 2015", "promo", "2015-10", None, {}),
+    ("Difusion/Promocional/Martes 13/halo.png", "halloween-2015",
+     "Halloween 2015", "promo", "2015-10", None, {"oculto": True}),  # fuera de la galería (pedido del dueño)
     ("Difusion/Promocional/Navidad 2015/Navidad 2015.png", "navidad-2015",
      "Navidad 2015", "promo", "2015-12", "¡Felices fiestas!", {}),
-    ("Difusion/Promocional/Twitter/Afiche_Twitter_v1.png", "afiche-twitter",
+    (ORIG / "difusion/afiche-twitter.webp", "afiche-twitter",  # versión del dueño
      "¿Vos ya lo seguís en Twitter?", "promo", None, None, {}),
-    ("Difusion/Promocional/Celestineia/Juanito_Celeste.png", "celestineia",
+    (ORIG / "difusion/celestineia.webp", "celestineia",  # versión del dueño
      "Juanito y Celestineia", "promo", None, None, {}),
-    ("Difusion/Steam/now_available_01.png", "now-available-steam",
+    ("Difusion/Facebook/Varios/juanito_release_dat.png", "fecha-de-salida",
+     "Fecha de salida: 3 de agosto", "promo", "2017-05-18", "El anuncio de la fecha de lanzamiento en Steam.", {"fmt": "jpg"}),
+    ("Difusion/Facebook/Varios/MPVJP_2017.png", "gracias-adva",
+     "¡Muchas gracias, ADVA!", "promo", "2017-06-13",
+     "El agradecimiento por la selección en «Mi Primer Videojuego Publicado II»: Juanito jugando al Pong en la tele.", {"fmt": "jpg"}),
+    ("Difusion/Facebook/Varios/juanito_radio_v1b.png", "juanito-radio",  # versión del dueño
+     "¡Hoy Juanito va a la radio!", "promo", "2017-06", None, {"fmt": "jpg"}),
+    ("Difusion/Facebook/Varios/concurso_dibujo_02b.png", "concurso-fan-art",  # versión del dueño (antes: concurso_dibujo_02.png)
+     "Concurso Fan-Art", "promo", "2017-06-19", "«Queremos ver a Juanito en tu estilo».", {"fmt": "jpg"}),
+    ("Difusion/Steam/now_available_01b.png", "now-available-steam",  # versión del dueño (antes: now_available_01.png)
      "Now available on Steam", "promo", "2017-08-03", "Pieza del lanzamiento en Steam.", {}),
+    ("Difusion/Facebook/Varios/sonico_cosplay_v1b.png", "sonic-mania",  # versión del dueño
+     "Felicitaciones a Sonic Mania", "promo", "2017-08", "Juanito vestido de Sonic y Gluk de Tails, para saludar al equipo de Sonic Mania.", {"fmt": "jpg"}),
+    ("Difusion/Facebook/Varios/mercadolibre_v1b.png", "mercado-libre",  # versión del dueño
+     "Conseguilo por Mercado Libre", "promo", "2017-08", "«¡En pesos argentinos!».", {"fmt": "jpg"}),
+    ("Difusion/Facebook/Varios/concurso_pijama_v1.jpg", "concurso-pijama",
+     "Mandanos tu foto en pijama", "promo", "2017-08-29", "Concurso en Facebook: una foto en pijama a cambio de códigos del juego.", {}),
     ("Difusion/Promocional/Halloween 2017/fb_halloween_update_v1.jpg", "halloween-2017",
      "Halloween update", "promo", "2017-10-25", None, {}),
-    ("Difusion/Steam/juanito_descuento.jpg", "pagalo-como-quieras",
+    ("Difusion/Facebook/Varios/navidad_2018.jpg", "navidad-2017",
+     "Navidad 2017", "promo", "2017-12-21", "Juanito de Papá Noel y el juego con 30 % OFF.", {}),
+    ("Difusion/Facebook/Varios/mcdonalds_v1b.png", "mas-barato-que-un-combo",  # versión del dueño
+     "Más barato que un combo", "promo", "2017-11", None, {"fmt": "jpg"}),
+    (ORIG / "difusion/pagalo-como-quieras.webp", "pagalo-como-quieras",  # versión del dueño
      "Pagalo como quieras", "promo", "2017-11-28", "Juanito anuncia todos los medios de pago posibles.", {}),
-    ("Difusion/Promocional/San Patricio/san_patricio_v1.png", "san-patricio-2018",
-     "San Patricio", "promo", "2018-03", None, {}),
+    ("Difusion/Facebook/Varios/goku_v1b.png", "chaala-e-chalaaa",  # versión del dueño
+     "¡Chaala e chalaaa!", "promo", "2018-02", None, {"fmt": "jpg"}),
+    (ORIG / "difusion/san-patricio.webp", "san-patricio-2018",  # versión del dueño
+     "San Patricio", "promo", "2018-03", None, {"fmt": "jpg"}),
+    (ORIG / "difusion/san-patricio-olla.webp", "san-patricio-olla",
+     "San Patricio: la olla de oro", "promo", None, None, {"fmt": "jpg"}),
     ("Difusion/Promocional/1000_descargas_android.png", "100-mil-descargas",
      "¡Llegamos a las 100 MIL descargas!", "promo", "2018-03-16",
      "Festejo de las cien mil descargas en Google Play.", {}),
-    ("Difusion/Promocional/Martes 13/fb_martes13_v1.jpg", "martes-13-2018",
+    ("Difusion/Promocional/Martes 13/Juanito en el bosque neón.png", "martes-13-2018",  # versión del dueño (antes: fb_martes13_v1.jpg)
      "Martes 13", "promo", "2018", None, {}),
     ("Difusion/Awesome Game Awards/JUANITO_3500x3500.png", "awesome-game-awards",
      "Awesome Game Awards", "promo", "2018-08",
-     "Key art preparado para los Awesome Game Awards 2018, donde, según recuerda el estudio, Juanito resultó premiado.", {"max": 2000}),
+     "Key art preparado para los Awesome Game Awards 2018, donde, según recuerda el estudio, Juanito resultó premiado.", {"max": 2000, "oculto": True}),  # fuera de la galería (pedido del dueño)
 
     # --- tiendas (cápsulas)
     ("Stores/Steam/News/Grafico_Hereo_3840x1240_v1.jpg", "steam-hero",
-     "Gráfico hero de Steam", "promo", None, "Key art panorámico sin logo (3840 × 1240 en el original).", {"max": 2000}),
+     "Gráfico hero de Steam", "promo", None, "Key art panorámico sin logo (3840 × 1240 en el original).", {"max": 2000, "oculto": True}),  # fuera de la galería (pedido del dueño)
     ("Stores/Steam/capsule_main.png", "steam-capsula",
-     "Cápsula principal de Steam", "promo", "2017", None, {}),
+     "Cápsula principal de Steam", "promo", "2017", None, {"oculto": True}),  # va en la tarjeta de Steam de /conseguilo/
     ("Stores/Steam/News/Capsula_Biblioteca_600x900_v1.jpg", "steam-biblioteca",
-     "Cápsula de biblioteca de Steam", "promo", None, None, {}),
+     "Cápsula de biblioteca de Steam", "promo", None, None, {"oculto": True}),  # fuera de la galería (pedido del dueño)
+    # cápsulas de los DLC y el bundle: van en las tarjetas de /conseguilo/
     ("Stores/Animation/capsule_main.png", "dlc-the-animation",
-     "DLC: The Animation", "promo", None, None, {}),
+     "DLC: The Animation", "promo", None, None, {"oculto": True}),
     ("Stores/Artbook/capsule_main.png", "dlc-the-art-book",
-     "DLC: The Art Book", "promo", None, None, {}),
+     "DLC: The Art Book", "promo", None, None, {"oculto": True}),
     ("Stores/Soundtrack/capsule_main.png", "dlc-original-soundtrack",
-     "DLC: Original Soundtrack", "promo", None, None, {}),
+     "DLC: Original Soundtrack", "promo", None, None, {"oculto": True}),
     ("Stores/Bundle/capsule_main.png", "dlc-the-art-edition",
-     "Bundle: The Art Edition", "promo", None, None, {}),
+     "Bundle: The Art Edition", "promo", None, None, {"oculto": True}),
     ("Stores/Soundtrack/Original Art/OST_Cover.png", "ost-portada",
-     "Portada del Original Soundtrack", "promo", None, "Gluk y Juanito con guitarra, en estética synthwave.", {}),
+     "Portada del Original Soundtrack", "promo", None, "Gluk y Juanito con guitarra, en estética synthwave.",
+     {"oculto": True}),  # ya está en /musica/
 
     # --- fondos de pantalla (homenajes): primero videojuegos, después películas (pedido del dueño)
     ("Difusion/Wallpapers/Videogames/Donkey Kong/Donkey_Kong_Juanito_v1.jpg", "wallpaper-donkey-kong",
-     "Homenaje a Donkey Kong", "fondos", None, None, {"serie": "fondos-videojuegos"}),
-    ("Difusion/Wallpapers/Videogames/Kung Fu Master/Kung_Fu_Master_Juanito_v2.jpg", "wallpaper-kung-fu-master",
-     "Homenaje a Kung Fu Master", "fondos", None, None, {"serie": "fondos-videojuegos"}),
-    ("Difusion/Wallpapers/Videogames/Snow Bros/Snow_Bros_Juanito_v2.jpg", "wallpaper-snow-bros",
-     "Homenaje a Snow Bros", "fondos", None, None, {"serie": "fondos-videojuegos"}),
+     "Homenaje a Donkey Kong", "fondos", None, None, {"serie": "fondos-videojuegos", "oculto": True}),  # oculto: pedido del dueño
     ("Difusion/Wallpapers/Videogames/Wonder Boy/Wonder_Boy_Juanito_HD.png", "wallpaper-wonder-boy",
      "Homenaje a Wonder Boy", "fondos", None, None, {"serie": "fondos-videojuegos"}),
+    ("Difusion/Wallpapers/Videogames/Snow Bros/Snow_Bros_Juanito_v2.jpg", "wallpaper-snow-bros",
+     "Homenaje a Snow Bros", "fondos", None, None, {"serie": "fondos-videojuegos"}),
     ("Difusion/Wallpapers/Videogames/Zombies Ate My Neighbors/Zombies_Ate_v1.png", "wallpaper-zombies",
      "Zombies Walked with Juanito", "fondos", None, "Homenaje a Zombies Ate My Neighbors.",
      {"fmt": "jpg", "serie": "fondos-videojuegos"}),
+    ("Difusion/Wallpapers/Videogames/Kung Fu Master/Kung_Fu_Master_Juanito_v2.jpg", "wallpaper-kung-fu-master",
+     "Homenaje a Kung Fu Master", "fondos", None, None, {"serie": "fondos-videojuegos"}),
     # Babality no es un homenaje a un juego: va al final del bloque de videojuegos
     ("Difusion/Wallpapers/Juanito_Babality_v3.png", "wallpaper-babality",
-     "Babality", "fondos", None, None, {"serie": "fondos-videojuegos"}),
+     "Babality", "fondos", None, None, {"serie": "fondos-videojuegos", "oculto": True}),  # oculto: pedido del dueño
     ("Difusion/Wallpapers/Movies/Juanito_Back_To_The_Future_v1.png", "wallpaper-volver-al-futuro",
      "Homenaje a Volver al Futuro", "fondos", None, None, {"serie": "fondos-peliculas"}),
     ("Difusion/Wallpapers/Movies/Juanito_Jaws_v1.jpg", "wallpaper-tiburon",
      "Homenaje a Tiburón", "fondos", None, None, {"serie": "fondos-peliculas"}),
     ("Difusion/Wallpapers/Movies/ET Scene/Juanito_ET_v1.jpg", "wallpaper-et",
-     "Homenaje a E.T.", "fondos", None, None, {"serie": "fondos-peliculas"}),
+     "Homenaje a E.T.", "fondos", None, None, {"serie": "fondos-peliculas", "oculto": True}),  # oculto: pedido del dueño
     ("Difusion/Wallpapers/Movies/Ghost/Juanito_Ghost_v2.png", "wallpaper-ghost",
      "Homenaje a Ghost", "fondos", None, "Juanito y Gluk en la escena del torno.", {"serie": "fondos-peliculas"}),
 
@@ -778,6 +817,15 @@ GALERIA = [
     ("Prensa/Radios/Crack 10-10-2016/14991385_1160426870706832_447388316816859153_o.jpg", "visita-crack-radiolexia",
      "De visita en Crack", "historia", "2016-11",
      "El equipo en el estudio de Radiolexia, durante la entrevista en Crack.", {}),
+    ("Difusion/Facebook/Varios/switch_rumor.png", "switch-rumor",
+     "El rumor del port a Switch", "historia", "2017-08-17",
+     "Titulares en inglés, español, alemán y francés sobre un posible port a Nintendo Switch.", {"fmt": "jpg"}),
+    # cuadros del fragmento de TN Tecno 377: solo para la línea de tiempo, no van a la galería
+    (_cuadro(TN_TECNO, 20), "tn-tecno-apertura",
+     "TN Tecno", "historia", "2017-08-26", "La apertura de TN Tecno 377.", {"oculto": True}),
+    (_cuadro(TN_TECNO, 48), "tn-tecno-bloque",
+     "TN Tecno: videojuego argento", "historia", "2017-08-26",
+     "El bloque sobre Juanito: «Videojuego argento y a puro clásico».", {"oculto": True}),
 
     # --- arcade
     ("Fotos/CAM00293.jpg", "arcade-primera-foto",
@@ -879,6 +927,54 @@ def export_pirateria() -> None:
     write_json("pirateria-capturas.json", data)
 
 
+# ---------------------------------------------------------- home (tarjetas)
+
+def _capa_psd(psd: str, nombre: str):
+    """Devuelve una función que compone solo la capa `nombre` (primer nivel) del PSD."""
+    def sacar() -> Image.Image:
+        from psd_tools import PSDImage
+        doc = PSDImage.open(src(psd))
+        capa = next(l for l in doc if l.name == nombre)
+        return capa.composite().convert("RGB")
+    return sacar
+
+
+def _archivo(rel: str):
+    """Una imagen tal cual del material original."""
+    return lambda: ImageOps.exif_transpose(Image.open(SRC / rel)).convert("RGB")
+
+
+def export_home() -> None:
+    """Imágenes de las tarjetas «Todo lo que pasó» de la home que no salen de otras secciones,
+    y la portada de /el-juego/."""
+    print("home")
+    clean_dir(OUT / "home")
+    piezas = [
+        # El juego: key art cuadrado del dueño, sin logo (no está en E:)
+        (_archivo(ORIG / "home" / "juego.webp"), "juego"),
+        # Historia: gabinete arcade vertical del dueño (no está en E:)
+        (_archivo(ORIG / "home" / "historia.webp"), "historia"),
+        # Prensa: diario, micrófono y credencial del dueño (no está en E:)
+        (_archivo(ORIG / "home" / "prensa.webp"), "prensa"),
+        # Videos: claqueta, cámara y auriculares del dueño (no está en E:)
+        (_archivo(ORIG / "home" / "videos.webp"), "videos"),
+        # Eventos: jugador frente al gabinete en una expo (del dueño, no está en E:)
+        (_archivo(ORIG / "home" / "eventos.webp"), "eventos"),
+        # Juego de mesa: la caja de Blockits sobre la mesa (del dueño, no está en E:)
+        (_archivo(ORIG / "home" / "mesa.webp"), "mesa"),
+        # portada de /el-juego/: Juanito y Gluk en el circuito (versión del dueño)
+        (_archivo("Difusion/Press Over/Niño y robot en aventura galáctica.png"), "portada-el-juego"),
+        # Piratería: calavera pirata del dueño (no está en E:)
+        (_archivo(ORIG / "home" / "pirateria.webp"), "pirateria"),
+    ]
+    for sacar, nombre in piezas:
+        img = fit(sacar(), 1600)
+        out = OUT / "home" / f"{nombre}.jpg"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        img.save(out, "JPEG", quality=86, optimize=True, progressive=True)
+        print(f"  -> {out.relative_to(ASSETS).as_posix()}  {img.size}")
+
+
 # -------------------------------------------------------------------- main
 
 GROUPS = {
@@ -887,6 +983,7 @@ GROUPS = {
     "galeria": export_galeria,
     "pirateria": export_pirateria,
     "radio": export_radio,
+    "home": export_home,
 }
 
 if __name__ == "__main__":

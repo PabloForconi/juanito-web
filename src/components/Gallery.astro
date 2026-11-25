@@ -12,6 +12,8 @@ interface Item {
   img: string;
   caption: string;
   sub?: string;
+  forma?: 'ancha' | 'grande'; // solo en mosaico: ancha = 2 columnas, grande = 2×2
+  lugar?: string; // solo en mosaico, en PC: grid-area fija ("fila / columna / fila fin / columna fin")
 }
 interface Props {
   items: Item[];
@@ -21,11 +23,13 @@ interface Props {
   columnas?: number; // con grilla: cantidad fija de columnas (ej. 2 = 50% cada una)
   pie?: boolean; // epígrafe siempre debajo de la imagen (no encima al pasar el mouse)
   celular1?: boolean; // en el celular, una imagen debajo de la otra (para piezas apaisadas)
+  mosaico?: boolean; // grilla de cuadrados de 7 columnas (2 en el celular) con piezas anchas y grandes; recorta un poco las apaisadas
+  limpia?: boolean; // sin texto sobre ni debajo de la imagen: el título se ve solo en el visor grande
 }
-const { items, group, min = '220px', grilla = false, columnas, pie = false, celular1 = false } = Astro.props;
+const { items, group, min = '220px', grilla = false, columnas, pie = false, celular1 = false, limpia = false, mosaico = false } = Astro.props;
 // ancho de cada miniatura para elegir la resolución: con columnas fijas es la fracción del contenedor
 // (en el celular las columnas fijas pasan a una sola, a todo el ancho)
-const tam = columnas ? `(max-width: 600px) 100vw, ${Math.round(1200 / columnas)}px` : `(max-width: 600px) 50vw, ${min}`;
+const tam = mosaico ? '(max-width: 800px) 50vw, 360px' : columnas ? `(max-width: 600px) 100vw, ${Math.round(1200 / columnas)}px` : `(max-width: 600px) 50vw, ${min}`;
 
 const resolved = await Promise.all(
   items.map(async (it) => {
@@ -37,20 +41,22 @@ const resolved = await Promise.all(
 ---
 
 <ul
-  class:list={['gal', grilla && 'gal--grilla', columnas && 'gal--cols', pie && 'gal--pie', celular1 && 'gal--c1']}
+  class:list={['gal', mosaico && 'gal--mosaico', grilla && 'gal--grilla', columnas && 'gal--cols', pie && 'gal--pie', celular1 && 'gal--c1']}
   style={`--min:${min}${columnas ? `;--cols:${columnas}` : ''}`}
 >
   {
     resolved.map((it) => (
-      <li data-reveal>
+      <li class:list={[it.forma && `gal--${it.forma}`]} style={it.lugar ? `--lugar:${it.lugar}` : undefined} data-reveal>
         <a href={it.big} data-lightbox={group} data-caption={it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
           <span class="gal__img">
-            <Image src={it.src} alt={it.caption} widths={columnas ? [480, 720, 1200] : [320, 480, 720]} sizes={tam} loading="lazy" />
+            <Image src={it.src} alt={it.caption} widths={columnas || it.forma ? [480, 720, 1200] : [320, 480, 720]} sizes={tam} loading="lazy" />
           </span>
-          <span class="gal__cap">
-            <b>{it.caption}</b>
-            {it.sub && <small>{it.sub}</small>}
-          </span>
+          {!limpia && (
+            <span class="gal__cap">
+              <b>{it.caption}</b>
+              {it.sub && <small>{it.sub}</small>}
+            </span>
+          )}
         </a>
       </li>
     ))
@@ -145,6 +151,44 @@ const resolved = await Promise.all(
     font-size: 0.8rem;
   }
   /* en pantallas táctiles el epígrafe va debajo de la imagen (no la tapa) */
+  /* mosaico: celdas cuadradas, con piezas anchas (2 columnas) y grandes (2×2); la imagen llena la celda.
+     El alto sale del ancho de la grilla (unidades cq), así las anchas miden lo mismo que una cuadrada */
+  .gal.gal--mosaico {
+    --n: 7;
+    --celda: calc((100cqw - (var(--n) - 1) * var(--gap)) / var(--n));
+    container-type: inline-size;
+    columns: auto;
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    grid-auto-flow: row dense;
+    gap: var(--gap);
+  }
+  .gal--mosaico li {
+    margin: 0;
+    height: var(--celda);
+  }
+  /* en PC cada pieza puede tener un lugar fijo en la grilla */
+  @media (min-width: 801px) {
+    .gal.gal--mosaico li[style*='--lugar'] {
+      grid-area: var(--lugar);
+    }
+  }
+  .gal--mosaico li.gal--ancha {
+    grid-column: span 2;
+  }
+  .gal--mosaico li.gal--grande {
+    grid-column: span 2;
+    grid-row: span 2;
+    height: calc(2 * var(--celda) + var(--gap));
+  }
+  .gal--mosaico a,
+  .gal--mosaico .gal__img {
+    height: 100%;
+  }
+  .gal--mosaico img {
+    height: 100%;
+    object-fit: cover;
+  }
   @media (hover: none) {
     .gal__cap {
       position: static;
@@ -154,11 +198,18 @@ const resolved = await Promise.all(
       opacity: 1;
     }
   }
+  /* en tablets y celulares, el mosaico pasa a 2 columnas */
+  @media (max-width: 800px) {
+    .gal.gal--mosaico {
+      --n: 2;
+    }
+  }
   @media (max-width: 600px) {
     .gal {
       column-width: auto;
       column-count: 2;
     }
+
     .gal.gal--cols,
     .gal.gal--grilla.gal--c1 {
       grid-template-columns: minmax(0, 1fr);

@@ -6,6 +6,8 @@ import tiendasData from '../data/tiendas.json';
 import citasData from '../data/citas.json';
 import Comentarios from '../components/Comentarios.astro';
 import type { Cita } from '../data/types';
+import { Image } from 'astro:assets';
+import { maybeAsset } from '../lib/assets';
 
 interface Tienda {
   nombre: string;
@@ -13,8 +15,9 @@ interface Tienda {
   url: string;
   precio?: string;
   nota?: string;
+  img?: string; // cápsula de Steam (relativa a src/assets/)
 }
-const tiendas = tiendasData as Tienda[];
+const tiendas = (tiendasData as Tienda[]).map((t) => ({ ...t, cap: maybeAsset(t.img) }));
 // tres reseñas de Steam destacadas, como empujón antes de comprar
 const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 'Reseña de Steam');
 ---
@@ -23,7 +26,7 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
   <PageHeader
     eyebrow="Conseguilo"
     title='Insert coin <span class="hl">para jugar</span>'
-    lead="Juanito sigue a la venta en Steam (Windows) y gratis en mobile. Los DLC de Soundtrack, Artbook y Animation también están en Steam."
+    lead="Juanito sigue a la venta en Steam (Windows) y gratis en mobile.<br />Los DLC de Soundtrack, Artbook y Animation también están en Steam."
   >
     <div class="badges"><StoreBadges align="start" size="lg" /></div>
   </PageHeader>
@@ -34,7 +37,8 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
         {
           tiendas.map((t) => (
             <li data-reveal>
-              <a class="card card--hover tienda" href={t.url} target="_blank" rel="noopener">
+              <a class:list={['card card--hover tienda', t.cap && 'tienda--cap']} href={t.url} target="_blank" rel="noopener">
+                {t.cap && <Image class="tienda__cap" src={t.cap} alt="" widths={[320, 616]} sizes="(max-width: 600px) 90vw, 320px" />}
                 <span class="tienda__plat">{t.plataforma}</span>
                 <span class="h3">{t.nombre}</span>
                 {t.nota && <span class="muted">{t.nota}</span>}
@@ -87,10 +91,23 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
   }
   .tienda {
     display: grid;
+    grid-template-columns: minmax(0, 1fr); /* que un precio largo no estire la tarjeta */
     gap: 0.5rem;
     padding: 1.3rem;
     height: 100%;
     align-content: start;
+  }
+  /* DLC y bundle: la cápsula de Steam arriba, de borde a borde */
+  .tienda--cap {
+    overflow: hidden;
+    padding-top: 0;
+  }
+  .tienda__cap {
+    display: block;
+    width: calc(100% + 2.6rem);
+    max-width: none;
+    height: auto;
+    margin: 0 -1.3rem 0.4rem;
   }
   .tienda__plat {
     font-family: var(--font-ui);
@@ -106,6 +123,9 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
     justify-content: space-between;
     align-items: center;
     margin-top: 0.6rem;
+  }
+  .tienda__foot .chip {
+    white-space: normal;
   }
   .tienda__go {
     white-space: nowrap;

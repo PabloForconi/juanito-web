@@ -233,8 +233,9 @@ const ficha: [string, string | undefined][] = [
   .destacado p + p {
     margin-top: 0.5rem;
   }
-  .destacado--premio {
-    border-color: rgb(208 236 18 / 0.45);
+  /* el premio resalta con el borde lima más marcado */
+  .destacado--premio::after {
+    border-color: rgb(208 236 18 / 0.5);
   }
   .eyebrow-sm {
     font-family: var(--font-ui);

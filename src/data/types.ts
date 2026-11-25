@@ -59,6 +59,8 @@ export interface Nota {
 export interface Medio {
   nombre: string;
   logo?: string;
+  /** Ajuste fino del tamaño del logo (1 = normal), para los que a ojo quedan chicos */
+  escala?: number;
 }
 
 export interface Video {
@@ -88,7 +90,7 @@ export interface Hito {
   titulo: string;
   texto: string;
   categoria: 'origen' | 'desarrollo' | 'evento' | 'lanzamiento' | 'prensa' | 'comunidad' | 'legado';
-  img?: string;
+  img?: string | string[]; // una o varias imágenes (miniaturas que se abren en el visor)
   // imagen tomada de un evento (sus nombres llevan huella y cambian al re-exportar):
   // n = posición en [flyer, ...fotos]; 0 por defecto
   evento?: { slug: string; n?: number };
@@ -114,11 +116,18 @@ export interface Cita {
   fuente: string; // "Reseña de Steam", "Pocket Gamer"...
   url?: string;
   destacada?: boolean; // también va en tarjeta (Steam: Conseguilo; Taringa: Prensa)
+  // datos de la reseña de Steam (se muestran en la tarjeta en lugar de la fuente)
+  fecha?: string;
+  horas?: number; // horas jugadas al escribirla
+  utiles?: number; // personas que la marcaron como útil
+  recomienda?: boolean;
 }
 
 export interface Credito {
   rol: string;
   nombres: string[];
+  /** listas largas (playtesters, agradecimientos): nombres más chicos y corridos, separados por puntos */
+  compacto?: boolean;
 }
 
 export interface FanArt {
@@ -134,7 +143,7 @@ export interface FanArt {
 export interface ItemGaleria {
   img: string;
   titulo: string;
-  categoria: 'concept' | 'afiche' | 'merch' | 'arcade' | 'artbook' | 'promo' | 'fondos' | 'historia';
+  categoria: 'concept' | 'afiche' | 'posters' | 'merch' | 'arcade' | 'artbook' | 'promo' | 'fondos' | 'historia';
   fecha?: string;
   descripcion?: string;
   serie?: string; // las piezas de una misma serie se muestran juntas, en su propio bloque
@@ -183,5 +192,6 @@ export interface Disco {
 export interface Records {
   nota: string;
   tabla: { ini: string; tiempo: string; puntaje: number; nuevo?: boolean }[];
-  fotos: { img: string; titulo: string; fecha: string }[];
+  // pie: año y lugar de la foto; foco/zoom: recorte de la miniatura (el visor muestra la foto entera)
+  fotos: { img: string; titulo: string; fecha: string; pie?: string; foco?: string; zoom?: number }[];
 }

@@ -84,32 +84,34 @@
     "categoria": "afiche"
   },
   {
-    "img": "archivo/galeria/merch/poster-super-a3-generico.jpg",
-    "titulo": "Póster Super A3: Clásico",
-    "categoria": "merch"
+    "img": "archivo/galeria/posters/poster-super-a3-generico.jpg",
+    "titulo": "El clásico de clásicos",
+    "categoria": "posters"
   },
   {
-    "img": "archivo/galeria/merch/poster-super-a3-el-mono.jpg",
-    "titulo": "Póster Super A3: El Mono",
-    "categoria": "merch"
+    "img": "archivo/galeria/posters/poster-super-a3-el-mono.jpg",
+    "titulo": "El gorila Trevor",
+    "categoria": "posters"
   },
   {
-    "img": "archivo/galeria/merch/poster-super-a3-et-dedo.jpg",
-    "titulo": "Póster Super A3: E.T. Dedo",
-    "categoria": "merch"
+    "img": "archivo/galeria/posters/poster-super-a3-et-dedo.jpg",
+    "titulo": "El dedito extraterrestre",
+    "categoria": "posters"
   },
   {
     "img": "archivo/galeria/merch/panfleto-posters.jpg",
     "titulo": "¡Adquiera ya! su póster de Juanito",
     "categoria": "merch",
     "fecha": "2015-11",
-    "descripcion": "Panfleto de venta: tres modelos de póster a $25 cada uno, edición limitada, «buscanos en la puerta (o por ahí)»."
+    "descripcion": "Panfleto de venta: tres modelos de póster a $25 cada uno, edición limitada, «buscanos en la puerta (o por ahí)».",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/merch/sticker-donkey.png",
     "titulo": "Sticker de Donkey",
     "categoria": "merch",
-    "fecha": "2015"
+    "fecha": "2015",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/merch/remera-a.jpg",
@@ -159,7 +161,8 @@
     "img": "archivo/galeria/promo/halloween-2015.jpg",
     "titulo": "Halloween 2015",
     "categoria": "promo",
-    "fecha": "2015-10"
+    "fecha": "2015-10",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/navidad-2015.jpg",
@@ -179,6 +182,33 @@
     "categoria": "promo"
   },
   {
+    "img": "archivo/galeria/promo/fecha-de-salida.jpg",
+    "titulo": "Fecha de salida: 3 de agosto",
+    "categoria": "promo",
+    "fecha": "2017-05-18",
+    "descripcion": "El anuncio de la fecha de lanzamiento en Steam."
+  },
+  {
+    "img": "archivo/galeria/promo/gracias-adva.jpg",
+    "titulo": "¡Muchas gracias, ADVA!",
+    "categoria": "promo",
+    "fecha": "2017-06-13",
+    "descripcion": "El agradecimiento por la selección en «Mi Primer Videojuego Publicado II»: Juanito jugando al Pong en la tele."
+  },
+  {
+    "img": "archivo/galeria/promo/juanito-radio.jpg",
+    "titulo": "¡Hoy Juanito va a la radio!",
+    "categoria": "promo",
+    "fecha": "2017-06"
+  },
+  {
+    "img": "archivo/galeria/promo/concurso-fan-art.jpg",
+    "titulo": "Concurso Fan-Art",
+    "categoria": "promo",
+    "fecha": "2017-06-19",
+    "descripcion": "«Queremos ver a Juanito en tu estilo»."
+  },
+  {
     "img": "archivo/galeria/promo/now-available-steam.jpg",
     "titulo": "Now available on Steam",
     "categoria": "promo",
@@ -186,10 +216,44 @@
     "descripcion": "Pieza del lanzamiento en Steam."
   },
   {
+    "img": "archivo/galeria/promo/sonic-mania.jpg",
+    "titulo": "Felicitaciones a Sonic Mania",
+    "categoria": "promo",
+    "fecha": "2017-08",
+    "descripcion": "Juanito vestido de Sonic y Gluk de Tails, para saludar al equipo de Sonic Mania."
+  },
+  {
+    "img": "archivo/galeria/promo/mercado-libre.jpg",
+    "titulo": "Conseguilo por Mercado Libre",
+    "categoria": "promo",
+    "fecha": "2017-08",
+    "descripcion": "«¡En pesos argentinos!»."
+  },
+  {
+    "img": "archivo/galeria/promo/concurso-pijama.jpg",
+    "titulo": "Mandanos tu foto en pijama",
+    "categoria": "promo",
+    "fecha": "2017-08-29",
+    "descripcion": "Concurso en Facebook: una foto en pijama a cambio de códigos del juego."
+  },
+  {
     "img": "archivo/galeria/promo/halloween-2017.jpg",
     "titulo": "Halloween update",
     "categoria": "promo",
     "fecha": "2017-10-25"
+  },
+  {
+    "img": "archivo/galeria/promo/navidad-2017.jpg",
+    "titulo": "Navidad 2017",
+    "categoria": "promo",
+    "fecha": "2017-12-21",
+    "descripcion": "Juanito de Papá Noel y el juego con 30 % OFF."
+  },
+  {
+    "img": "archivo/galeria/promo/mas-barato-que-un-combo.jpg",
+    "titulo": "Más barato que un combo",
+    "categoria": "promo",
+    "fecha": "2017-11"
   },
   {
     "img": "archivo/galeria/promo/pagalo-como-quieras.jpg",
@@ -199,10 +263,21 @@
     "descripcion": "Juanito anuncia todos los medios de pago posibles."
   },
   {
+    "img": "archivo/galeria/promo/chaala-e-chalaaa.jpg",
+    "titulo": "¡Chaala e chalaaa!",
+    "categoria": "promo",
+    "fecha": "2018-02"
+  },
+  {
     "img": "archivo/galeria/promo/san-patricio-2018.jpg",
     "titulo": "San Patricio",
     "categoria": "promo",
     "fecha": "2018-03"
+  },
+  {
+    "img": "archivo/galeria/promo/san-patricio-olla.jpg",
+    "titulo": "San Patricio: la olla de oro",
+    "categoria": "promo"
   },
   {
     "img": "archivo/galeria/promo/100-mil-descargas.jpg",
@@ -222,72 +297,76 @@
     "titulo": "Awesome Game Awards",
     "categoria": "promo",
     "fecha": "2018-08",
-    "descripcion": "Key art preparado para los Awesome Game Awards 2018, donde, según recuerda el estudio, Juanito resultó premiado."
+    "descripcion": "Key art preparado para los Awesome Game Awards 2018, donde, según recuerda el estudio, Juanito resultó premiado.",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/steam-hero.jpg",
     "titulo": "Gráfico hero de Steam",
     "categoria": "promo",
-    "descripcion": "Key art panorámico sin logo (3840 × 1240 en el original)."
+    "descripcion": "Key art panorámico sin logo (3840 × 1240 en el original).",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/steam-capsula.jpg",
     "titulo": "Cápsula principal de Steam",
     "categoria": "promo",
-    "fecha": "2017"
+    "fecha": "2017",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/steam-biblioteca.jpg",
     "titulo": "Cápsula de biblioteca de Steam",
-    "categoria": "promo"
+    "categoria": "promo",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/dlc-the-animation.jpg",
     "titulo": "DLC: The Animation",
-    "categoria": "promo"
+    "categoria": "promo",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/dlc-the-art-book.jpg",
     "titulo": "DLC: The Art Book",
-    "categoria": "promo"
+    "categoria": "promo",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/dlc-original-soundtrack.jpg",
     "titulo": "DLC: Original Soundtrack",
-    "categoria": "promo"
+    "categoria": "promo",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/dlc-the-art-edition.jpg",
     "titulo": "Bundle: The Art Edition",
-    "categoria": "promo"
+    "categoria": "promo",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/promo/ost-portada.jpg",
     "titulo": "Portada del Original Soundtrack",
     "categoria": "promo",
-    "descripcion": "Gluk y Juanito con guitarra, en estética synthwave."
+    "descripcion": "Gluk y Juanito con guitarra, en estética synthwave.",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-donkey-kong.jpg",
     "titulo": "Homenaje a Donkey Kong",
     "categoria": "fondos",
-    "serie": "fondos-videojuegos"
+    "serie": "fondos-videojuegos",
+    "oculto": true
   },
   {
-    "img": "archivo/galeria/fondos/wallpaper-kung-fu-master.jpg",
-    "titulo": "Homenaje a Kung Fu Master",
+    "img": "archivo/galeria/fondos/wallpaper-wonder-boy.jpg",
+    "titulo": "Homenaje a Wonder Boy",
     "categoria": "fondos",
     "serie": "fondos-videojuegos"
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-snow-bros.jpg",
     "titulo": "Homenaje a Snow Bros",
-    "categoria": "fondos",
-    "serie": "fondos-videojuegos"
-  },
-  {
-    "img": "archivo/galeria/fondos/wallpaper-wonder-boy.jpg",
-    "titulo": "Homenaje a Wonder Boy",
     "categoria": "fondos",
     "serie": "fondos-videojuegos"
   },
@@ -299,10 +378,17 @@
     "serie": "fondos-videojuegos"
   },
   {
+    "img": "archivo/galeria/fondos/wallpaper-kung-fu-master.jpg",
+    "titulo": "Homenaje a Kung Fu Master",
+    "categoria": "fondos",
+    "serie": "fondos-videojuegos"
+  },
+  {
     "img": "archivo/galeria/fondos/wallpaper-babality.jpg",
     "titulo": "Babality",
     "categoria": "fondos",
-    "serie": "fondos-videojuegos"
+    "serie": "fondos-videojuegos",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-volver-al-futuro.jpg",
@@ -320,7 +406,8 @@
     "img": "archivo/galeria/fondos/wallpaper-et.jpg",
     "titulo": "Homenaje a E.T.",
     "categoria": "fondos",
-    "serie": "fondos-peliculas"
+    "serie": "fondos-peliculas",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-ghost.jpg",
@@ -356,6 +443,29 @@
     "categoria": "historia",
     "fecha": "2016-11",
     "descripcion": "El equipo en el estudio de Radiolexia, durante la entrevista en Crack."
+  },
+  {
+    "img": "archivo/galeria/historia/switch-rumor.jpg",
+    "titulo": "El rumor del port a Switch",
+    "categoria": "historia",
+    "fecha": "2017-08-17",
+    "descripcion": "Titulares en inglés, español, alemán y francés sobre un posible port a Nintendo Switch."
+  },
+  {
+    "img": "archivo/galeria/historia/tn-tecno-apertura.jpg",
+    "titulo": "TN Tecno",
+    "categoria": "historia",
+    "fecha": "2017-08-26",
+    "descripcion": "La apertura de TN Tecno 377.",
+    "oculto": true
+  },
+  {
+    "img": "archivo/galeria/historia/tn-tecno-bloque.jpg",
+    "titulo": "TN Tecno: videojuego argento",
+    "categoria": "historia",
+    "fecha": "2017-08-26",
+    "descripcion": "El bloque sobre Juanito: «Videojuego argento y a puro clásico».",
+    "oculto": true
   },
   {
     "img": "archivo/galeria/arcade/arcade-primera-foto.jpg",
