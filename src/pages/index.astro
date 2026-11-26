@@ -210,7 +210,7 @@ const tiles = [
   @media (max-width: 600px) {
     .dijeron__logos {
       grid-template-columns: 1fr;
-      gap: 1.7rem;
+      gap: 2.8rem;
     }
     .dijeron__logos img {
       height: calc(var(--h) * 0.62);
@@ -302,17 +302,25 @@ const tiles = [
     z-index: -1;
     transition: scale 0.8s var(--ease-out), filter 0.4s;
   }
-  .tile:hover .tile__media,
   .tile:focus-visible .tile__media {
     box-shadow: 0 0 22px -4px rgb(208 236 18 / 0.45);
   }
-  .tile:hover .tile__media::after,
   .tile:focus-visible .tile__media::after {
     border-color: var(--lime);
     box-shadow: inset 0 0 8px rgb(208 236 18 / 0.35);
   }
-  .tile:hover .tile__img {
-    scale: 1.06;
+  /* hover solo con mouse: en el celular el toque dejaba la tarjeta encendida */
+  @media (hover: hover) {
+    .tile:hover .tile__media {
+      box-shadow: 0 0 22px -4px rgb(208 236 18 / 0.45);
+    }
+    .tile:hover .tile__media::after {
+      border-color: var(--lime);
+      box-shadow: inset 0 0 8px rgb(208 236 18 / 0.35);
+    }
+    .tile:hover .tile__img {
+      scale: 1.06;
+    }
   }
   .tile__body {
     display: grid;

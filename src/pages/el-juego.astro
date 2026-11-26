@@ -1,4 +1,5 @@
 ---
+import { negrita } from '../lib/negrita';
 import { u } from '../lib/url';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -36,7 +37,7 @@ const datos = [
   <PageHeader
     eyebrow="El juego"
     title='Ocho videojuegos infectados. <span class="hl">Un chico en pijama.</span>'
-    lead="Juanito Arcade Mayhem es un videojuego arcade de acción que mezcla la mecánica de Pang con bullet hell: Juanito se mueve de lado a lado, dispara para arriba y derrapa con un dash. No salta. Nunca saltó. Es parte de su encanto."
+    lead="Juanito Arcade Mayhem es un videojuego arcade de acción que mezcla la mecánica de <strong>Pang</strong> con <strong>bullet hell</strong>: Juanito se mueve de lado a lado, dispara para arriba y derrapa con un dash. <strong>No salta. Nunca saltó.</strong> Es parte de su encanto."
   />
 
   <section class="section--tight">
@@ -100,7 +101,7 @@ const datos = [
                 <div class="pj__txt">
                   <p class="chip chip--lime">{p.rol}</p>
                   <h3 class="h2">{p.nombre}</h3>
-                  <p>{p.descripcion}</p>
+                  <p set:html={negrita(p.descripcion)} />
                   {p.extra && p.extra.length > 0 && (
                     <ul class="pj__poses">
                       {p.extra.map((e) => {
@@ -129,8 +130,8 @@ const datos = [
         <p class="eyebrow">Los mundos</p>
         <h2 class="h2">Ocho clásicos, <span class="hl">ocho jefes infectados</span></h2>
         <p class="lead">
-          Cada mundo parodia un videojuego clásico y cambia la mecánica. Y los jefes no son malos: son personajes de esos juegos, infectados
-          por las clonocélulas. Al vencerlos, los curás. <small class="muted">(Los nombres de los mundos son provisorios.)</small>
+          Cada mundo parodia un videojuego clásico y cambia la mecánica. Y <strong>los jefes no son malos</strong>: son personajes de esos juegos, infectados
+          por las clonocélulas. <strong>Al vencerlos, los curás.</strong> <small class="muted">(Los nombres de los mundos son provisorios.)</small>
         </p>
       </div>
       <div class="mundos" data-reveal>
@@ -172,11 +173,11 @@ const datos = [
         <p class="eyebrow">Modos y detalles</p>
         <h2 class="h2">Para jugar <span class="hl">de a uno o de a dos</span></h2>
         <ul class="modos__list">
-          <li><b>Historia:</b> 8 mundos de 9 niveles, cada uno con un "Nivel X" donde espera su jefe final. Y al final, un último mundo con el ultra mega jefe final. De 1 a 3 estrellas por nivel.</li>
+          <li><b>Historia:</b> 8 mundos de 9 niveles, cada uno con un «Nivel X» donde espera su jefe final. Y al final, un último mundo con el ultra mega jefe final. De 1 a 3 estrellas por nivel.</li>
           <li><b>Supervivencia:</b> oleadas infinitas y rankings globales.</li>
           <li><b>Co-op local:</b> el jugador 2 maneja a Gluk.</li>
           <li><b>Anti-logros:</b> sí, hay logros por perder.</li>
-          <li><b>Pijamas:</b> de Halloween, de Navidad, "Dragon Fighter" y uno sospechosamente parecido a cierto fontanero italiano.</li>
+          <li><b>Pijamas:</b> de Halloween, de Navidad, «Dragon Fighter» y uno sospechosamente parecido a cierto fontanero italiano.</li>
           <li><b>Ítems argentinos:</b> alfajores, choripanes y empanadas dan puntos. Milanesas no hay, y hubo reclamos.</li>
         </ul>
       </div>

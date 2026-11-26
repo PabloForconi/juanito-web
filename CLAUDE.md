@@ -62,7 +62,7 @@ python -m venv tools/.venv && tools/.venv/Scripts/python.exe -m pip install "psd
   - Cada capa tiene tres niveles de transform, para que las animaciones no se pisen: `.layer` (entrada y scroll) > `.layer__mouse` (parallax del mouse) > `img` (loops idle).
   - `data-depth` define cuánto se mueve cada capa.
 - **Logo:** hay dos versiones.
-  - El **pintado** (`src/assets/logo/logo-pintado.png`, sale de `Logo/Logo_Juanito_Pintura_v1.png`) es el oficial y va en tamaños grandes: hero y footer.
+  - El **pintado** (`src/assets/logo/logo-pintado.png`, sale de `Logo/Logo_Juanito_Pintura_v1.png`) es el oficial y va en tamaños grandes, como el hero. El footer usa su versión en blanco (`logo-pintado-blanco.png`), que también genera `export_assets.py`.
   - El **vectorial** (`logo.svg`) va solo en tamaños chicos, como el menú.
 - **Contenido como datos:** todo el contenido del archivo vive en `src/data/*.json`, tipado en `src/data/types.ts`.
   - Las imágenes se referencian por ruta relativa a `src/assets/` y se resuelven con `asset()` / `maybeAsset()` de `src/lib/assets.ts`. `asset()` falla el build si la ruta no existe.

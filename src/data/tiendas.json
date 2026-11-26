@@ -4,7 +4,7 @@
     "plataforma": "Steam (Windows)",
     "url": "https://store.steampowered.com/app/617440/",
     "precio": "USD 5,79",
-    "nota": "El juego completo: más de 80 niveles, 8 mundos, co-op local y 81 logros. También hay un paquete \"Commercial License\" a USD 9,99.",
+    "nota": "El juego completo: más de 80 niveles, 8 mundos, cooperativo local y 81 logros. También hay un paquete «Commercial License» a USD 9,99.",
     "img": "archivo/galeria/promo/steam-capsula.jpg"
   },
   {
@@ -44,18 +44,15 @@
     "plataforma": "App Store (iPhone y iPad)",
     "url": "https://apps.apple.com/us/app/arcade-mayhem-shooter/id937951287",
     "precio": "Gratis (con compras dentro de la app)",
-    "nota": "4,6 estrellas sobre 455 valoraciones. Última versión: 3.7.3 (diciembre de 2019)."
+    "nota": "4,6 estrellas sobre 455 valoraciones. Última versión: 3.7.3 (diciembre de 2019).",
+    "marca": "appstore"
   },
   {
     "nombre": "Arcade Mayhem Shooter",
     "plataforma": "Google Play (Android)",
     "url": "https://play.google.com/store/apps/details?id=air.com.gameever.juanitoarcade",
     "precio": "Gratis",
-    "nota": "La versión que llegó a las 100 mil descargas."
-  },
-  {
-    "nombre": "Juanito Arcade Mayhem",
-    "plataforma": "Fanatical (clave de Steam)",
-    "url": "https://www.fanatical.com/en/game/juanito-arcade-mayhem"
+    "nota": "La versión que llegó a las 100 mil descargas.",
+    "marca": "googleplay"
   }
 ]

@@ -1,4 +1,5 @@
 ---
+import { negrita } from '../lib/negrita';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -8,31 +9,33 @@ import { asset } from '../lib/assets';
 import jdm from '../data/juego-de-mesa.json';
 
 const caja = asset('juego-de-mesa/caja-blockits.jpg');
-const logoEditorial = asset('juego-de-mesa/logo-dragon-azul.png');
-// 9 datos: llenan una grilla de 3×3 sin huecos (en el celular, 2 columnas)
+const logoEditorial = asset('juego-de-mesa/logo-dragon-azul-blanco.png');
+// Ficha como el disco de Música: los tres datos de juego arriba y los créditos en filas
+const resumen = [jdm.jugadores && `${jdm.jugadores} jugadores`, jdm.duracion, jdm.edad && `${jdm.edad} años`].filter(Boolean);
 const ficha: [string, string | undefined][] = [
   ['Diseño', jdm.diseno],
   ['Ilustración', jdm.ilustracion],
   ['Diseño gráfico', jdm.disenoGrafico],
   ['Editorial', jdm.editorial],
   ['Año', String(jdm.anio)],
-  ['Jugadores', jdm.jugadores],
-  ['Duración', jdm.duracion],
-  ['Edad', jdm.edad],
   ['Mecánica', jdm.mecanica],
 ];
 ---
 
 <Base title="Juego de mesa" description={`${jdm.nombre}: el juego de mesa basado en Juanito Arcade Mayhem.`}>
-  <PageHeader eyebrow="Juego de mesa" title={`${jdm.nombre.replace('Blockits', '<span class="hl">Blockits</span>')}`} lead={jdm.descripcion} />
+  <PageHeader eyebrow="Juego de mesa" title={`${jdm.nombre.replace('Blockits', '<span class="hl">Blockits</span>')}`} lead={negrita(jdm.descripcion)} />
 
   <section class="section">
     <div class="container jdm">
       <div class="jdm__art" data-reveal>
         <Image src={caja} alt={`La caja de ${jdm.nombre} sobre una mesa`} widths={[480, 800, 1200]} sizes="(max-width: 800px) 100vw, 480px" />
       </div>
-      <div data-reveal>
-        <dl class="ficha">
+      <div class="ficha" data-reveal>
+        <p class="ficha__kicker">Ficha del juego</p>
+        <ul class="ficha__resumen">
+          {resumen.map((r) => <li>{r}</li>)}
+        </ul>
+        <dl class="ficha__filas">
           {
             ficha
               .filter(([, v]) => v)
@@ -44,15 +47,10 @@ const ficha: [string, string | undefined][] = [
               ))
           }
         </dl>
-        <a class="editorial" href={jdm.editorialUrl} target="_blank" rel="noopener">
-          <span class="editorial__logo">
-            <Image src={logoEditorial} alt="" widths={[120, 240]} sizes="120px" />
-          </span>
-          <span class="editorial__txt">
-            <small>Editorial oficial y original</small>
-            <strong>Ver el juego en El Dragón Azul ↗</strong>
-          </span>
-        </a>
+        <div class="ficha__pie">
+          <a class="btn btn--primary" href={jdm.editorialUrl} target="_blank" rel="noopener">Conseguilo ↗</a>
+          <Image class="ficha__logo" src={logoEditorial} alt="El Dragón Azul" widths={[110, 220]} sizes="110px" />
+        </div>
       </div>
     </div>
 
@@ -61,7 +59,7 @@ const ficha: [string, string | undefined][] = [
         jdm.premios && (
           <div class="card destacado destacado--premio" data-reveal>
             <p class="eyebrow-sm">🏆 Premio</p>
-            <p>{jdm.premios}</p>
+            <p set:html={negrita(jdm.premios)} />
           </div>
         )
       }
@@ -69,12 +67,8 @@ const ficha: [string, string | undefined][] = [
         jdm.licencias?.length > 0 && (
           <div class="card destacado" data-reveal>
             <p class="eyebrow-sm">En otros países</p>
-            {jdm.internacional && <p>{jdm.internacional}</p>}
-            <ul class="lic">
-              {jdm.licencias.map((l: string) => (
-                <li class="chip">{l}</li>
-              ))}
-            </ul>
+            {/* el texto ya nombra a las editoriales: sin chips repetidos */}
+            <p set:html={negrita(jdm.internacional ?? jdm.licencias.join(' · '))} />
           </div>
         )
       }
@@ -126,96 +120,92 @@ const ficha: [string, string | undefined][] = [
 </Base>
 
 <style>
+  /* Como el disco de Música: la caja a un lado y la ficha al otro, sin recuadro, centrada en altura */
   .jdm {
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
     align-items: center;
-  }
-  .jdm__art {
-    max-width: 480px;
-    margin-inline: auto;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgb(0 0 0 / 0.45);
   }
   .jdm__art img {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7), 0 0 60px rgb(44 224 108 / 0.12);
   }
-  .ficha {
+
+  /* Ficha: los datos en filas, como la lista de temas de Música */
+  .ficha__kicker {
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.6rem;
-  }
-  .ficha div {
-    padding: 0.7rem 0.9rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-  }
-  .ficha dt {
     font-family: var(--font-ui);
     font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--green-neon);
   }
-  .ficha dd {
-    margin: 0.2rem 0 0;
-    font-family: var(--font-heading);
-  }
-  /* Link a la editorial: logo sobre fondo claro (es azul y no se lee sobre negro) */
-  .editorial {
+  .ficha__resumen {
+    list-style: none;
+    margin: 0.6rem 0 1.4rem;
+    padding: 0;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.4rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+  }
+  .ficha__resumen li + li::before {
+    content: '·';
+    margin-right: 1.4rem;
+    margin-left: -0.6rem;
+    color: var(--lime);
+  }
+  .ficha__filas {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .ficha__filas div {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    align-items: baseline;
     gap: 1rem;
-    margin-top: 0.9rem;
-    padding: 0.7rem 1.1rem 0.7rem 0.7rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color 0.25s;
+    padding: 0.75rem 0.2rem;
+    border-bottom: 1px solid var(--line);
   }
-  .editorial:hover,
-  .editorial:focus-visible {
-    border-color: var(--green-neon);
-  }
-  .editorial__logo {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 108px;
-    height: 64px;
-    padding: 0.4rem 0.6rem;
-    border-radius: calc(var(--radius-sm) - 4px);
-    background: #fff;
-  }
-  .editorial__logo img {
-    width: 100%;
-    height: auto;
-  }
-  .editorial__txt {
-    display: grid;
-    gap: 0.15rem;
-  }
-  .editorial__txt small {
+  .ficha__filas dt {
     font-family: var(--font-ui);
     font-weight: 700;
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--green-neon);
+    color: var(--ink-dim);
   }
-  .editorial__txt strong {
+  .ficha__filas dd {
+    margin: 0;
     font-family: var(--font-heading);
-    font-weight: 400;
+    font-size: 1.02rem;
+  }
+  /* botón y, al lado, el logo de la editorial en blanco */
+  .ficha__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.6rem;
+    margin-top: 1.5rem;
+  }
+  .ficha__logo {
+    display: block;
+    width: 110px;
+    height: auto;
+    opacity: 0.85;
+  }
+  @media (max-width: 520px) {
+    .ficha__filas div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
   }
 
   .destacados {
@@ -248,28 +238,10 @@ const ficha: [string, string | undefined][] = [
   .destacado--premio .eyebrow-sm {
     color: var(--lime);
   }
-  .lic {
-    list-style: none;
-    margin: 0.9rem 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
   @media (max-width: 800px) {
     .jdm,
     .destacados {
       grid-template-columns: minmax(0, 1fr);
-    }
-  }
-  /* En pantallas medianas y chicas la ficha va en 2 columnas (en 3 se cortan los nombres) */
-  @media (max-width: 1100px) and (min-width: 801px), (max-width: 520px) {
-    .ficha {
-      grid-template-columns: 1fr 1fr;
-    }
-    /* 9 datos en 2 columnas: el último (Mecánica) ocupa la fila entera */
-    .ficha div:last-child {
-      grid-column: span 2;
     }
   }
   .vids {

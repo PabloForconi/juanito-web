@@ -33,3 +33,7 @@ Piezas que el dueño rehízo, adaptó o pasó aparte (no están en E:).
 `prensa/notas/`: imagen principal de cada nota destacada, bajada de la nota misma (el og:image; en IGN, una captura de la nota porque su portada es de 382px). Se convierten a JPG de hasta 1280px en `src/assets/prensa/notas/`.
 - `press-over.png`: logo horizontal de Press Over (blanco), reemplaza al apilado.
 - `planned-all-along.png`: logo a color de Planned All Along; en el sitio va en blanco, solo las letras (sin el contorno negro).
+
+## Logo de El Dragón Azul en blanco
+
+`src/assets/juego-de-mesa/logo-dragon-azul-blanco.png` sale de `logo-dragon-azul.png`: lo azul pasa a blanco y lo blanco del logo queda transparente (alfa según el canal mínimo: 60 → opaco, 235 → transparente).

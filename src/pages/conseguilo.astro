@@ -16,7 +16,30 @@ interface Tienda {
   precio?: string;
   nota?: string;
   img?: string; // cápsula de Steam (relativa a src/assets/)
+  marca?: keyof typeof marcas; // tiendas sin cápsula: franja con el logo y el color de la marca
 }
+
+// Logos de las tiendas (mismos trazos que StoreBadges; el de Google Play, separado en sus cuatro colores)
+const marcas = {
+  appstore: {
+    nombre: 'App Store',
+    paths: [
+      {
+        d: 'M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701',
+        fill: '#fff',
+      },
+    ],
+  },
+  googleplay: {
+    nombre: 'Google Play',
+    paths: [
+      { d: 'M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594z', fill: '#ffd400' },
+      { d: 'M1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924z', fill: '#00c3ff' },
+      { d: 'M13.544 10.989l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973z', fill: '#00e676' },
+      { d: 'M13.544 13.056l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z', fill: '#ff3a44' },
+    ],
+  },
+} as const;
 const tiendas = (tiendasData as Tienda[]).map((t) => ({ ...t, cap: maybeAsset(t.img) }));
 // tres reseñas de Steam destacadas, como empujón antes de comprar
 const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 'Reseña de Steam');
@@ -26,7 +49,7 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
   <PageHeader
     eyebrow="Conseguilo"
     title='Insert coin <span class="hl">para jugar</span>'
-    lead="Juanito sigue a la venta en Steam (Windows) y gratis en mobile.<br />Los DLC de Soundtrack, Artbook y Animation también están en Steam."
+    lead="Juanito sigue a la venta en Steam (Windows) y gratis en celulares.<br />Los DLC Soundtrack, Artbook y The Animation también están en Steam."
   >
     <div class="badges"><StoreBadges align="start" size="lg" /></div>
   </PageHeader>
@@ -37,8 +60,20 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
         {
           tiendas.map((t) => (
             <li data-reveal>
-              <a class:list={['card card--hover tienda', t.cap && 'tienda--cap']} href={t.url} target="_blank" rel="noopener">
+              <a class:list={['card card--hover tienda', (t.cap || t.marca) && 'tienda--cap']} href={t.url} target="_blank" rel="noopener">
                 {t.cap && <Image class="tienda__cap" src={t.cap} alt="" widths={[320, 616]} sizes="(max-width: 600px) 90vw, 320px" />}
+                {!t.cap && t.marca && (
+                  <span class:list={['tienda__marca', `tienda__marca--${t.marca}`]} aria-hidden="true">
+                    {marcas[t.marca].paths.length > 0 && (
+                      <svg viewBox="0 0 24 24">
+                        {marcas[t.marca].paths.map((p) => (
+                          <path d={p.d} fill={p.fill} />
+                        ))}
+                      </svg>
+                    )}
+                    <span>{marcas[t.marca].nombre}</span>
+                  </span>
+                )}
                 <span class="tienda__plat">{t.plataforma}</span>
                 <span class="h3">{t.nombre}</span>
                 {t.nota && <span class="muted">{t.nota}</span>}
@@ -108,6 +143,32 @@ const resenas = (citasData as Cita[]).filter((c) => c.destacada && c.fuente === 
     max-width: none;
     height: auto;
     margin: 0 -1.3rem 0.4rem;
+  }
+  /* Franja de marca para las tiendas sin cápsula: misma proporción que las de Steam (616×353) */
+  .tienda__marca {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: calc(100% + 2.6rem);
+    margin: 0 -1.3rem 0.4rem;
+    aspect-ratio: 616 / 353;
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    letter-spacing: 0.01em;
+  }
+  .tienda__marca svg {
+    width: 2.4em;
+    height: 2.4em;
+    flex: none;
+  }
+  .tienda__marca--appstore {
+    background: linear-gradient(160deg, #1ec8fc, #1f6ff2);
+    color: #fff;
+  }
+  .tienda__marca--googleplay {
+    background: linear-gradient(160deg, #1f3a35, #0d1f1c);
+    color: #fff;
   }
   .tienda__plat {
     font-family: var(--font-ui);

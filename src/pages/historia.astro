@@ -1,4 +1,5 @@
 ---
+import { negrita } from '../lib/negrita';
 import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -91,7 +92,7 @@ const cat: Record<Hito['categoria'], string> = {
   <PageHeader
     eyebrow="Historia"
     title='Un fichín <span class="hl">con alma de dibujo animado</span>'
-    lead="Juanito nació en 2011 como un videojuego que también podía convertirse en dibujo animado. Por entonces se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, llegó a Steam. Esta es su línea de tiempo."
+    lead="Juanito nació en <strong>2011</strong> como un videojuego que también podía convertirse en <strong>dibujo animado</strong>. Por entonces se llamaba «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior». Años de bocetos, expos, gabinetes arcade y alfajores después, <strong>llegó a Steam</strong>. Esta es su línea de tiempo."
   >
     <nav class="years" aria-label="Años">
       {[...porAnio.keys()].map((y) => <a href={`#y${y}`}>{y}</a>)}
@@ -115,7 +116,7 @@ const cat: Record<Hito['categoria'], string> = {
                         <time datetime={h.fecha}>{fecha(h.fecha)}</time>
                       </p>
                       <h3 class="h3">{h.titulo}</h3>
-                      <p>{h.texto}</p>
+                      <p set:html={negrita(h.texto)} />
                       {imgs.length > 0 && (
                         <div class="tl__imgs">
                           {imgs.map((img) => (
@@ -204,7 +205,7 @@ const cat: Record<Hito['categoria'], string> = {
       <div data-reveal>
         <p class="eyebrow">Récords</p>
         <h2 class="h2">Los que le <span class="hl">ganaron al gabinete</span></h2>
-        <p class="lead">El gabinete guardaba un ranking histórico: gana el que más tiempo sobrevive. MAP fue el rey de la tabla hasta que apareció EMI.</p>
+        <p class="lead">El gabinete guardaba un ranking histórico: ganaba el que más tiempo sobrevivía. MAP fue el rey de la tabla hasta que apareció EMI.</p>
       </div>
       <div class="hs" data-reveal>
         <div class="hs__izq">

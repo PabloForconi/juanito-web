@@ -2,29 +2,53 @@
 import { u } from '../lib/url';
 import { BUILD } from '../lib/build';
 import { Image } from 'astro:assets';
-import logo from '../assets/logo/logo-pintado.png';
+import logo from '../assets/logo/logo-pintado-blanco.png'; // en blanco: en el footer acompaña sin competir con el contenido
 import { NAV, NAV_MORE, CTA } from '../lib/nav';
 import GameEverCredit from './GameEverCredit.astro';
 import { INSTAGRAM } from '../lib/redes';
 
+// Redes como íconos chicos (trazos estilo Lucide). Steam y Game Ever ya están en otros lados del sitio.
 const redes = [
-  { label: 'Steam', href: 'https://store.steampowered.com/app/617440/' },
-  { label: 'YouTube', href: 'https://www.youtube.com/user/gameeverstudio' },
-  { label: 'Facebook', href: 'https://www.facebook.com/juanitoarcade/' },
-  { label: 'Instagram', href: INSTAGRAM },
-  { label: 'Game Ever Studio', href: 'https://www.gameeverstudio.com/' },
+  {
+    label: 'YouTube',
+    href: 'https://www.youtube.com/user/gameeverstudio',
+    svg: '<path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/juanitoarcade/',
+    svg: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  },
+  {
+    label: 'Instagram',
+    href: INSTAGRAM,
+    svg: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/>',
+  },
 ];
 ---
 
 <footer class="footer">
   <div class="container footer__grid">
     <div class="footer__brand">
-      <a href={u('/')} aria-label="Inicio"><Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="220px" /></a>
+      <a href={u('/')} aria-label="Inicio"><Image src={logo} alt="Juanito Arcade Mayhem" widths={[320, 640, 960, 1400, 2000]} sizes="200px" /></a>
       <p class="muted">
         El archivo de <b>Juanito Arcade Mayhem</b>, el primer juego de Game Ever Studio. Hecho en Buenos Aires con alfajores, choripanes y
         mucho cariño.
       </p>
-      <div class="footer__studio"><GameEverCredit size="sm" label="Creado por" byline /></div>
+      <div class="footer__studio">
+        <GameEverCredit size="sm" label="Creado por" byline />
+        <ul class="footer__redes">
+          {
+            redes.map((r) => (
+              <li>
+                <a href={r.href} target="_blank" rel="noopener" aria-label={r.label} title={r.label}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" set:html={r.svg} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
     <nav aria-label="Secciones" class="footer__col">
       <p class="eyebrow">Archivo</p>
@@ -34,16 +58,6 @@ const redes = [
       <p class="eyebrow">Más</p>
       {[...NAV_MORE, CTA].map((i) => <a href={i.href}>{i.label}</a>)}
     </nav>
-    <div class="footer__col">
-      <p class="eyebrow">Afuera</p>
-      {
-        redes.map((r) => (
-          <a href={r.href} target="_blank" rel="noopener">
-            {r.label} ↗
-          </a>
-        ))
-      }
-    </div>
   </div>
   <div class="container footer__bottom">
     <span>© 2011–2026 Game Ever Studio. Juanito, Gluk y las clonocélulas son de Game Ever.</span>
@@ -70,11 +84,12 @@ const redes = [
   }
   .footer__grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 2.5rem;
   }
   .footer__brand img {
-    width: 200px;
+    display: block;
+    width: 150px;
     height: auto;
     margin-bottom: 1.2rem;
   }
@@ -82,8 +97,46 @@ const redes = [
     max-width: 26rem;
     margin: 0;
   }
+  /* «Creado por Game Ever» y, al lado, las redes como íconos */
   .footer__studio {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.2rem 2rem;
+    max-width: 26rem;
     margin-top: 1.8rem;
+  }
+  .footer__redes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.5rem;
+  }
+  .footer__redes a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--ink-dim);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .footer__redes svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .footer__redes a:hover,
+  .footer__redes a:focus-visible {
+    color: var(--green-neon);
+    border-color: var(--green-neon);
   }
   .footer__col {
     display: grid;
@@ -139,6 +192,12 @@ const redes = [
     }
     .footer__brand {
       grid-column: 1 / -1;
+    }
+    /* en el celular el logo va centrado y un poco más grande */
+    .footer__brand img {
+      width: 200px;
+      margin-inline: auto;
+      margin-bottom: 1.6rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {

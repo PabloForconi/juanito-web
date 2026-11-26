@@ -196,6 +196,14 @@ def export_logo() -> None:
     painted = Image.open(SRC / "Logo" / "Logo_Juanito_Pintura_v1.png").convert("RGBA")
     save(painted, "logo/logo-pintado.png", max_w=2400)
 
+    # Versión blanca del pintado (footer): lo claro queda blanco y el contorno oscuro, transparente,
+    # así las letras siguen separadas y el volumen se ve como un gris suave.
+    rgba = np.asarray(painted, dtype=np.float32)
+    brillo = rgba[..., :3].max(axis=2)
+    alfa = rgba[..., 3] * np.clip((brillo - 90) / (190 - 90), 0, 1)
+    blanco = np.dstack([np.full(alfa.shape, 255, np.float32)] * 3 + [alfa]).astype(np.uint8)
+    save(Image.fromarray(blanco, "RGBA"), "logo/logo-pintado-blanco.png", max_w=2400)
+
     # Logo de Game Ever (versión blanca, el mismo que usa la web del estudio).
     ge = Image.open(SRC / "Video" / "Cover Logo" / "After" / "(Footage)" / "Final" / "LOGO_GAMEEVER_WHITE_01.png")
     save(ge.convert("RGBA"), "logo/game-ever.png", max_w=900)

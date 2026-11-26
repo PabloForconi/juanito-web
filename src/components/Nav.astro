@@ -71,7 +71,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
     inset: 0 0 auto;
     z-index: 50;
     padding: 14px clamp(0.6rem, 2vw, 1.2rem) 0;
-    transition: translate 0.45s var(--ease-out);
+    transition: translate 0.4s ease;
     pointer-events: none;
   }
   .nav.is-hidden {
@@ -321,13 +321,26 @@ const isActive = (href: string) => path === href || path.startsWith(href);
   const more = nav.querySelector<HTMLButtonElement>('[data-more]')!;
   const dropdown = nav.querySelector<HTMLElement>('[data-dropdown]')!;
 
-  // Fondo sólido al bajar; se esconde al bajar rápido y vuelve al subir.
-  let last = window.scrollY;
+  // Fondo sólido al bajar; se esconde al bajar y vuelve al subir.
+  // Solo cambia después de recorrer un tramo en la misma dirección (UMBRAL): con pasos chicos
+  // (scroll lento, inercia o el rebote de iOS) antes se escondía y aparecía seguido y parecía un salto.
+  const UMBRAL = 48;
+  let last = Math.max(0, window.scrollY);
+  let ancla = last; // dónde empezó el tramo actual
+  let bajando = false;
   const onScroll = () => {
-    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const y = Math.min(Math.max(0, window.scrollY), max); // ignora el rebote de los bordes
     nav.classList.toggle('is-solid', y > 20);
-    if (!nav.classList.contains('is-open')) nav.classList.toggle('is-hidden', y > 400 && y > last + 4);
-    if (y < last - 4) nav.classList.remove('is-hidden');
+    const ahora = y > last;
+    if (y !== last && ahora !== bajando) {
+      bajando = ahora;
+      ancla = last;
+    }
+    if (y < 120) nav.classList.remove('is-hidden');
+    else if (!nav.classList.contains('is-open') && Math.abs(y - ancla) > UMBRAL) {
+      nav.classList.toggle('is-hidden', bajando);
+    }
     last = y;
   };
   window.addEventListener('scroll', onScroll, { passive: true });
