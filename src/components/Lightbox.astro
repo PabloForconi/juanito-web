@@ -118,7 +118,7 @@
       }
       img.alt = a.dataset.caption ?? '';
       // con varias fotos, el contador avisa que hay más ("2 / 8")
-      cap.textContent = (a.dataset.caption ?? '') + (group.length > 1 ? ` · ${idx + 1} / ${group.length}` : '');
+      cap.textContent = [a.dataset.caption, group.length > 1 && `${idx + 1} / ${group.length}`].filter(Boolean).join(' · ');
       dlg.querySelectorAll<HTMLElement>('.lb__prev, .lb__next').forEach((b) => (b.hidden = group.length < 2));
     };
 

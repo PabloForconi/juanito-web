@@ -11,7 +11,13 @@ import jdm from '../data/juego-de-mesa.json';
 const caja = asset('juego-de-mesa/caja-blockits.jpg');
 const logoEditorial = asset('juego-de-mesa/logo-dragon-azul-blanco.png');
 // Ficha como el disco de Música: los tres datos de juego arriba y los créditos en filas
-const resumen = [jdm.jugadores && `${jdm.jugadores} jugadores`, jdm.duracion, jdm.edad && `${jdm.edad} años`].filter(Boolean);
+// Los tres datos de juego como marcador: número grande y la palabra abajo ("2–4 / jugadores")
+const [durN, durU] = (jdm.duracion ?? '').split(' ');
+const resumen = [
+  jdm.jugadores && { v: jdm.jugadores.replace(' a ', '–'), k: 'jugadores' },
+  durN && { v: durN, k: durU ?? '' },
+  jdm.edad && { v: jdm.edad, k: 'años' },
+].filter(Boolean) as { v: string; k: string }[];
 const ficha: [string, string | undefined][] = [
   ['Diseño', jdm.diseno],
   ['Ilustración', jdm.ilustracion],
@@ -33,7 +39,7 @@ const ficha: [string, string | undefined][] = [
       <div class="ficha" data-reveal>
         <p class="ficha__kicker">Ficha del juego</p>
         <ul class="ficha__resumen">
-          {resumen.map((r) => <li>{r}</li>)}
+          {resumen.map((r) => <li><b>{r.v}</b><span>{r.k}</span></li>)}
         </ul>
         <dl class="ficha__filas">
           {
@@ -148,19 +154,34 @@ const ficha: [string, string | undefined][] = [
   }
   .ficha__resumen {
     list-style: none;
-    margin: 0.6rem 0 1.4rem;
+    margin: 0.8rem 0 1.4rem;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem 1.4rem;
-    font-family: var(--font-heading);
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
   }
-  .ficha__resumen li + li::before {
-    content: '·';
-    margin-right: 1.4rem;
-    margin-left: -0.6rem;
+  .ficha__resumen li {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .ficha__resumen li + li {
+    padding-left: 0.8rem;
+    border-left: 1px solid var(--line);
+  }
+  .ficha__resumen b {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    line-height: 1;
     color: var(--lime);
+  }
+  .ficha__resumen span {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
   }
   .ficha__filas {
     margin: 0;
@@ -200,6 +221,20 @@ const ficha: [string, string | undefined][] = [
     width: 110px;
     height: auto;
     opacity: 0.85;
+  }
+  /* en el celular, el botón se estira y el logo queda pegado a la derecha */
+  @media (max-width: 800px) {
+    .ficha__pie {
+      flex-wrap: nowrap;
+    }
+    .ficha__pie .btn {
+      flex: 1;
+      justify-content: center;
+    }
+    .ficha__logo {
+      width: 96px;
+      flex: none;
+    }
   }
   @media (max-width: 520px) {
     .ficha__filas div {

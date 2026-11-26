@@ -84,6 +84,17 @@
     "resumen": "Arcade frenético, variado y muy divertido, con animación y música excelentes y aire ochentoso. Único reproche: Juanito no salta, aunque uno se acostumbra."
   },
   {
+    "id": "pressover-analisis",
+    "titulo": "Juanito Arcade Mayhem",
+    "medio": "Press Over",
+    "fecha": "2017-09-29",
+    "pais": "Argentina",
+    "idioma": "es",
+    "tipo": "review",
+    "url": "https://pressover.news/analisis/juanito-arcade-mayhem/",
+    "resumen": "Análisis de Gustavo Sobrero de la versión de PC: un arcade de pantalla fija frenético, con homenajes a los clásicos y choripanes. Le pesa la dificultad despareja, pero cumple lo que promete."
+  },
+  {
     "id": "gameit-analisis",
     "titulo": "Juanito Arcade Mayhem – Análisis PC",
     "medio": "Game It",
@@ -197,7 +208,7 @@
     "idioma": "es",
     "tipo": "noticia",
     "url": "https://pressover.news/noticias/juanito-arcade-mayhem-llega-ios/",
-    "resumen": "Breve aviso del salto a iPhone y iPad, completando el trío Steam, Android e iOS."
+    "resumen": "Press Over, el principal medio de videojuegos de la Argentina, avisa del salto a iPhone y iPad, que completa el trío Steam, Android e iOS."
   },
   {
     "id": "miarcade-remember",
@@ -214,12 +225,12 @@
     "id": "neoteo-adorable-homenaje",
     "titulo": "Juanito Arcade Mayhem: un adorable homenaje a los clásicos de arcade",
     "medio": "NeoTeo",
-    "fecha": "",
+    "fecha": "2017-08-09",
     "pais": "Argentina",
     "idioma": "es",
     "tipo": "nota",
     "url": "https://www.neoteo.com/es/juanito-arcade-mayhem-un-adorable-homenaje-a-los-clasicos-de-arcade",
-    "resumen": "Nota que lo definía como un homenaje adorable a los arcades. Hoy el link da 404 y no encontramos copia en el Internet Archive."
+    "resumen": "Nota de Maximiliano Ferzzola a días del lanzamiento: la mecánica de Super Pang, mundos que parodian Tetris, Pac-Man, Pong y Donkey Kong, y el modo Supervivencia. Veredicto: 100 % recomendado."
   },
   {
     "id": "siliconera-animated-looks",

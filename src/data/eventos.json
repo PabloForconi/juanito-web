@@ -78,7 +78,7 @@
   },
   {
     "slug": "feria-del-libro-2015",
-    "nombre": "Feria Internacional del Libro de Buenos Aires",
+    "nombre": "Feria Internacional del Libro de Buenos Aires",
     "fecha": "2015-04-23",
     "lugar": "La Rural, Pabellón Azul, stand 225",
     "descripcion": "Del 23 de abril al 11 de mayo, el gabinete arcade de Juanito se pudo jugar en plena feria, entre libros, cómics y peluches.",
@@ -367,7 +367,7 @@
     "slug": "fiesta-pow-1",
     "nombre": "Fiesta Pow 1",
     "fecha": "2016-11-04",
-    "descripcion": "El arcade de Juanito en una fiesta, con grupos jugando hasta tarde.",
+    "descripcion": "El arcade de Juanito de fiesta, hasta altas horas de la madrugada.",
     "fotos": [
       "archivo/eventos/fiesta-pow-1/01-ba946058.jpg",
       "archivo/eventos/fiesta-pow-1/02-34ce79c5.jpg",
@@ -389,7 +389,7 @@
     "nombre": "EVA 2016",
     "fecha": "2016-11-04",
     "lugar": "C3, Centro Cultural de la Ciencia, Godoy Cruz 2270, CABA",
-    "descripcion": "El gabinete de Juanito volvió a la Exposición de Videojuegos Argentina, con mucho público y la tabla de récords en pantalla.",
+    "descripcion": "El gabinete de Juanito volvió a la Exposición de Videojuegos Argentina, con mucho público y la tabla de récords caliente.",
     "fotos": [
       "archivo/eventos/eva-2016/01-d9d39bc5.jpg",
       "archivo/eventos/eva-2016/02-44308775.jpg",
@@ -445,7 +445,7 @@
     "nombre": "Geek Out! Fest 3.0",
     "fecha": "2017-05-06",
     "lugar": "Centro Cultural San Martín, Sarmiento 1551, CABA",
-    "descripcion": "El arcade de Juanito, muy jugado por chicos, y una mesa de juegos argentinos junto a JuegosArgentinos.org.",
+    "descripcion": "El arcade de Juanito, junto a otros juegos argentinos, fue el favorito de los chicos.",
     "fotos": [
       "archivo/eventos/geek-out-fest-3/01-9271436d.jpg",
       "archivo/eventos/geek-out-fest-3/02-03e54ce8.jpg",
@@ -474,7 +474,7 @@
     "nombre": "Fichinait Vol. 2",
     "fecha": "2017-05-06",
     "lugar": "La Comunidad del Sótano, Nicasio Oroño 2480, CABA",
-    "descripcion": "Segunda fiesta Fichinait: arcades hasta la madrugada y un récord de 50:18 minutos en Juanito.",
+    "descripcion": "Segunda fiesta Fichinait: arcades toda la noche y un récord histórico de 50:18 minutos en Juanito.",
     "fotos": [
       "archivo/eventos/fichinait-2/01-1dd76a02.jpg",
       "archivo/eventos/fichinait-2/02-562016ca.jpg",
@@ -563,7 +563,7 @@
     "nombre": "Bit Bang Fest 2018",
     "fecha": "2018-08-25",
     "lugar": "Escuela Da Vinci, Av. Corrientes 2037, CABA",
-    "descripcion": "Juanito volvió al festival de la Escuela Da Vinci como uno de sus arcades, con un año en Steam y recién salido en celulares.",
+    "descripcion": "Juanito volvió al festival de la Escuela Da Vinci a un año en Steam y recién llegado a iOS.",
     "flyer": "archivo/eventos/bit-bang-fest-2018/flyer-823877dd.jpg",
     "fotos": []
   }

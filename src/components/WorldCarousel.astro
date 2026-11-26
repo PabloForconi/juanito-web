@@ -137,6 +137,10 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
   .wc__item.is-on .wc__card {
     filter: none;
   }
+  /* el del centro siempre por delante: si un vecino lo roza, queda detrás */
+  .wc__item.is-on {
+    z-index: 1;
+  }
   .wc__card img {
     display: block;
     width: 100%;
@@ -272,7 +276,7 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
     /* en el celular, los cartuchos más grandes: las imágenes traen margen transparente
        (todas comparten el mismo lienzo), así que se agrandan sin taparse con los vecinos */
     .wc__card img {
-      scale: 1.25;
+      scale: 1.12;
     }
     .wc__nav {
       display: none;

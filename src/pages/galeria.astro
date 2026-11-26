@@ -16,7 +16,7 @@ const enHistoria = new Set((hitosData as Hito[]).flatMap((h) => (h.img ? [h.img]
 const galeria = (galeriaData as ItemGaleria[]).filter((g) => !g.oculto && !enHistoria.has(g.img));
 // Series que se muestran juntas dentro de su categoría (título y texto del bloque)
 const series: Record<string, { titulo: string; txt: string }> = {
-  screens: { titulo: 'Serie «Screens»', txt: 'Capturas del juego con textos de cartel de cine, y el póster apaisado que las junta.' },
+  screens: { titulo: 'Promesas de fichín', txt: 'Marketing a la vieja escuela: sonido estéreo, niveles a todo color y una historia que te hará llorar. Lo del llanto no lo pudimos comprobar.' },
   'fondos-videojuegos': { titulo: 'Videojuegos', txt: '' },
   'fondos-peliculas': { titulo: 'Películas', txt: '' },
 };
@@ -32,10 +32,10 @@ const miniFans = fanart.filter((f) => f.mini);
 const fanItem = (f: FanArt) => ({ img: f.img, caption: f.autor, sub: f.titulo || undefined });
 
 const cats: { id: ItemGaleria['categoria']; titulo: string; txt: string }[] = [
-  { id: 'afiche', titulo: 'Afiches', txt: 'Pósters históricos, del afiche clásico al ASCII.' },
+  { id: 'afiche', titulo: 'Afiches', txt: 'Juanito cambió de nombre, de logo y de estilo. Pero nunca se cambió el pijama.' },
   { id: 'concept', titulo: 'Concept art y bocetos', txt: '' },
-  { id: 'fondos', titulo: 'Fondos', txt: '' },
-  { id: 'posters', titulo: 'Pósters', txt: 'Tres modelos en tamaño Super A3, que se vendían en los eventos.' },
+  { id: 'fondos', titulo: 'Fondos', txt: 'Pensados como wallpapers. ¡Todo tan demodé!' },
+  { id: 'posters', titulo: 'Pósters', txt: 'Edición limitada, a $25 cada uno. Con 25 pesos te hacías alto guiso. Pero el guiso no te adorna la pared.' },
   { id: 'merch', titulo: 'Merch', txt: 'Remeras.' },
   { id: 'promo', titulo: 'Piezas de difusión', txt: 'Fechas especiales, hitos y campañas en redes.' },
 ];
@@ -141,6 +141,7 @@ const portadaArtbook = maybeAsset(artbook[0]?.img);
                   grilla
                   celular1={c.id === 'fondos'}
                   limpia={c.id === 'fondos'}
+                  sinTexto={s === 'screens'}
                   columnas={s === 'fondos-videojuegos' ? 2 : undefined}
                   items={galeria.filter((g) => g.categoria === c.id && g.serie === s).map(item)} />
               </div>

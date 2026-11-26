@@ -25,8 +25,9 @@ interface Props {
   celular1?: boolean; // en el celular, una imagen debajo de la otra (para piezas apaisadas)
   mosaico?: boolean; // grilla de cuadrados de 7 columnas (2 en el celular) con piezas anchas y grandes; recorta un poco las apaisadas
   limpia?: boolean; // sin texto sobre ni debajo de la imagen: el título se ve solo en el visor grande
+  sinTexto?: boolean; // como limpia, y tampoco hay epígrafe en el visor grande
 }
-const { items, group, min = '220px', grilla = false, columnas, pie = false, celular1 = false, limpia = false, mosaico = false } = Astro.props;
+const { items, group, min = '220px', grilla = false, columnas, pie = false, celular1 = false, limpia = false, sinTexto = false, mosaico = false } = Astro.props;
 // ancho de cada miniatura para elegir la resolución: con columnas fijas es la fracción del contenedor
 // (en el celular las columnas fijas pasan a una sola, a todo el ancho)
 const tam = mosaico ? '(max-width: 800px) 50vw, 360px' : columnas ? `(max-width: 600px) 100vw, ${Math.round(1200 / columnas)}px` : `(max-width: 600px) 50vw, ${min}`;
@@ -47,11 +48,11 @@ const resolved = await Promise.all(
   {
     resolved.map((it) => (
       <li class:list={[it.forma && `gal--${it.forma}`]} style={it.lugar ? `--lugar:${it.lugar}` : undefined} data-reveal>
-        <a href={it.big} data-lightbox={group} data-caption={it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
+        <a href={it.big} data-lightbox={group} data-caption={sinTexto ? undefined : it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
           <span class="gal__img">
             <Image src={it.src} alt={it.caption} widths={columnas || it.forma ? [480, 720, 1200] : [320, 480, 720]} sizes={tam} loading="lazy" />
           </span>
-          {!limpia && (
+          {!limpia && !sinTexto && (
             <span class="gal__cap">
               <b>{it.caption}</b>
               {it.sub && <small>{it.sub}</small>}
@@ -198,10 +199,16 @@ const resolved = await Promise.all(
       opacity: 1;
     }
   }
-  /* en tablets y celulares, el mosaico pasa a 2 columnas */
+  /* en tablets y celulares, el mosaico pasa a 2 columnas: las apaisadas siguen ocupando el ancho,
+     y las cuadradas grandes pasan a una celda, para que entren de a dos */
   @media (max-width: 800px) {
     .gal.gal--mosaico {
       --n: 2;
+    }
+    .gal--mosaico li.gal--grande {
+      grid-column: span 1;
+      grid-row: span 1;
+      height: var(--celda);
     }
   }
   @media (max-width: 600px) {
