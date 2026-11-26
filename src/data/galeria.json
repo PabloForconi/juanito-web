@@ -16,24 +16,21 @@
   },
   {
     "img": "archivo/galeria/afiche/logo-en-el-cielo.jpg",
-    "titulo": "Logo en el cielo",
+    "titulo": "El logo original, en el cielo",
     "categoria": "afiche",
-    "fecha": "2012-05-28",
-    "descripcion": "El logo original: «Juanito vs. las Clonocélulas Mutantes del Espacio Exterior»."
+    "fecha": "2012-05-28"
   },
   {
     "img": "archivo/galeria/afiche/poster-clasico.jpg",
-    "titulo": "Póster clásico",
+    "titulo": "Juanito, Gluk y Dubi en el póster clásico",
     "categoria": "afiche",
-    "fecha": "2012-12-04",
-    "descripcion": "Juanito, Gluk y Dubi en la versión clásica del afiche."
+    "fecha": "2012-12-04"
   },
   {
     "img": "archivo/galeria/afiche/ascii-codename-juanito.jpg",
-    "titulo": "Subject Localized · Codename: Juanito",
+    "titulo": "Póster ASCII: el informe alienígena que localiza a Juanito",
     "categoria": "afiche",
-    "fecha": "2012-12-10",
-    "descripcion": "Póster ASCII: el informe alienígena que localiza al «sujeto» Juanito."
+    "fecha": "2012-12-10"
   },
   {
     "img": "archivo/galeria/afiche/incaa-clonocelulas.jpg",
@@ -115,29 +112,25 @@
   },
   {
     "img": "archivo/galeria/merch/remera-a.jpg",
-    "titulo": "Remera (opción A)",
-    "categoria": "merch",
-    "descripcion": "Diseño de remera negra con Juanito al frente."
+    "titulo": "Remera negra con Juanito al frente",
+    "categoria": "merch"
   },
   {
     "img": "archivo/galeria/merch/remera-b.jpg",
-    "titulo": "Remera (opción B)",
-    "categoria": "merch",
-    "descripcion": "Diseño de remera negra con el logo."
+    "titulo": "Remera negra con el logo",
+    "categoria": "merch"
   },
   {
     "img": "archivo/galeria/promo/dia-del-nino-2014.jpg",
-    "titulo": "Día del Niño",
+    "titulo": "Día del Niño: «Nunca te olvides de tu Juanito interior»",
     "categoria": "promo",
-    "fecha": "2014-08",
-    "descripcion": "«Nunca te olvides de tu Juanito interior»."
+    "fecha": "2014-08"
   },
   {
     "img": "archivo/galeria/promo/puro-games.jpg",
-    "titulo": "Crossover con Puro Games",
+    "titulo": "Juanito junto a los conductores de Puro Games",
     "categoria": "promo",
-    "fecha": "2014-08",
-    "descripcion": "Juanito con caricaturas de los conductores del programa Puro Games."
+    "fecha": "2014-08"
   },
   {
     "img": "archivo/galeria/promo/the-hum.jpg",
@@ -168,8 +161,7 @@
     "img": "archivo/galeria/promo/navidad-2015.jpg",
     "titulo": "Navidad 2015",
     "categoria": "promo",
-    "fecha": "2015-12",
-    "descripcion": "¡Felices fiestas!"
+    "fecha": "2015-12"
   },
   {
     "img": "archivo/galeria/promo/afiche-twitter.jpg",
@@ -185,15 +177,13 @@
     "img": "archivo/galeria/promo/fecha-de-salida.jpg",
     "titulo": "Fecha de salida: 3 de agosto",
     "categoria": "promo",
-    "fecha": "2017-05-18",
-    "descripcion": "El anuncio de la fecha de lanzamiento en Steam."
+    "fecha": "2017-05-18"
   },
   {
     "img": "archivo/galeria/promo/gracias-adva.jpg",
-    "titulo": "¡Muchas gracias, ADVA!",
+    "titulo": "Gracias a ADVA por la selección en «Mi Primer Videojuego Publicado II»",
     "categoria": "promo",
-    "fecha": "2017-06-13",
-    "descripcion": "El agradecimiento por la selección en «Mi Primer Videojuego Publicado II»: Juanito jugando al Pong en la tele."
+    "fecha": "2017-06-13"
   },
   {
     "img": "archivo/galeria/promo/juanito-radio.jpg",
@@ -203,38 +193,33 @@
   },
   {
     "img": "archivo/galeria/promo/concurso-fan-art.jpg",
-    "titulo": "Concurso Fan-Art",
+    "titulo": "Concurso Fan-Art: «Queremos ver a Juanito en tu estilo»",
     "categoria": "promo",
-    "fecha": "2017-06-19",
-    "descripcion": "«Queremos ver a Juanito en tu estilo»."
+    "fecha": "2017-06-19"
   },
   {
     "img": "archivo/galeria/promo/now-available-steam.jpg",
     "titulo": "Now available on Steam",
     "categoria": "promo",
-    "fecha": "2017-08-03",
-    "descripcion": "Pieza del lanzamiento en Steam."
+    "fecha": "2017-08-03"
   },
   {
     "img": "archivo/galeria/promo/sonic-mania.jpg",
-    "titulo": "Felicitaciones a Sonic Mania",
+    "titulo": "Juanito de Sonic y Gluk de Tails, para felicitar a Sonic Mania",
     "categoria": "promo",
-    "fecha": "2017-08",
-    "descripcion": "Juanito vestido de Sonic y Gluk de Tails, para saludar al equipo de Sonic Mania."
+    "fecha": "2017-08"
   },
   {
     "img": "archivo/galeria/promo/mercado-libre.jpg",
-    "titulo": "Conseguilo por Mercado Libre",
+    "titulo": "Conseguilo por Mercado Libre, ¡en pesos argentinos!",
     "categoria": "promo",
-    "fecha": "2017-08",
-    "descripcion": "«¡En pesos argentinos!»."
+    "fecha": "2017-08"
   },
   {
     "img": "archivo/galeria/promo/concurso-pijama.jpg",
-    "titulo": "Mandanos tu foto en pijama",
+    "titulo": "Concurso: tu foto en pijama a cambio de códigos del juego",
     "categoria": "promo",
-    "fecha": "2017-08-29",
-    "descripcion": "Concurso en Facebook: una foto en pijama a cambio de códigos del juego."
+    "fecha": "2017-08-29"
   },
   {
     "img": "archivo/galeria/promo/halloween-2017.jpg",
@@ -244,10 +229,9 @@
   },
   {
     "img": "archivo/galeria/promo/navidad-2017.jpg",
-    "titulo": "Navidad 2017",
+    "titulo": "Juanito de Papá Noel y el juego con 30 % OFF",
     "categoria": "promo",
-    "fecha": "2017-12-21",
-    "descripcion": "Juanito de Papá Noel y el juego con 30 % OFF."
+    "fecha": "2017-12-21"
   },
   {
     "img": "archivo/galeria/promo/mas-barato-que-un-combo.jpg",
@@ -259,8 +243,7 @@
     "img": "archivo/galeria/promo/pagalo-como-quieras.jpg",
     "titulo": "Pagalo como quieras",
     "categoria": "promo",
-    "fecha": "2017-11-28",
-    "descripcion": "Juanito anuncia todos los medios de pago posibles."
+    "fecha": "2017-11-28"
   },
   {
     "img": "archivo/galeria/promo/chaala-e-chalaaa.jpg",
@@ -283,8 +266,7 @@
     "img": "archivo/galeria/promo/100-mil-descargas.jpg",
     "titulo": "¡Llegamos a las 100 MIL descargas!",
     "categoria": "promo",
-    "fecha": "2018-03-16",
-    "descripcion": "Festejo de las 100 mil descargas en Google Play."
+    "fecha": "2018-03-16"
   },
   {
     "img": "archivo/galeria/promo/martes-13-2018.jpg",
@@ -372,9 +354,8 @@
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-zombies.jpg",
-    "titulo": "Zombies Walked with Juanito",
+    "titulo": "Zombies Walked with Juanito, homenaje a Zombies Ate My Neighbors",
     "categoria": "fondos",
-    "descripcion": "Homenaje a Zombies Ate My Neighbors.",
     "serie": "fondos-videojuegos"
   },
   {
@@ -411,9 +392,8 @@
   },
   {
     "img": "archivo/galeria/fondos/wallpaper-ghost.jpg",
-    "titulo": "Homenaje a Ghost",
+    "titulo": "Homenaje a Ghost: Juanito y Gluk en la escena del torno",
     "categoria": "fondos",
-    "descripcion": "Juanito y Gluk en la escena del torno.",
     "serie": "fondos-peliculas"
   },
   {
@@ -439,17 +419,15 @@
   },
   {
     "img": "archivo/galeria/historia/visita-crack-radiolexia.jpg",
-    "titulo": "De visita en Crack",
+    "titulo": "El equipo en Radiolexia, durante la entrevista en Crack",
     "categoria": "historia",
-    "fecha": "2016-11",
-    "descripcion": "El equipo en el estudio de Radiolexia, durante la entrevista en Crack."
+    "fecha": "2016-11"
   },
   {
     "img": "archivo/galeria/historia/switch-rumor.jpg",
-    "titulo": "El rumor del port a Switch",
+    "titulo": "Titulares sobre un posible port a Switch, en cuatro idiomas",
     "categoria": "historia",
-    "fecha": "2017-08-17",
-    "descripcion": "Titulares en inglés, español, alemán y francés sobre un posible port a Nintendo Switch."
+    "fecha": "2017-08-17"
   },
   {
     "img": "archivo/galeria/historia/tn-tecno-apertura.jpg",
@@ -469,10 +447,9 @@
   },
   {
     "img": "archivo/galeria/arcade/arcade-primera-foto.jpg",
-    "titulo": "Primera foto del gabinete",
+    "titulo": "Primera foto del gabinete: «Sobreviviste 13:32»",
     "categoria": "arcade",
-    "fecha": "2015-04-22",
-    "descripcion": "La primera foto fechada del arcade de Juanito: «Sobreviviste 13:32»."
+    "fecha": "2015-04-22"
   },
   {
     "img": "archivo/galeria/arcade/arcade-marquesina.jpg",
@@ -502,8 +479,7 @@
   {
     "img": "archivo/galeria/arcade/arcade-modelo-3d.jpg",
     "titulo": "Modelo 3D del gabinete",
-    "categoria": "arcade",
-    "descripcion": "Render de prueba del modelo 3D del arcade."
+    "categoria": "arcade"
   },
   {
     "img": "archivo/galeria/arcade/arcade-lateral-3d.jpg",
@@ -512,16 +488,14 @@
   },
   {
     "img": "archivo/galeria/arcade/arcade-ranking-2017.jpg",
-    "titulo": "Ranking del arcade",
+    "titulo": "Ranking del gabinete, con las iniciales de los jugadores",
     "categoria": "arcade",
-    "fecha": "2017-03-30",
-    "descripcion": "La tabla de récords con las iniciales de los jugadores."
+    "fecha": "2017-03-30"
   },
   {
     "img": "archivo/galeria/arcade/arcade-top-ranking.jpg",
-    "titulo": "Récord: 70:49 minutos",
+    "titulo": "Récord: 70:49 minutos y 53.210.840 puntos",
     "categoria": "arcade",
-    "fecha": "2017-06",
-    "descripcion": "«Lograste 70:49 min», con 53.210.840 puntos."
+    "fecha": "2017-06"
   }
 ]

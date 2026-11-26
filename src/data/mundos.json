@@ -4,14 +4,14 @@
     "nombre": "Entrenamiento",
     "parodia": "Tutorial",
     "especial": "Inicio",
-    "descripcion": "Un cartucho limpio, sin infectar, para aprender lo básico antes de meterse en los clásicos: moverse, disparar para arriba y derrapar con el dash.",
+    "descripcion": "El único cartucho sano. Aprovechalo para practicar, que lo que viene no tiene arreglo.",
     "chip": "fichas/mundos/chip-entrenamiento.png"
   },
   {
     "slug": "tetris",
     "nombre": "Blockits",
     "parodia": "Tetris",
-    "descripcion": "El primer mundo, a la sombra del Kremlin: llueven ladrillos por todos lados y hay que esquivarlos mientras limpiás el lugar de clonocélulas. ¡Camarada Juanito al rescate!",
+    "descripcion": "Llueven ladrillos a la sombra del Kremlin. ¡Camarada Juanito al rescate!",
     "chip": "fichas/mundos/chip-tetris.png",
     "fondo": "juego/mundos/fondo-tetris.jpg",
     "jefeImg": "juego/jefes/tetris-esfera.png",
@@ -22,7 +22,7 @@
     "nombre": "Arkadroid",
     "parodia": "Arkanoid",
     "jefe": "Paskus",
-    "descripcion": "Un espacio cúbico lleno de bloques para romper con la navecita del clásico. Al final espera Paskus, la cabeza gigante y cariñosa, con los ojos tomados por las clonocélulas.",
+    "descripcion": "Bloques para romper y, al final, Paskus: una cabeza gigante y cariñosa, con ojos de clonocélula.",
     "chip": "fichas/mundos/chip-arkanoid.png",
     "fondo": "juego/mundos/fondo-arkanoid.jpg",
     "jefeImg": "juego/jefes/paskus.png"
@@ -31,7 +31,7 @@
     "slug": "wonderboy",
     "nombre": "Wonder Land",
     "parodia": "Wonder Boy",
-    "descripcion": "Un bosque primitivo donde vuelan hachas de piedra. Dicen que, si sabés buscar, aparece un hada mágica.",
+    "descripcion": "Un bosque donde vuelan hachas de piedra. Dicen que, si sabés buscar, aparece un hada.",
     "chip": "fichas/mundos/chip-wonderboy.png",
     "fondo": "juego/mundos/fondo-wonderboy.jpg",
     "flip": true
@@ -40,7 +40,7 @@
     "slug": "pacman",
     "nombre": "Pill-Man",
     "parodia": "Pac-Man",
-    "descripcion": "Un laberinto embrujado repleto de píldoras y fantasmas. Los que saben ganan un nivel con una sola píldora.",
+    "descripcion": "Píldoras, fantasmas y un laberinto embrujado. Los que saben lo pasan con una sola píldora.",
     "chip": "fichas/mundos/chip-pacman.png",
     "fondo": "juego/mundos/fondo-pacman.jpg"
   },
@@ -48,7 +48,7 @@
     "slug": "snowbros",
     "nombre": "Snow Boys",
     "parodia": "Snow Bros",
-    "descripcion": "Una pista de patinaje helada donde las clonocélulas quedan nevadas y hay que sacarles la nieve a los tiros. Nada ideal para alguien que anda en pijama.",
+    "descripcion": "Clonocélulas nevadas en una pista de hielo. Mal lugar para andar en pijama.",
     "chip": "fichas/mundos/chip-snowbros.png",
     "fondo": "juego/mundos/fondo-snowbros.jpg",
     "flip": true
@@ -57,7 +57,7 @@
     "slug": "kungfu",
     "nombre": "Kung-Fu Blaster",
     "parodia": "Kung-Fu Master",
-    "descripcion": "Un templo kung fu con dragones que escupen fuego y jarrones que explotan si no los rompés a tiempo.",
+    "descripcion": "Dragones que escupen fuego y jarrones que explotan. Mucho kung fu, poca paciencia.",
     "chip": "fichas/mundos/chip-kungfu.png",
     "fondo": "juego/mundos/fondo-kungfu.jpg"
   },
@@ -65,7 +65,7 @@
     "slug": "pong",
     "nombre": "Boing",
     "parodia": "Pong",
-    "descripcion": "El mundo más retro de todos: una cancha de Ping donde la pelota también juega en contra. Hay un logro por ganar con empate, paradoja incluida.",
+    "descripcion": "El fichín más viejo de todos, y la pelota también juega en contra. Hay un logro por empatar.",
     "chip": "fichas/mundos/chip-pong.png",
     "fondo": "juego/mundos/fondo-pong.jpg",
     "flip": true
@@ -75,7 +75,7 @@
     "nombre": "Monkey Kong",
     "parodia": "Donkey Kong",
     "jefe": "Trevor",
-    "descripcion": "La guarida del gorila: plataformas que se rompen, barriles y llamas. Ahí está Trevor, el mono más famoso, infectado y con muy mal humor. Su nombre es un guiño a la canción de cierta banda.",
+    "descripcion": "Barriles, llamas y Trevor, el mono más famoso, infectado y de muy mal humor.",
     "chip": "fichas/mundos/chip-donkeykong.png",
     "fondo": "juego/mundos/fondo-donkeykong.jpg",
     "jefeImg": "juego/jefes/trevor.png"
@@ -84,7 +84,7 @@
     "slug": "jefe-final",
     "nombre": "Jefe final",
     "parodia": "Original",
-    "descripcion": "La batalla final, en tres fases: una masa orgánica gigante con boca y ojos, un dron con un ojo enorme sobre un planeta blanco y, al final, una nave con antena en medio de una galaxia.",
+    "descripcion": "Tres fases, tres monstruos y un solo chico en pijama.",
     "chip": "fichas/mundos/chip-jefe-final.png",
     "fondo": "juego/jefes/escena-fase-1.jpg",
     "jefeImg": "juego/jefes/final-fase-1.png",

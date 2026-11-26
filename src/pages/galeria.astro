@@ -24,6 +24,8 @@ const item = (g: ItemGaleria) => ({
   img: g.img,
   caption: g.titulo,
   sub: [fecha(g.fecha), g.descripcion].filter(Boolean).join(' · ') || undefined,
+  fecha: fecha(g.fecha) || '',
+  desc: g.descripcion || '',
 });
 const fanart = fanartData as FanArt[];
 const concurso = fanart.filter((f) => !f.mini);

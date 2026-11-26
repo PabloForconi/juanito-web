@@ -12,6 +12,8 @@ interface Item {
   img: string;
   caption: string;
   sub?: string;
+  fecha?: string; // en el visor grande, en su propio renglón
+  desc?: string; // en el visor grande, debajo del título
   forma?: 'ancha' | 'grande'; // solo en mosaico: ancha = 2 columnas, grande = 2×2
   lugar?: string; // solo en mosaico, en PC: grid-area fija ("fila / columna / fila fin / columna fin")
 }
@@ -48,7 +50,9 @@ const resolved = await Promise.all(
   {
     resolved.map((it) => (
       <li class:list={[it.forma && `gal--${it.forma}`]} style={it.lugar ? `--lugar:${it.lugar}` : undefined} data-reveal>
-        <a href={it.big} data-lightbox={group} data-caption={sinTexto ? undefined : it.sub ? `${it.caption} — ${it.sub}` : it.caption}>
+        <a href={it.big} data-lightbox={group} data-caption={sinTexto ? undefined : it.fecha !== undefined || it.desc !== undefined ? it.caption : it.sub ? `${it.caption} — ${it.sub}` : it.caption}
+          data-desc={sinTexto ? undefined : it.desc || undefined}
+          data-fecha={sinTexto ? undefined : it.fecha || undefined}>
           <span class="gal__img">
             <Image src={it.src} alt={it.caption} widths={columnas || it.forma ? [480, 720, 1200] : [320, 480, 720]} sizes={tam} loading="lazy" />
           </span>

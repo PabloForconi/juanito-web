@@ -3,70 +3,70 @@
     "slug": "grande",
     "nombre": "Clonocélula Grande",
     "original": "Clonocell Big Size",
-    "descripcion": "Cuanto más grandes, más vivas. Si le disparás se divide, así que conviene liquidarla antes de que ponga huevos.",
+    "descripcion": "La más grande de la familia. Un tiro y se parte en dos medianas: ahí empieza el problema.",
     "img": "juego/clonos/grande.png"
   },
   {
     "slug": "mediana",
     "nombre": "Clonocélula Mediana",
     "original": "Clonocell Medium",
-    "descripcion": "El término medio: a los tiros se parte en chiquitas, y si la dejás tranquila, crece.",
+    "descripcion": "Un tiro y se parte en dos chicas. Matemática pura: cada grande termina siendo cuatro chicas.",
     "img": "juego/clonos/mediana.png"
   },
   {
     "slug": "chica",
     "nombre": "Clonocélula Chica",
     "original": "Clonocell Small",
-    "descripcion": "La más chiquita y la más fácil de reventar. El problema es que nunca viene sola.",
+    "descripcion": "La más chiquita y la última de la cadena: un tiro y chau. El problema es que nunca viene sola.",
     "img": "juego/clonos/chica.png"
   },
   {
     "slug": "general",
     "nombre": "Clonocélula General",
     "original": "Clonocell General",
-    "descripcion": "Gorra militar y aires de mando: la que se cree jefa de la invasión.",
+    "descripcion": "Gorra militar y aires de mando. Hay que volarle la gorra a los tiros; sin ella, es una clonocélula más.",
     "img": "juego/clonos/general.png"
   },
   {
     "slug": "soldado",
     "nombre": "Clonocélula Soldado",
     "original": "Clonocell Soldier",
-    "descripcion": "Tropa rasa con casco de pincho, lista para marchar adonde la mande la General.",
+    "descripcion": "Tropa rasa con casco de pincho. Un par de tiros y se queda sin casco: ahí ya no se hace tanto la valiente.",
     "img": "juego/clonos/soldado.png"
   },
   {
     "slug": "madre",
     "nombre": "Clonocélula Madre",
     "original": "Clonocell Mother",
-    "descripcion": "La gigante de la familia. No para de largar clonocélulas nuevas, así que es prioridad número uno.",
+    "descripcion": "La gigante de la familia, y no para de tener hijos. Prioridad número uno, antes de que llene la pantalla.",
     "img": "juego/clonos/madre.png"
   },
   {
     "slug": "tiradora",
     "nombre": "Clonocélula Tiradora",
     "original": "Clonocell Shooting",
-    "descripcion": "No se banca quedarse quieta: escupe gotas de baba para todos lados.",
+    "descripcion": "Escupe gotas de baba para todos lados. Modales, cero.",
     "img": "juego/clonos/tiradora.png"
   },
   {
     "slug": "escudo",
     "nombre": "Clonocélula Escudo",
     "original": "Clonocell Shield",
-    "descripcion": "La única azul de la familia, cerrada sobre sí misma como una coraza.",
+    "descripcion": "Se abre y se cierra como un bicho bolita. Cerrada, las balas rebotan en su coraza de metal: hay que pegarle justo cuando se abre.",
     "img": "juego/clonos/escudo.png"
   },
   {
     "slug": "explosiva",
     "nombre": "Clonocélula Explosiva",
     "original": "Clonocell Explode",
-    "descripcion": "Cuando revienta, estalla en una lluvia de esferitas verdes. Mejor no estar cerca.",
+    "descripcion": "Cuando revienta, llueve un confeti de esferitas verdes. Festejá de lejos.",
     "img": "juego/clonos/explosiva.png"
   },
   {
     "slug": "babosa",
     "nombre": "Clonocélula Babosa",
     "original": "Clonocell Ooze",
-    "descripcion": "Va dejando un charco de baba por donde pasa. Asquerosa, pero inofensiva no es.",
+    "descripcion": "Va dejando un charco de baba por donde pasa. Pisarlo descalzo y en pijama: pésima idea.",
     "img": "juego/clonos/babosa.png"
   }
 ]

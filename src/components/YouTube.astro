@@ -6,15 +6,23 @@
 interface Props {
   id?: string;
   title: string;
+  hd?: boolean; // miniatura en alta (maxresdefault, 1280×720): solo para videos que la tienen, como el trailer de la home
 }
-const { id, title } = Astro.props;
+const { id, title, hd = false } = Astro.props;
 ---
 
 {
   id ? (
     <div class="yt" data-yt={id} data-title={title}>
       <button class="yt__btn" type="button" aria-label={`Reproducir: ${title}`}>
-        <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+        <img
+          src={`https://i.ytimg.com/vi/${id}/${hd ? 'maxresdefault' : 'hqdefault'}.jpg`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          width={hd ? 1280 : 480}
+          height={hd ? 720 : 360}
+        />
         <span class="yt__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5 21 12 6 20.5z" /></svg></span>
       </button>
     </div>

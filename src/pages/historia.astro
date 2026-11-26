@@ -120,7 +120,7 @@ const cat: Record<Hito['categoria'], string> = {
                       {imgs.length > 0 && (
                         <div class="tl__imgs">
                           {imgs.map((img) => (
-                            <a class="tl__img" href={img.big} data-lightbox={`hito-${h.fecha}`} data-caption={`${h.titulo} · ${fecha(h.fecha)}`}>
+                            <a class="tl__img" href={img.big} data-lightbox={`hito-${h.fecha}`} data-caption={h.titulo} data-fecha={fecha(h.fecha)}>
                               <Image src={img.src} alt={h.titulo} widths={[200, 400]} sizes="(max-width: 700px) 110px, 96px" />
                               <span class="tl__zoom" aria-hidden="true">⤢</span>
                             </a>
@@ -153,7 +153,7 @@ const cat: Record<Hito['categoria'], string> = {
         <p class="eyebrow">Expos y eventos</p>
         <h2 class="h2">El gabinete <span class="hl">salió de gira</span></h2>
         <p class="lead">
-          Entre 2014 y 2018 Juanito estuvo en {eventos.length} eventos: ferias, festivales, fiestas y convenciones.
+          Entre 2014 y 2018, Juanito fue a más ferias, festivales, fiestas y convenciones de lo que su edad le permitía.
         </p>
       </div>
       {
@@ -167,12 +167,12 @@ const cat: Record<Hito['categoria'], string> = {
                   <li data-reveal>
                     <article class="ev card card--hover">
                       {e.cover && (
-                        <a href={e.big[0]} data-lightbox={e.slug} data-caption={`${e.nombre} · ${fecha(e.fecha)}`} class="ev__cover">
+                        <a href={e.big[0]} data-lightbox={e.slug} data-caption={e.nombre} data-fecha={fecha(e.fecha)} class="ev__cover">
                           <Image src={e.cover} alt={`${e.nombre}`} widths={[360, 560]} sizes="(max-width: 600px) 90vw, 280px" />
                         </a>
                       )}
                       {e.big.slice(1).map((b, i) => (
-                        <a href={b} data-lightbox={e.slug} data-caption={`${e.nombre} · ${fecha(e.fecha)}`} hidden aria-hidden="true" tabindex="-1" data-lb-extra>
+                        <a href={b} data-lightbox={e.slug} data-caption={e.nombre} data-fecha={fecha(e.fecha)} hidden aria-hidden="true" tabindex="-1" data-lb-extra>
                           foto {i + 2}
                         </a>
                       ))}
@@ -230,7 +230,7 @@ const cat: Record<Hito['categoria'], string> = {
           {
             recFotos.map((f) => (
               <li>
-                <a href={f.big} data-lightbox="records" data-caption={`${f.titulo} · ${fecha(f.fecha)}`}>
+                <a href={f.big} data-lightbox="records" data-caption={f.titulo} data-fecha={fecha(f.fecha)}>
                   <Image
                     src={f.src}
                     alt={f.titulo}
