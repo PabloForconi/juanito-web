@@ -177,8 +177,14 @@ const { id, title, hd = false } = Astro.props;
 
   document.querySelectorAll<HTMLElement>('[data-yt]').forEach((box) => {
     const btn = box.querySelector('button')!;
-    // precarga la API al acercarse al video (hover/foco), así el clic responde rápido
-    btn.addEventListener('pointerenter', loadApi, { once: true });
+    // precarga la API al acercarse al video con el mouse o el teclado, así el clic responde rápido.
+    // Con el dedo no: en iPhone, cargar algo al "pasar por encima" obliga a tocar dos veces.
+    const conMouse = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return;
+      btn.removeEventListener('pointerenter', conMouse);
+      loadApi();
+    };
+    btn.addEventListener('pointerenter', conMouse);
     btn.addEventListener('focus', loadApi, { once: true });
     btn.addEventListener(
       'click',

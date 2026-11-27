@@ -71,6 +71,7 @@ export interface Video {
   youtubeId?: string; // sin youtubeId = "próximamente"
   categoria: 'oficial' | 'animacion' | 'comunidad' | 'entrevista' | 'making-of' | 'resena' | 'musica';
   vistas?: number;
+  inedito?: boolean; // material que nunca se había mostrado: lleva el sello «Inédito»
   nota?: string;
 }
 

@@ -3,7 +3,8 @@
     "fecha": "2011-03",
     "titulo": "Primeros prototipos en Flash",
     "texto": "Antes de tener nombre definitivo, ya corría en prototipos de Flash: un pibe, un perro, armas y de fondo, su barrio.",
-    "categoria": "origen"
+    "categoria": "origen",
+    "img": "archivo/historia/barrio-flash.jpg"
   },
   {
     "fecha": "2011-04",
@@ -20,7 +21,7 @@
   {
     "fecha": "2011-07",
     "titulo": "El pitch book",
-    "texto": "Trece páginas para vender «Juanito vs. las estúpidas clonocélulas…»: sinopsis, personajes y una panorámica enorme de la ciudad.",
+    "texto": "Trece páginas para vender el juego: sinopsis, personajes y una panorámica enorme de la ciudad.",
     "categoria": "origen"
   },
   {

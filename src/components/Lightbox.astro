@@ -182,10 +182,30 @@
       if (!group.length) return;
       show(a ? group.indexOf(a) : 0);
       dlg.showModal();
-      document.documentElement.classList.add('lb-abierto');
+      bloquea();
     });
+    // Con el visor abierto la página queda fija. En iPhone, overflow: hidden solo no alcanza
+    // (a veces el fondo igual scrollea), así que el body pasa a position: fixed en la misma
+    // posición y al cerrar se vuelve exactamente al mismo lugar.
+    let yGuardado = -1;
+    const bloquea = () => {
+      if (yGuardado >= 0) return;
+      yGuardado = window.scrollY;
+      document.documentElement.classList.add('lb-abierto');
+      Object.assign(document.body.style, { position: 'fixed', top: `-${yGuardado}px`, left: '0', right: '0' });
+    };
     // al cerrar (✕, tocando afuera o Escape) vuelve el scroll de la página
-    const libera = () => document.documentElement.classList.remove('lb-abierto');
+    const libera = () => {
+      if (yGuardado < 0) return;
+      document.documentElement.classList.remove('lb-abierto');
+      Object.assign(document.body.style, { position: '', top: '', left: '', right: '' });
+      const html = document.documentElement;
+      const prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';
+      window.scrollTo(0, yGuardado);
+      html.style.scrollBehavior = prev;
+      yGuardado = -1;
+    };
     const cerrar = () => {
       dlg.close();
       libera();

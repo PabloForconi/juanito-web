@@ -36,7 +36,7 @@ const etiqueta = mundos.map((m) => (m.especial ? null : ++n));
               <li class:list={['wc__item', i === 0 && 'is-on']} data-i={i}>
                 <button type="button" class:list={['wc__card', m.flip && 'is-flip']} aria-label={m.nombre} data-go={i} tabindex="-1">
                   {chip && (
-                    <Image src={chip} alt="" widths={[440, 546, 1092]} sizes="(max-width: 700px) 100vw, 546px" draggable="false" loading={i < 3 ? 'eager' : 'lazy'} />
+                    <Image src={chip} alt="" widths={[440, 546, 819]} sizes="(max-width: 700px) 100vw, 546px" draggable="false" loading={i < 3 ? 'eager' : 'lazy'} />
                   )}
                 </button>
               </li>

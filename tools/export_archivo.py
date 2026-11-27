@@ -975,6 +975,20 @@ def export_home() -> None:
         print(f"  -> {out.relative_to(ASSETS).as_posix()}  {img.size}")
 
 
+# --------------------------------------------------------------- historia
+# Imágenes que el dueño pasó para hitos de la línea de tiempo (no van a la galería).
+
+def export_historia() -> None:
+    print("historia")
+    dst = OUT / "historia"
+    clean_dir(dst)
+    dst.mkdir(parents=True, exist_ok=True)
+    for src in sorted((ORIG / "historia").glob("*.jpg")):
+        out = dst / src.name
+        fit(Image.open(src).convert("RGB"), 2000).save(out, "JPEG", quality=90, optimize=True, progressive=True)
+        print(f"  -> {out.relative_to(ASSETS).as_posix()}")
+
+
 # -------------------------------------------------------------------- main
 
 GROUPS = {
@@ -984,6 +998,7 @@ GROUPS = {
     "pirateria": export_pirateria,
     "radio": export_radio,
     "home": export_home,
+    "historia": export_historia,
 }
 
 if __name__ == "__main__":

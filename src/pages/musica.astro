@@ -285,8 +285,10 @@ const minutos = Math.round(segundos / 60);
       album.querySelector('.tracks')?.before(wrap);
     }
 
-    // precarga la API cuando el usuario se acerca a tocar algo
-    album.addEventListener('pointerenter', () => loadApi(), { once: true });
+    // precarga la API cuando el mouse se acerca (con el dedo no: en iPhone obligaría a tocar dos veces)
+    album.addEventListener('pointerenter', (e) => {
+      if ((e as PointerEvent).pointerType === 'mouse') loadApi();
+    });
 
     const mark = (i: number) => {
       current = i;

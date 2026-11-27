@@ -19,7 +19,7 @@ Piezas que el dueño rehízo, adaptó o pasó aparte (no están en E:).
 `home/`: imágenes de las tarjetas de la home.
 - `pirateria.webp`: calavera pirata para la tarjeta de Piratería.
 - `juego.webp`: key art cuadrado sin logo para la tarjeta El juego.
-- `historia.webp`: gabinete arcade vertical para la tarjeta Historia.
+- `historia.webp`: gabinete arcade vertical con «INSERT COIN» en pantalla, para la tarjeta Historia.
 - `prensa.webp`: diario, micrófono y credencial «PRENSA» para la tarjeta Prensa.
 - `prensa-revista.webp`: opción anterior (revista, diario y credencial); no se exporta.
 - `videos.webp`: claqueta con play, cámara y auriculares para la tarjeta Videos.
@@ -37,3 +37,6 @@ Piezas que el dueño rehízo, adaptó o pasó aparte (no están en E:).
 ## Logo de El Dragón Azul en blanco
 
 `src/assets/juego-de-mesa/logo-dragon-azul-blanco.png` sale de `logo-dragon-azul.png`: lo azul pasa a blanco y lo blanco del logo queda transparente (alfa según el canal mínimo: 60 → opaco, 235 → transparente).
+
+`historia/`: imágenes de hitos de la línea de tiempo (grupo `historia` de `export_archivo.py`, salen a `src/assets/archivo/historia/`).
+- `barrio-flash.jpg`: panorámica nocturna del barrio de los primeros prototipos en Flash (2011).

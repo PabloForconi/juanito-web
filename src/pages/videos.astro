@@ -48,7 +48,10 @@ const secciones: { cat: Video['categoria']; titulo: string; txt: string }[] = [
             <ul class="vids">
               {list.map((v) => (
                 <li data-reveal>
-                  <YouTube id={v.youtubeId} title={v.titulo} />
+                  <div class="vids__v">
+                    <YouTube id={v.youtubeId} title={v.titulo} />
+                    {v.inedito && <span class="vids__ined">Inédito</span>}
+                  </div>
                   <p class="vids__t">{v.titulo}</p>
                   <p class="vids__m">
                     {v.canal}
@@ -100,6 +103,30 @@ const secciones: { cat: Video['categoria']; titulo: string; txt: string }[] = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
     gap: 1.2rem;
+  }
+  /* sello «Inédito» sobre la portada (desaparece cuando el video arranca) */
+  .vids__v {
+    position: relative;
+  }
+  .vids__ined {
+    position: absolute;
+    bottom: 0.7rem;
+    left: 0.7rem;
+    z-index: 2;
+    padding: 0.35em 0.85em;
+    border-radius: var(--radius-pill);
+    background: var(--lime);
+    color: #0b1206;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 18px -6px rgb(0 0 0 / 0.7);
+    pointer-events: none;
+  }
+  .vids__v:has(iframe) .vids__ined {
+    display: none;
   }
   .vids__t {
     margin: 0.6rem 0 0;

@@ -37,8 +37,10 @@ const hitosImg = new Map(
         const imgs = await Promise.all(
           imgsDeHito(h).map(async (p) => {
             const src = asset(p);
-            const big = (await getImage({ src, width: Math.min(src.width, 1600), format: 'webp', quality: 85 })).src;
-            return { src, big };
+            // las panorámicas (mucho más anchas que altas) van a todo el ancho, sin recortar
+            const ancha = src.width / src.height > 2.5;
+            const big = (await getImage({ src, width: Math.min(src.width, ancha ? 2000 : 1600), format: 'webp', quality: 85 })).src;
+            return { src, big, ancha };
           }),
         );
         return [h, imgs] as const;
@@ -120,8 +122,8 @@ const cat: Record<Hito['categoria'], string> = {
                       {imgs.length > 0 && (
                         <div class="tl__imgs">
                           {imgs.map((img) => (
-                            <a class="tl__img" href={img.big} data-lightbox={`hito-${h.fecha}`} data-caption={h.titulo} data-fecha={fecha(h.fecha)}>
-                              <Image src={img.src} alt={h.titulo} widths={[200, 400]} sizes="(max-width: 700px) 110px, 96px" />
+                            <a class:list={['tl__img', img.ancha && 'tl__img--ancha']} href={img.big} data-lightbox={`hito-${h.fecha}`} data-caption={h.titulo} data-fecha={fecha(h.fecha)}>
+                              <Image src={img.src} alt={h.titulo} widths={img.ancha ? [600, 1000, 1400] : [200, 400]} sizes={img.ancha ? '(max-width: 700px) 90vw, 560px' : '(max-width: 700px) 110px, 96px'} />
                               <span class="tl__zoom" aria-hidden="true">⤢</span>
                             </a>
                           ))}
@@ -356,6 +358,17 @@ const cat: Record<Hito['categoria'], string> = {
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
     transition: border-color 0.2s;
+  }
+  /* panorámica: mismo alto que las miniaturas cuadradas, a lo ancho del hito (recorta un poco los costados) */
+  .tl__img--ancha {
+    width: 100%;
+    height: 96px;
+    aspect-ratio: auto;
+  }
+  /* acercada y apoyada abajo: más vereda y casas, menos cielo */
+  .tl__img--ancha img {
+    transform: scale(1.45);
+    transform-origin: 50% 88%;
   }
   .tl__img img {
     display: block;
@@ -624,8 +637,15 @@ const cat: Record<Hito['categoria'], string> = {
     .tl__y {
       position: static;
     }
-    .tl__img {
+    .tl__img:not(.tl__img--ancha) {
       width: 110px;
+    }
+    .tl__img--ancha {
+      height: 110px;
+    }
+    /* en el celular ya está recortada a los costados: se acerca menos */
+    .tl__img--ancha img {
+      transform: scale(1.15);
     }
   }
 </style>

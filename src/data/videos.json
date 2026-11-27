@@ -80,11 +80,13 @@
   },
   {
     "id": "teaser-3d-arcade-life",
-    "titulo": "Teaser 3D \"Arcade Life\" (primer corte)",
+    "titulo": "Juanito Arcade · First Life · 3D Cinematic",
     "canal": "Game Ever Studio",
     "fecha": "2014-07",
+    "youtubeId": "ME8IRqTD8S0",
     "categoria": "animacion",
-    "nota": "Inédito. Teaser cinemático en 3D (Maya + After Effects): un galpón de arcades abandonados, un satélite, un rayo verde y la máquina de Juanito que se enciende. Cerraba con «Coming soon November 2014»."
+    "inedito": true,
+    "nota": "Teaser cinemático en 3D (Maya + After Effects): un galpón de arcades abandonados, un satélite, un rayo verde y la máquina de Juanito que se enciende. Cerraba con «Coming soon November 2014»."
   },
   {
     "id": "animatic-opening-2011",
@@ -92,13 +94,15 @@
     "canal": "Game Ever Studio",
     "fecha": "2011-04",
     "categoria": "animacion",
-    "nota": "Inédito. 57 segundos de storyboard animado en lápiz azul: la casa, Gluk en su platillo y Juanito. El único rastro en video de la versión animada que quedó en el camino."
+    "inedito": true,
+    "nota": "57 segundos de storyboard animado en lápiz azul: la casa, Gluk en su platillo y Juanito. El único rastro en video de la versión animada que quedó en el camino."
   },
   {
     "id": "intro-comic-2017",
     "titulo": "Intro cómic del juego",
     "canal": "Game Ever Studio",
     "fecha": "2017",
+    "youtubeId": "WZLc7L7o7aY",
     "categoria": "animacion",
     "nota": "Motion comic de 42 segundos: Juanito pierde su récord por un rayo, las clonocélulas infectan la máquina y Gluk lo dispara adentro del juego."
   },
@@ -116,7 +120,8 @@
     "canal": "Game Ever Studio",
     "fecha": "2011-04",
     "categoria": "animacion",
-    "nota": "Inédito. 15 segundos de logo animado de los primeros tiempos, cuando Juanito todavía tenía nombre de película clase B."
+    "inedito": true,
+    "nota": "15 segundos de logo animado de los primeros tiempos, cuando Juanito todavía tenía nombre de película clase B."
   },
   {
     "id": "jaba-play-all-bosses",
